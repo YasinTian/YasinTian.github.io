@@ -5,8 +5,8 @@
     <description>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 04 Jan 2017 11:00:20 +0800</pubDate>
-    <lastBuildDate>Wed, 04 Jan 2017 11:00:20 +0800</lastBuildDate>
+    <pubDate>Wed, 04 Jan 2017 15:58:07 +0800</pubDate>
+    <lastBuildDate>Wed, 04 Jan 2017 15:58:07 +0800</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -268,7 +268,8 @@ NSString *str = @&quot;锁屏界面的日期文字变成了这段话!&quot;;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;最后&lt;code class=&quot;highlighter-rouge&quot;&gt;make&lt;/code&gt;编译&lt;code class=&quot;highlighter-rouge&quot;&gt;make package&lt;/code&gt;打包&lt;code class=&quot;highlighter-rouge&quot;&gt;make install&lt;/code&gt;安装，过程会叫你输入2次ssh密码,全部成功的话，你就会看到SpringBoard正在重启。重启之后锁屏界面的日期，变成了我们自定义的字符串。&lt;/p&gt;
+&lt;p&gt;最后&lt;code class=&quot;highlighter-rouge&quot;&gt;make&lt;/code&gt;编译&lt;code class=&quot;highlighter-rouge&quot;&gt;make package&lt;/code&gt;打包&lt;code class=&quot;highlighter-rouge&quot;&gt;make install&lt;/code&gt;安装，过程会叫你输入2次ssh密码,全部成功的话，你就会看到SpringBoard正在重启。重启之后锁屏界面的日期，变成了我们自定义的字符串。
+如果提示THEOS_DEVICE_IP错误之类的就先输入&lt;code class=&quot;highlighter-rouge&quot;&gt;export THEOS_DEVICE_IP=手机的ip地址&lt;/code&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;theos的升级&quot;&gt;theos的升级&lt;/h2&gt;
 
