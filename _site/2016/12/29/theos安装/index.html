@@ -253,6 +253,43 @@ NIC 2.0 - New Instance Creator
 </code></pre>
 </div>
 
+<h2 id="运行">运行</h2>
+
+<p>选择<code class="highlighter-rouge">iphone/tweak</code>这个选项，输入11回车。
+会让你输入工程名，bundleId，目标bundleId等。这里呢，我们只是要运行一下demo测试环境搭建是否成功，把工程名输了，其他直接回车就行了，都是有默认的。
+打开工程目录下的<code class="highlighter-rouge">Makefile</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>include $(THEOS)/makefiles/common.mk
+TWEAK_NAME = firstdemo
+firstdemo_FILES = Tweak.xm
+include $(THEOS_MAKE_PATH)/tweak.mk
+THEOS_DEVICE_IP = 192.168.2.157	#手机的ip地址
+iOSRE_FRAMEWORKS=UIKit Foundation	#导入的库
+ARCHS = arm64 #手机是64位还是32位
+after-install::
+	install.exec "killall -9 SpringBoard"	#在安装成功后杀掉SpringBoard，会从新启动以加载我们的插件
+</code></pre>
+</div>
+
+<p>打开工程目录下的<code class="highlighter-rouge">Tweak.xm</code>文件
+粘贴下面的代码</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>#import &lt;UIKit/UIKit.h&gt;
+#import &lt;SpringBoard/SpringBoard.h&gt;
+
+%hook SBLockScreenDateViewController
+- (void)setCustomSubtitleText:(id)arg1 withColor:(id)arg2
+{
+NSString *str = @"锁屏界面的日期文字变成了这段话!";
+%orig(str, arg2);
+}
+%end
+
+</code></pre>
+</div>
+
+<p>最后<code class="highlighter-rouge">make</code>编译<code class="highlighter-rouge">make package</code>打包<code class="highlighter-rouge">make install</code>安装，过程会叫你输入2次ssh密码,全部成功的话，你就会看到SpringBoard正在重启。重启之后锁屏界面的日期，变成了我们自定义的字符串。</p>
+
 <h2 id="theos的升级">theos的升级</h2>
 
 <p><code class="highlighter-rouge">git submodule update –recursive</code></p>
@@ -509,7 +546,7 @@ ldid可以在http://joedj.net/ldid 下载
                     
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Yasin Blog 2016
+                    Copyright &copy; Yasin Blog 2017
                     <br>
                     <!-- Theme by <a href="http://huangxuan.me">Hux</a> |
                     <iframe

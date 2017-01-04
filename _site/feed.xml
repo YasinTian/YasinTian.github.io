@@ -5,8 +5,8 @@
     <description>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 30 Dec 2016 17:57:12 +0800</pubDate>
-    <lastBuildDate>Fri, 30 Dec 2016 17:57:12 +0800</lastBuildDate>
+    <pubDate>Wed, 04 Jan 2017 10:47:29 +0800</pubDate>
+    <lastBuildDate>Wed, 04 Jan 2017 10:47:29 +0800</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -230,6 +230,43 @@ NIC 2.0 - New Instance Creator
   [12.] iphone/xpc_service
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
+&lt;h2 id=&quot;运行&quot;&gt;运行&lt;/h2&gt;
+
+&lt;p&gt;选择&lt;code class=&quot;highlighter-rouge&quot;&gt;iphone/tweak&lt;/code&gt;这个选项，输入11回车。
+会让你输入工程名，bundleId，目标bundleId等。这里呢，我们只是要运行一下demo测试环境搭建是否成功，把工程名输了，其他直接回车就行了，都是有默认的。
+打开工程目录下的&lt;code class=&quot;highlighter-rouge&quot;&gt;Makefile&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;include $(THEOS)/makefiles/common.mk
+TWEAK_NAME = firstdemo
+firstdemo_FILES = Tweak.xm
+include $(THEOS_MAKE_PATH)/tweak.mk
+THEOS_DEVICE_IP = 192.168.2.157	#手机的ip地址
+iOSRE_FRAMEWORKS=UIKit Foundation	#导入的库
+ARCHS = arm64 #手机是64位还是32位
+after-install::
+	install.exec &quot;killall -9 SpringBoard&quot;	#在安装成功后杀掉SpringBoard，会从新启动以加载我们的插件
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;打开工程目录下的&lt;code class=&quot;highlighter-rouge&quot;&gt;Tweak.xm&lt;/code&gt;文件
+粘贴下面的代码&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#import &amp;lt;UIKit/UIKit.h&amp;gt;
+#import &amp;lt;SpringBoard/SpringBoard.h&amp;gt;
+
+%hook SBLockScreenDateViewController
+- (void)setCustomSubtitleText:(id)arg1 withColor:(id)arg2
+{
+NSString *str = @&quot;锁屏界面的日期文字变成了这段话!&quot;;
+%orig(str, arg2);
+}
+%end
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;最后&lt;code class=&quot;highlighter-rouge&quot;&gt;make&lt;/code&gt;编译&lt;code class=&quot;highlighter-rouge&quot;&gt;make package&lt;/code&gt;打包&lt;code class=&quot;highlighter-rouge&quot;&gt;make install&lt;/code&gt;安装，过程会叫你输入2次ssh密码,全部成功的话，你就会看到SpringBoard正在重启。重启之后锁屏界面的日期，变成了我们自定义的字符串。&lt;/p&gt;
 
 &lt;h2 id=&quot;theos的升级&quot;&gt;theos的升级&lt;/h2&gt;
 
