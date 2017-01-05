@@ -5,9 +5,94 @@
     <description>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 04 Jan 2017 15:58:07 +0800</pubDate>
-    <lastBuildDate>Wed, 04 Jan 2017 15:58:07 +0800</lastBuildDate>
+    <pubDate>Thu, 05 Jan 2017 08:22:53 +0000</pubDate>
+    <lastBuildDate>Thu, 05 Jan 2017 08:22:53 +0000</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
+    
+      <item>
+        <title>lldb调试第三方App</title>
+        <description>&lt;p&gt;在iOS逆向工程中，通过class-dump能得到函数头文件，但是一般情况下，参数都是&lt;code class=&quot;highlighter-rouge&quot;&gt;id&lt;/code&gt;类型，这时候可以通过调试器打印出来看一下，起到事半功倍的作用。&lt;/p&gt;
+
+&lt;h2 id=&quot;debugserver&quot;&gt;debugserver&lt;/h2&gt;
+
+&lt;p&gt;在连接过&lt;code class=&quot;highlighter-rouge&quot;&gt;XCode&lt;/code&gt;后，XCode会自动给手机安装上&lt;code class=&quot;highlighter-rouge&quot;&gt;debugserver&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;debugserver&lt;/code&gt;是安装在手机端用于接受电脑端传过去的&lt;code class=&quot;highlighter-rouge&quot;&gt;lldb&lt;/code&gt;命令的。执行后再把结果返回给&lt;code class=&quot;highlighter-rouge&quot;&gt;lldb&lt;/code&gt;。
+在正常的开发中，&lt;code class=&quot;highlighter-rouge&quot;&gt;debugserver&lt;/code&gt;是没有&lt;code class=&quot;highlighter-rouge&quot;&gt;task_for_pid&lt;/code&gt;的权限的，所以一般只能调试我们自己的App。但是这样对越狱开发一点用都没有了。但是通过配置我们可以提升&lt;code class=&quot;highlighter-rouge&quot;&gt;debugserver&lt;/code&gt;的权限。&lt;/p&gt;
+
+&lt;h2 id=&quot;配置debugserver&quot;&gt;配置debugserver&lt;/h2&gt;
+
+&lt;h3 id=&quot;debugserver减肥&quot;&gt;debugserver减肥&lt;/h3&gt;
+
+&lt;p&gt;首先将debugserver拷贝到电脑中。命令是&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scp root@(手机的ip地址):/Developer/usr/bin/debugserver (要拷贝到的路径)/debugderver
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;然后执行&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd debugderver文件的路径
+lipo -thin arm64 debugserver -output debugserver
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;下载&lt;a href=&quot;http://iosre.com/ent.xml&quot;&gt;http://iosre.com/ent.xml&lt;/a&gt;这个文件放到debugderver文件所在的路径。
+执行&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/opt/theos/bin/ldid -Sent.xml debugserver
+-S后面是没有空格的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;如果长时间没有执行完毕，就只能用另一种方案了。
+下载&lt;a href=&quot;http://iosre.com/ent.plist&quot;&gt;http://iosre.com/ent.plist&lt;/a&gt;这个文件
+执行&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;codesign -s - --entitlements ent.plist -f debugserver
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;最后把修改过的debugserver拷贝回iOS&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scp (debugserver的地址)/debugserver root@192.168.5.228:/usr/bin/debugserver
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;debugserver我们放在/usr/bin里面可以直接输入debugserver运行。&lt;/p&gt;
+
+&lt;p&gt;ssh连接手机，提升权限&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;chmod +x /usr/bin/debugserver
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;打开调试器&quot;&gt;打开调试器&lt;/h2&gt;
+
+&lt;h3 id=&quot;手机端&quot;&gt;手机端&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;debugserver -x backboard *:1234 /Applications/MobileSMS.app
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;这句话表示，打开短信，并且注入调试器。等待来自任意ip的1234端口的&lt;code class=&quot;highlighter-rouge&quot;&gt;lldb&lt;/code&gt;连接&lt;/p&gt;
+
+&lt;h3 id=&quot;电脑端&quot;&gt;电脑端&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/Applications/Xcode.app/Contents/Developer/usr/bin/lldb
+process connect connect://192.168.5.228:1234
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;这样就可以连上了。连接成功后
+如果连接上是卡住的状态，好像是连接上回默认被断点卡住，lldb输入c命令就能好。&lt;/p&gt;
+</description>
+        <pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate>
+        <link>http://localhost:4000/2017/01/05/lldb%E5%92%8Cdebugserver%E8%B0%83%E8%AF%95/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/01/05/lldb%E5%92%8Cdebugserver%E8%B0%83%E8%AF%95/</guid>
+        
+        <category>安全</category>
+        
+        
+      </item>
     
       <item>
         <title>Mac下的WIFI破解</title>
@@ -167,7 +252,7 @@ en0是网卡   1是要抓包的信道
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 </description>
-        <pubDate>Thu, 29 Dec 2016 20:00:00 +0800</pubDate>
+        <pubDate>Thu, 29 Dec 2016 12:00:00 +0000</pubDate>
         <link>http://localhost:4000/2016/12/29/wifi%E7%A0%B4%E8%A7%A3/</link>
         <guid isPermaLink="true">http://localhost:4000/2016/12/29/wifi%E7%A0%B4%E8%A7%A3/</guid>
         
@@ -279,7 +364,7 @@ NSString *str = @&quot;锁屏界面的日期文字变成了这段话!&quot;;
 
 &lt;p&gt;在一些老板的安装方法中有&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo /opt/theos/bin/bootstrap.sh substrate&lt;/code&gt;,现在可以不用管了。&lt;/p&gt;
 </description>
-        <pubDate>Thu, 29 Dec 2016 20:00:00 +0800</pubDate>
+        <pubDate>Thu, 29 Dec 2016 12:00:00 +0000</pubDate>
         <link>http://localhost:4000/2016/12/29/theos%E5%AE%89%E8%A3%85/</link>
         <guid isPermaLink="true">http://localhost:4000/2016/12/29/theos%E5%AE%89%E8%A3%85/</guid>
         
