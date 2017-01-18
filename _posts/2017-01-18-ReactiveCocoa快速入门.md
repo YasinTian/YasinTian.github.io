@@ -7,7 +7,7 @@ author:     "yasin"
 header-img: "img/post-bg-2015.jpg"
 catalog: true
 tags:
-    - iOS
+    - 开发
 ---
 
 [ReactiveCocoa地址](https://github.com/ReactiveCocoa/ReactiveCocoa)
