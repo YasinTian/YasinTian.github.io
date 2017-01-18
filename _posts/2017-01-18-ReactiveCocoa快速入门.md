@@ -27,9 +27,9 @@ tags:
 用`cocoapods`导入
 
 ```
-target 'ReactiveCocoa_Demo' do
-  pod 'ReactiveCocoa'
-end
+    target 'ReactiveCocoa_Demo' do
+      pod 'ReactiveCocoa'
+    end
 ```
 
 导入头文件`#import <ReactiveCocoa.h>`
@@ -38,33 +38,33 @@ end
 我们先试试`UIButton`
 
 ```
-[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-	NSLog(@"ddd");
-}];
+    [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        NSLog(@"ddd");
+    }];
 ```
 点击button会打印"ddd"说明，调用了block里面的内容。
 看着可能有点复杂，但是不熟的时候可以拆开写
 
 先创建一个`RACSignal`对象，再添加要执行的block。
 ```
-RACSignal *racSignal = [btn rac_signalForControlEvents:UIControlEventTouchUpInside];
+    RACSignal *racSignal = [btn rac_signalForControlEvents:UIControlEventTouchUpInside];
 
-[racSignal subscribeNext:^(id x) {
-    NSLog(@"ddd");
-}];
+    [racSignal subscribeNext:^(id x) {
+        NSLog(@"ddd");
+    }];
 ```
 `RACSignal`是RAC里面一个非常重要的概念，建议先掌握了`RACSignal`的基本用法后在去了解他的原理。
 
 再来看看连续多个block的情况，比如已经创建了一个`UITextField`叫`tf`
 
 ```
-RACSignal *tfRac = [tf rac_textSignal];
+    RACSignal *tfRac = [tf rac_textSignal];
 
-[[tfRac filter:^BOOL(NSNumber*length) {
-    return YES;
-}] subscribeNext:^(id x) {
-    NSLog(@"%@", x);
-}];
+    [[tfRac filter:^BOOL(NSNumber*length) {
+        return YES;
+    }] subscribeNext:^(id x) {
+        NSLog(@"%@", x);
+    }];
 
 ```
 
@@ -75,14 +75,14 @@ RACSignal *tfRac = [tf rac_textSignal];
 `filter`是一个过滤器里面能加一些判定条件用于判断是否继续往下面的执行。这样就表示当内容是123的时候才打印
 
 ```
-[[tfRac filter:^BOOL(id value) {
-    if([value isEqualToString:@"123"]){
-        return YES;
-    }
-    return NO;
-}] subscribeNext:^(id x) {
-    NSLog(@"%@",x);
-}];
+    [[tfRac filter:^BOOL(id value) {
+        if([value isEqualToString:@"123"]){
+            return YES;
+        }
+        return NO;
+    }] subscribeNext:^(id x) {
+        NSLog(@"%@",x);
+    }];
 ```
 
 ### map
@@ -90,75 +90,75 @@ RACSignal *tfRac = [tf rac_textSignal];
 还有一个常用的操作`map`，在`map`的`block`里面可以更改要往下传的数据，比如下面的例子，textfield的内容被传入`map`，在`block`里面计算了文字长度之后，把文字长度传了下去。后面的block收到的参数就是这个长度值了。
 
 ```
-RACSignal *tfRac = [tf rac_textSignal];
+    RACSignal *tfRac = [tf rac_textSignal];
 
-[[[tfRac
-   map:^id(NSString*text){
-       return @(text.length);
-   }]
-  filter:^BOOL(NSNumber*length){
-      return[length integerValue] > 3;
-  }]
- subscribeNext:^(id x){
-     NSLog(@"%@", x);
- }];
+    [[[tfRac
+       map:^id(NSString*text){
+           return @(text.length);
+       }]
+      filter:^BOOL(NSNumber*length){
+          return[length integerValue] > 3;
+      }]
+     subscribeNext:^(id x){
+         NSLog(@"%@", x);
+     }];
 ```
 
 ### RAC宏
 在ReactiveCocoa有一个`RAC`宏非常好用,他可以直接把信号的输出应用到对象的属性上。参数1是要绑定的对象，参数2是要绑定的属性。下面的例子，当输入值为"123456"的时候背景颜色就会变成黄色了。
 
 ```
-tf.backgroundColor = [UIColor redColor];
-RACSignal *tfRac = [tf rac_textSignal];
-RAC(tf,backgroundColor) = [tfRac map:^id(id value) {
-    if([value isEqualToString:@"123456"]){
-        return [UIColor yellowColor];
-    }else{
-        return [UIColor redColor];
-    }
-}];
+    tf.backgroundColor = [UIColor redColor];
+    RACSignal *tfRac = [tf rac_textSignal];
+    RAC(tf,backgroundColor) = [tfRac map:^id(id value) {
+        if([value isEqualToString:@"123456"]){
+            return [UIColor yellowColor];
+        }else{
+            return [UIColor redColor];
+        }
+    }];
 ```
 
 ### 信号聚合
 在用些时候需要聚合信号,`RACSignal`提供了`combineLatest:reduce:`这个方法可以把任意数量的信号聚合起来。
 
 ```
-//信号1
-RACSignal *tfRac = [tf rac_textSignal];
-[tfRac subscribeNext:^(id x) {
-    NSLog(@"%@",x);
-}];
+    //信号1
+    RACSignal *tfRac = [tf rac_textSignal];
+    [tfRac subscribeNext:^(id x) {
+        NSLog(@"%@",x);
+    }];
 
-//信号2
-RACSignal *tf1Rac = [tf1 rac_textSignal];
-[tf1Rac subscribeNext:^(id x) {
-    NSLog(@"%@",x);
-}];
+    //信号2
+    RACSignal *tf1Rac = [tf1 rac_textSignal];
+    [tf1Rac subscribeNext:^(id x) {
+        NSLog(@"%@",x);
+    }];
 
-//聚合信号
-[[RACSignal combineLatest:@[tfRac, tf1Rac]
-                  reduce:^id(id x, id y){
+    //聚合信号
+    [[RACSignal combineLatest:@[tfRac, tf1Rac]
+                      reduce:^id(id x, id y){
 
-                      if([x isEqualToString:y]){
-                          NSLog(@"一样");
-                          return @1;
-                      }else{
-                          NSLog(@"不一样");
-                          return @0;
-                      }
-                  }] subscribeNext:^(id x) {
-                      NSLog(@"%@",x);
-                  }];
+                          if([x isEqualToString:y]){
+                              NSLog(@"一样");
+                              return @1;
+                          }else{
+                              NSLog(@"不一样");
+                              return @0;
+                          }
+                      }] subscribeNext:^(id x) {
+                          NSLog(@"%@",x);
+                      }];
 ```
 
 ### 附加操作
 有些时候我们可能需要在收到信号后进行一些附加操作，可以添加一个`doNext:`block。
 ```	
-[[tfRac doNext:^(id x) {
-    NSLog(@"附加操作");
-}] subscribeNext:^(id x) {
+    [[tfRac doNext:^(id x) {
+        NSLog(@"附加操作");
+    }] subscribeNext:^(id x) {
 
-}];
+    }];
 ```
 
 参考资料

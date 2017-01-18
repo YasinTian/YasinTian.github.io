@@ -5,8 +5,8 @@
     <description>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 18 Jan 2017 09:06:10 +0000</pubDate>
-    <lastBuildDate>Wed, 18 Jan 2017 09:06:10 +0000</lastBuildDate>
+    <pubDate>Wed, 18 Jan 2017 09:15:33 +0000</pubDate>
+    <lastBuildDate>Wed, 18 Jan 2017 09:15:33 +0000</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -27,9 +27,9 @@
 
 &lt;p&gt;用&lt;code class=&quot;highlighter-rouge&quot;&gt;cocoapods&lt;/code&gt;导入&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;target 'ReactiveCocoa_Demo' do
-  pod 'ReactiveCocoa'
-end
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    target 'ReactiveCocoa_Demo' do
+      pod 'ReactiveCocoa'
+    end
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -38,33 +38,33 @@ end
 &lt;h3 id=&quot;基本使用&quot;&gt;基本使用&lt;/h3&gt;
 &lt;p&gt;我们先试试&lt;code class=&quot;highlighter-rouge&quot;&gt;UIButton&lt;/code&gt;&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-	NSLog(@&quot;ddd&quot;);
-}];
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+        NSLog(@&quot;ddd&quot;);
+    }];
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;p&gt;点击button会打印”ddd”说明，调用了block里面的内容。
 看着可能有点复杂，但是不熟的时候可以拆开写&lt;/p&gt;
 
 &lt;p&gt;先创建一个&lt;code class=&quot;highlighter-rouge&quot;&gt;RACSignal&lt;/code&gt;对象，再添加要执行的block。&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;RACSignal *racSignal = [btn rac_signalForControlEvents:UIControlEventTouchUpInside];
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    RACSignal *racSignal = [btn rac_signalForControlEvents:UIControlEventTouchUpInside];
 
-[racSignal subscribeNext:^(id x) {
-    NSLog(@&quot;ddd&quot;);
-}];
+    [racSignal subscribeNext:^(id x) {
+        NSLog(@&quot;ddd&quot;);
+    }];
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;RACSignal&lt;/code&gt;是RAC里面一个非常重要的概念，建议先掌握了&lt;code class=&quot;highlighter-rouge&quot;&gt;RACSignal&lt;/code&gt;的基本用法后在去了解他的原理。&lt;/p&gt;
 
 &lt;p&gt;再来看看连续多个block的情况，比如已经创建了一个&lt;code class=&quot;highlighter-rouge&quot;&gt;UITextField&lt;/code&gt;叫&lt;code class=&quot;highlighter-rouge&quot;&gt;tf&lt;/code&gt;&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;RACSignal *tfRac = [tf rac_textSignal];
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    RACSignal *tfRac = [tf rac_textSignal];
 
-[[tfRac filter:^BOOL(NSNumber*length) {
-    return YES;
-}] subscribeNext:^(id x) {
-    NSLog(@&quot;%@&quot;, x);
-}];
+    [[tfRac filter:^BOOL(NSNumber*length) {
+        return YES;
+    }] subscribeNext:^(id x) {
+        NSLog(@&quot;%@&quot;, x);
+    }];
 
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
@@ -75,14 +75,14 @@ end
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;filter&lt;/code&gt;是一个过滤器里面能加一些判定条件用于判断是否继续往下面的执行。这样就表示当内容是123的时候才打印&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[[tfRac filter:^BOOL(id value) {
-    if([value isEqualToString:@&quot;123&quot;]){
-        return YES;
-    }
-    return NO;
-}] subscribeNext:^(id x) {
-    NSLog(@&quot;%@&quot;,x);
-}];
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [[tfRac filter:^BOOL(id value) {
+        if([value isEqualToString:@&quot;123&quot;]){
+            return YES;
+        }
+        return NO;
+    }] subscribeNext:^(id x) {
+        NSLog(@&quot;%@&quot;,x);
+    }];
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -90,75 +90,75 @@ end
 
 &lt;p&gt;还有一个常用的操作&lt;code class=&quot;highlighter-rouge&quot;&gt;map&lt;/code&gt;，在&lt;code class=&quot;highlighter-rouge&quot;&gt;map&lt;/code&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;block&lt;/code&gt;里面可以更改要往下传的数据，比如下面的例子，textfield的内容被传入&lt;code class=&quot;highlighter-rouge&quot;&gt;map&lt;/code&gt;，在&lt;code class=&quot;highlighter-rouge&quot;&gt;block&lt;/code&gt;里面计算了文字长度之后，把文字长度传了下去。后面的block收到的参数就是这个长度值了。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;RACSignal *tfRac = [tf rac_textSignal];
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    RACSignal *tfRac = [tf rac_textSignal];
 
-[[[tfRac
-   map:^id(NSString*text){
-       return @(text.length);
-   }]
-  filter:^BOOL(NSNumber*length){
-      return[length integerValue] &amp;gt; 3;
-  }]
- subscribeNext:^(id x){
-     NSLog(@&quot;%@&quot;, x);
- }];
+    [[[tfRac
+       map:^id(NSString*text){
+           return @(text.length);
+       }]
+      filter:^BOOL(NSNumber*length){
+          return[length integerValue] &amp;gt; 3;
+      }]
+     subscribeNext:^(id x){
+         NSLog(@&quot;%@&quot;, x);
+     }];
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
 &lt;h3 id=&quot;rac宏&quot;&gt;RAC宏&lt;/h3&gt;
 &lt;p&gt;在ReactiveCocoa有一个&lt;code class=&quot;highlighter-rouge&quot;&gt;RAC&lt;/code&gt;宏非常好用,他可以直接把信号的输出应用到对象的属性上。参数1是要绑定的对象，参数2是要绑定的属性。下面的例子，当输入值为”123456”的时候背景颜色就会变成黄色了。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;tf.backgroundColor = [UIColor redColor];
-RACSignal *tfRac = [tf rac_textSignal];
-RAC(tf,backgroundColor) = [tfRac map:^id(id value) {
-    if([value isEqualToString:@&quot;123456&quot;]){
-        return [UIColor yellowColor];
-    }else{
-        return [UIColor redColor];
-    }
-}];
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    tf.backgroundColor = [UIColor redColor];
+    RACSignal *tfRac = [tf rac_textSignal];
+    RAC(tf,backgroundColor) = [tfRac map:^id(id value) {
+        if([value isEqualToString:@&quot;123456&quot;]){
+            return [UIColor yellowColor];
+        }else{
+            return [UIColor redColor];
+        }
+    }];
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
 &lt;h3 id=&quot;信号聚合&quot;&gt;信号聚合&lt;/h3&gt;
 &lt;p&gt;在用些时候需要聚合信号,&lt;code class=&quot;highlighter-rouge&quot;&gt;RACSignal&lt;/code&gt;提供了&lt;code class=&quot;highlighter-rouge&quot;&gt;combineLatest:reduce:&lt;/code&gt;这个方法可以把任意数量的信号聚合起来。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//信号1
-RACSignal *tfRac = [tf rac_textSignal];
-[tfRac subscribeNext:^(id x) {
-    NSLog(@&quot;%@&quot;,x);
-}];
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //信号1
+    RACSignal *tfRac = [tf rac_textSignal];
+    [tfRac subscribeNext:^(id x) {
+        NSLog(@&quot;%@&quot;,x);
+    }];
 
-//信号2
-RACSignal *tf1Rac = [tf1 rac_textSignal];
-[tf1Rac subscribeNext:^(id x) {
-    NSLog(@&quot;%@&quot;,x);
-}];
+    //信号2
+    RACSignal *tf1Rac = [tf1 rac_textSignal];
+    [tf1Rac subscribeNext:^(id x) {
+        NSLog(@&quot;%@&quot;,x);
+    }];
 
-//聚合信号
-[[RACSignal combineLatest:@[tfRac, tf1Rac]
-                  reduce:^id(id x, id y){
+    //聚合信号
+    [[RACSignal combineLatest:@[tfRac, tf1Rac]
+                      reduce:^id(id x, id y){
 
-                      if([x isEqualToString:y]){
-                          NSLog(@&quot;一样&quot;);
-                          return @1;
-                      }else{
-                          NSLog(@&quot;不一样&quot;);
-                          return @0;
-                      }
-                  }] subscribeNext:^(id x) {
-                      NSLog(@&quot;%@&quot;,x);
-                  }];
+                          if([x isEqualToString:y]){
+                              NSLog(@&quot;一样&quot;);
+                              return @1;
+                          }else{
+                              NSLog(@&quot;不一样&quot;);
+                              return @0;
+                          }
+                      }] subscribeNext:^(id x) {
+                          NSLog(@&quot;%@&quot;,x);
+                      }];
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
 &lt;h3 id=&quot;附加操作&quot;&gt;附加操作&lt;/h3&gt;
 &lt;p&gt;有些时候我们可能需要在收到信号后进行一些附加操作，可以添加一个&lt;code class=&quot;highlighter-rouge&quot;&gt;doNext:&lt;/code&gt;block。&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[[tfRac doNext:^(id x) {
-    NSLog(@&quot;附加操作&quot;);
-}] subscribeNext:^(id x) {
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [[tfRac doNext:^(id x) {
+        NSLog(@&quot;附加操作&quot;);
+    }] subscribeNext:^(id x) {
 
-}];
+    }];
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
