@@ -140,7 +140,7 @@ tags:
     //聚合信号
     [[RACSignal combineLatest:@[tfRac, tf1Rac]
                       reduce:^id(id x, id y){
-						  //比较2个输入框的内容是否一样
+                      //比较2个输入框的内容是否一样
                           if([x isEqualToString:y]){
                               NSLog(@"一样");
                               return @1;
