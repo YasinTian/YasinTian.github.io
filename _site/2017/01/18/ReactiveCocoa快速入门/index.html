@@ -345,7 +345,7 @@
 <p>有些时候我们可能需要在收到信号后进行一些附加操作，可以添加一个<code class="highlighter-rouge">doNext:</code>block。</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>    [[tfRac doNext:^(id x) {
-        NSLog(@"附加操作");
+    	NSLog(@"附加操作");
     }] subscribeNext:^(id x) {
 
     }];

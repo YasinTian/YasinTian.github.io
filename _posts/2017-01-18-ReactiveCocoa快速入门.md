@@ -156,7 +156,7 @@ tags:
 
 ```
     [[tfRac doNext:^(id x) {
-        NSLog(@"附加操作");
+    	NSLog(@"附加操作");
     }] subscribeNext:^(id x) {
 
     }];
