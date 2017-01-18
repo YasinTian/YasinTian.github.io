@@ -5,8 +5,8 @@
     <description>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 18 Jan 2017 09:19:31 +0000</pubDate>
-    <lastBuildDate>Wed, 18 Jan 2017 09:19:31 +0000</lastBuildDate>
+    <pubDate>Wed, 18 Jan 2017 09:25:23 +0000</pubDate>
+    <lastBuildDate>Wed, 18 Jan 2017 09:25:23 +0000</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -76,7 +76,7 @@
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;filter&lt;/code&gt;是一个过滤器里面能加一些判定条件用于判断是否继续往下面的执行。这样就表示当内容是123的时候才打印&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [[tfRac filter:^BOOL(id value) {
-        if([value isEqualToString:@&quot;123&quot;]){
+        if([value isEqualToString:@&quot;123&quot;]){//过滤出内容是123的情况
             return YES;
         }
         return NO;
@@ -94,10 +94,10 @@
 
     [[[tfRac
        map:^id(NSString*text){
-           return @(text.length);
+           return @(text.length);//收到数据后转换成内容长度，再往后传
        }]
       filter:^BOOL(NSNumber*length){
-          return[length integerValue] &amp;gt; 3;
+          return[length integerValue] &amp;gt; 3;//过滤出长度大于3的
       }]
      subscribeNext:^(id x){
          NSLog(@&quot;%@&quot;, x);
@@ -110,8 +110,10 @@
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    tf.backgroundColor = [UIColor redColor];
     RACSignal *tfRac = [tf rac_textSignal];
+    //tf的backgroundColor绑定信号
     RAC(tf,backgroundColor) = [tfRac map:^id(id value) {
         if([value isEqualToString:@&quot;123456&quot;]){
+            //如果值为123456返回黄色
             return [UIColor yellowColor];
         }else{
             return [UIColor redColor];
@@ -138,7 +140,7 @@
     //聚合信号
     [[RACSignal combineLatest:@[tfRac, tf1Rac]
                       reduce:^id(id x, id y){
-
+						  //比较2个输入框的内容是否一样
                           if([x isEqualToString:y]){
                               NSLog(@&quot;一样&quot;);
                               return @1;

@@ -76,7 +76,7 @@ tags:
 
 ```
     [[tfRac filter:^BOOL(id value) {
-        if([value isEqualToString:@"123"]){
+        if([value isEqualToString:@"123"]){//过滤出内容是123的情况
             return YES;
         }
         return NO;
@@ -94,10 +94,10 @@ tags:
 
     [[[tfRac
        map:^id(NSString*text){
-           return @(text.length);
+           return @(text.length);//收到数据后转换成内容长度，再往后传
        }]
       filter:^BOOL(NSNumber*length){
-          return[length integerValue] > 3;
+          return[length integerValue] > 3;//过滤出长度大于3的
       }]
      subscribeNext:^(id x){
          NSLog(@"%@", x);
@@ -110,8 +110,10 @@ tags:
 ```
     tf.backgroundColor = [UIColor redColor];
     RACSignal *tfRac = [tf rac_textSignal];
+    //tf的backgroundColor绑定信号
     RAC(tf,backgroundColor) = [tfRac map:^id(id value) {
         if([value isEqualToString:@"123456"]){
+            //如果值为123456返回黄色
             return [UIColor yellowColor];
         }else{
             return [UIColor redColor];
@@ -138,7 +140,7 @@ tags:
     //聚合信号
     [[RACSignal combineLatest:@[tfRac, tf1Rac]
                       reduce:^id(id x, id y){
-
+						  //比较2个输入框的内容是否一样
                           if([x isEqualToString:y]){
                               NSLog(@"一样");
                               return @1;
