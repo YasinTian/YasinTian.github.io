@@ -1,0 +1,73 @@
+<p>在iOS逆向工程中，通过class-dump能得到函数头文件，但是一般情况下，参数都是<code class="highlighter-rouge">id</code>类型，这时候可以通过调试器打印出来看一下，起到事半功倍的作用。</p>
+
+<h2 id="debugserver">debugserver</h2>
+
+<p>在连接过<code class="highlighter-rouge">XCode</code>后，XCode会自动给手机安装上<code class="highlighter-rouge">debugserver</code>，<code class="highlighter-rouge">debugserver</code>是安装在手机端用于接受电脑端传过去的<code class="highlighter-rouge">lldb</code>命令的。执行后再把结果返回给<code class="highlighter-rouge">lldb</code>。
+在正常的开发中，<code class="highlighter-rouge">debugserver</code>是没有<code class="highlighter-rouge">task_for_pid</code>的权限的，所以一般只能调试我们自己的App。但是这样对越狱开发一点用都没有了。但是通过配置我们可以提升<code class="highlighter-rouge">debugserver</code>的权限。</p>
+
+<h2 id="配置debugserver">配置debugserver</h2>
+
+<h3 id="debugserver减肥">debugserver减肥</h3>
+
+<p>首先将debugserver拷贝到电脑中。命令是</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>scp root@(手机的ip地址):/Developer/usr/bin/debugserver (要拷贝到的路径)/debugderver
+</code></pre>
+</div>
+
+<p>然后执行</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd debugderver文件的路径
+lipo -thin arm64 debugserver -output debugserver
+</code></pre>
+</div>
+
+<p>下载<a href="http://iosre.com/ent.xml">http://iosre.com/ent.xml</a>这个文件放到debugderver文件所在的路径。
+执行</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>/opt/theos/bin/ldid -Sent.xml debugserver
+-S后面是没有空格的
+</code></pre>
+</div>
+
+<p>如果长时间没有执行完毕，就只能用另一种方案了。
+下载<a href="http://iosre.com/ent.plist">http://iosre.com/ent.plist</a>这个文件
+执行</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>codesign -s - --entitlements ent.plist -f debugserver
+</code></pre>
+</div>
+
+<p>最后把修改过的debugserver拷贝回iOS</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>scp (debugserver的地址)/debugserver root@192.168.5.228:/usr/bin/debugserver
+</code></pre>
+</div>
+
+<p>debugserver我们放在/usr/bin里面可以直接输入debugserver运行。</p>
+
+<p>ssh连接手机，提升权限</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>chmod +x /usr/bin/debugserver
+</code></pre>
+</div>
+
+<h2 id="打开调试器">打开调试器</h2>
+
+<h3 id="手机端">手机端</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>debugserver -x backboard *:1234 /Applications/MobileSMS.app
+</code></pre>
+</div>
+
+<p>这句话表示，打开短信，并且注入调试器。等待来自任意ip的1234端口的<code class="highlighter-rouge">lldb</code>连接</p>
+
+<h3 id="电脑端">电脑端</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>/Applications/Xcode.app/Contents/Developer/usr/bin/lldb
+process connect connect://192.168.5.228:1234
+</code></pre>
+</div>
+
+<p>这样就可以连上了。连接成功后
+如果连接上是卡住的状态，好像是连接上回默认被断点卡住，lldb输入c命令就能好。</p>
