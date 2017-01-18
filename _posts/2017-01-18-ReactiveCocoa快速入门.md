@@ -2,7 +2,7 @@
 layout:     post
 title:      "ReactiveCocoa快速入门"
 subtitle:   "ReactiveCocoa（其简称为RAC）是由Github工程师们开发的一个应用于iOS和OS X开发的函数响应式编程新框架。ReactiveCocoa为开发者带来了函数式编程和响应式编程的思想。"
-date:       2017-01-05
+date:       2017-01-18
 author:     "yasin"
 header-img: "img/post-bg-2015.jpg"
 catalog: true

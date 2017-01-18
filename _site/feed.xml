@@ -5,8 +5,8 @@
     <description>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 18 Jan 2017 08:59:36 +0000</pubDate>
-    <lastBuildDate>Wed, 18 Jan 2017 08:59:36 +0000</lastBuildDate>
+    <pubDate>Wed, 18 Jan 2017 09:06:10 +0000</pubDate>
+    <lastBuildDate>Wed, 18 Jan 2017 09:06:10 +0000</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -175,9 +175,9 @@ RACSignal *tf1Rac = [tf1 rac_textSignal];
 &lt;p&gt;&lt;a href=&quot;http://www.jianshu.com/p/e10e5ca413b7&quot;&gt;最快让你上手ReactiveCocoa之进阶篇&lt;/a&gt;&lt;/p&gt;
 
 </description>
-        <pubDate>Thu, 05 Jan 2017 00:00:00 +0000</pubDate>
-        <link>http://localhost:4000/2017/01/05/ReactiveCocoa%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</link>
-        <guid isPermaLink="true">http://localhost:4000/2017/01/05/ReactiveCocoa%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</guid>
+        <pubDate>Wed, 18 Jan 2017 00:00:00 +0000</pubDate>
+        <link>http://localhost:4000/2017/01/18/ReactiveCocoa%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/01/18/ReactiveCocoa%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</guid>
         
         <category>开发</category>
         
