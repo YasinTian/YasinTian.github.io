@@ -5,8 +5,8 @@
     <description>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 18 Jan 2017 09:27:52 +0000</pubDate>
-    <lastBuildDate>Wed, 18 Jan 2017 09:27:52 +0000</lastBuildDate>
+    <pubDate>Thu, 19 Jan 2017 03:53:15 +0000</pubDate>
+    <lastBuildDate>Thu, 19 Jan 2017 03:53:15 +0000</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -43,10 +43,12 @@
     }];
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
 &lt;p&gt;点击button会打印”ddd”说明，调用了block里面的内容。
 看着可能有点复杂，但是不熟的时候可以拆开写&lt;/p&gt;
 
 &lt;p&gt;先创建一个&lt;code class=&quot;highlighter-rouge&quot;&gt;RACSignal&lt;/code&gt;对象，再添加要执行的block。&lt;/p&gt;
+
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    RACSignal *racSignal = [btn rac_signalForControlEvents:UIControlEventTouchUpInside];
 
     [racSignal subscribeNext:^(id x) {
@@ -54,6 +56,7 @@
     }];
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;RACSignal&lt;/code&gt;是RAC里面一个非常重要的概念，建议先掌握了&lt;code class=&quot;highlighter-rouge&quot;&gt;RACSignal&lt;/code&gt;的基本用法后在去了解他的原理。&lt;/p&gt;
 
 &lt;p&gt;再来看看连续多个block的情况，比如已经创建了一个&lt;code class=&quot;highlighter-rouge&quot;&gt;UITextField&lt;/code&gt;叫&lt;code class=&quot;highlighter-rouge&quot;&gt;tf&lt;/code&gt;&lt;/p&gt;

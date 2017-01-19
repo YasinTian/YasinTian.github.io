@@ -232,10 +232,12 @@
     }];
 </code></pre>
 </div>
+
 <p>点击button会打印”ddd”说明，调用了block里面的内容。
 看着可能有点复杂，但是不熟的时候可以拆开写</p>
 
 <p>先创建一个<code class="highlighter-rouge">RACSignal</code>对象，再添加要执行的block。</p>
+
 <div class="highlighter-rouge"><pre class="highlight"><code>    RACSignal *racSignal = [btn rac_signalForControlEvents:UIControlEventTouchUpInside];
 
     [racSignal subscribeNext:^(id x) {
@@ -243,6 +245,7 @@
     }];
 </code></pre>
 </div>
+
 <p><code class="highlighter-rouge">RACSignal</code>是RAC里面一个非常重要的概念，建议先掌握了<code class="highlighter-rouge">RACSignal</code>的基本用法后在去了解他的原理。</p>
 
 <p>再来看看连续多个block的情况，比如已经创建了一个<code class="highlighter-rouge">UITextField</code>叫<code class="highlighter-rouge">tf</code></p>

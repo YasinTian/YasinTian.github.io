@@ -42,10 +42,12 @@ tags:
         NSLog(@"ddd");
     }];
 ```
+
 点击button会打印"ddd"说明，调用了block里面的内容。
 看着可能有点复杂，但是不熟的时候可以拆开写
 
 先创建一个`RACSignal`对象，再添加要执行的block。
+
 ```
     RACSignal *racSignal = [btn rac_signalForControlEvents:UIControlEventTouchUpInside];
 
@@ -53,6 +55,7 @@ tags:
         NSLog(@"ddd");
     }];
 ```
+
 `RACSignal`是RAC里面一个非常重要的概念，建议先掌握了`RACSignal`的基本用法后在去了解他的原理。
 
 再来看看连续多个block的情况，比如已经创建了一个`UITextField`叫`tf`
