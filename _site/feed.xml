@@ -5,9 +5,54 @@
     <description>不知道写些什么...</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 09 Feb 2017 06:01:39 +0000</pubDate>
-    <lastBuildDate>Thu, 09 Feb 2017 06:01:39 +0000</lastBuildDate>
+    <pubDate>Tue, 07 Mar 2017 07:22:54 +0000</pubDate>
+    <lastBuildDate>Tue, 07 Mar 2017 07:22:54 +0000</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
+    
+      <item>
+        <title>逆向开发%log的问题</title>
+        <description>&lt;p&gt;&lt;a href=&quot;http://bbs.iosre.com/t/ios-socat/139&quot;&gt;参考文章&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;看了许多文章说%log会在/var/log/syslog日志里，但是我的ios9.3.3的系统怎么都没有发现这个文件。&lt;/p&gt;
+
+&lt;p&gt;网上搜了一下。发现可以按照&lt;a href=&quot;https://www.theiphonewiki.com/wiki/System_Log&quot;&gt;https://www.theiphonewiki.com/wiki/System_Log&lt;/a&gt;里面的方法试一试。&lt;/p&gt;
+
+&lt;p&gt;其中使用&lt;code class=&quot;highlighter-rouge&quot;&gt;socat&lt;/code&gt;的方法使用非常简单方便，推荐使用。&lt;/p&gt;
+
+&lt;h3 id=&quot;socat&quot;&gt;socat&lt;/h3&gt;
+
+&lt;p&gt;我是直接用Cydia安装的，搜索syslogd to /var/log/syslog这个安装就行了。
+看别人的文章可以直接用命令安装&lt;code class=&quot;highlighter-rouge&quot;&gt;apt-get install socat&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;使用就比较简单了&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;socat - UNIX-CONNECT:/var/run/lockdown/syslog.sock
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;显示&lt;code class=&quot;highlighter-rouge&quot;&gt;ASL is here to serve you&lt;/code&gt;说明准备好了，这个时候输入&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;watch
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;屏幕上就会打印一大推东西出来。
+我们只想看我们&lt;code class=&quot;highlighter-rouge&quot;&gt;Hook&lt;/code&gt;的程序只需要输入&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;*PID 要看的PID
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;还有其他用法可以输入&lt;code class=&quot;highlighter-rouge&quot;&gt;help&lt;/code&gt;看看其他命令。了解到这里，基本的调试就够用了。&lt;/p&gt;
+</description>
+        <pubDate>Mon, 06 Mar 2017 12:00:00 +0000</pubDate>
+        <link>http://localhost:4000/2017/03/06/%E8%A7%A3%E5%86%B3-log%E6%89%93%E5%8D%B0%E6%97%A5%E5%BF%97%E4%B8%8D%E5%AD%98%E5%9C%A8%E9%97%AE%E9%A2%98/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/03/06/%E8%A7%A3%E5%86%B3-log%E6%89%93%E5%8D%B0%E6%97%A5%E5%BF%97%E4%B8%8D%E5%AD%98%E5%9C%A8%E9%97%AE%E9%A2%98/</guid>
+        
+        <category>安全</category>
+        
+        
+      </item>
     
       <item>
         <title>ReactiveCocoa快速入门</title>
