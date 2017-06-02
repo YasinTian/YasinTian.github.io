@@ -229,8 +229,9 @@
 </code></pre>
 </div>
 
-<p>分享文章到QQ试了试urlscheme就出来了。
-<img src="../img/showopenurl/success.png" alt="分享到QQ" /></p>
+<p>分享文章到QQ试了试urlscheme就出来了。</p>
+
+<p><img src="http://localhost:4000/img/in-post/success.png" alt="截屏分享到QQ" /></p>
 
 <p>###从接收端入手</p>
 
@@ -275,16 +276,19 @@
 <p>这个地方要新建一个tweak工程，通过新建的这个工程来控制。
 <a href="https://github.com/DHowett/preferenceloader">PreferenceLoader</a>的使用非常简单。只需要在工程根目录新建一个layout文件件，按照要求放入需要的文件就行了.</p>
 
-<p><code class="highlighter-rouge">layout/Library/Application Support</code>下面放上面生成的<code class="highlighter-rouge">dylib</code>文件，这个文件<code class="highlighter-rouge">dylib</code>在<code class="highlighter-rouge">.theos/_/Library/MobileSubstrate/DynamicLibraries</code>里面，反正我是在这里弄得，其他地方好像也有，我就不去找了。
-<img src="https://github.com/YasinTian/YasinTian.github.io/blob/master/img/showopenurl/dynamiclibraries.png" alt="dylib文件在这里" /></p>
+<p><code class="highlighter-rouge">layout/Library/Application Support</code>下面放上面生成的<code class="highlighter-rouge">dylib</code>文件，这个文件<code class="highlighter-rouge">dylib</code>在<code class="highlighter-rouge">.theos/_/Library/MobileSubstrate/DynamicLibraries</code>里面，反正我是在这里弄得，其他地方好像也有，我就不去找了。</p>
 
-<p><code class="highlighter-rouge">layout/Library/PreferenceLoader/Preferences</code>里面是关于设置界面的一些配置，一个<code class="highlighter-rouge">Plist</code>文件和图标，图标就不说了。
-<code class="highlighter-rouge">Plist</code>主要是这几个地方要改成你自己的
-<img src="../img/showopenurl/plist.png" alt="Plist文件修改" /></p>
+<p><img src="http://localhost:4000/img/in-post/dynamiclibraries.png" alt="dylib文件在这里" /></p>
+
+<p><code class="highlighter-rouge">layout/Library/PreferenceLoader/Preferences</code>里面是关于设置界面的一些配置，一个<code class="highlighter-rouge">Plist</code>文件和图标，图标就不说了。</p>
+
+<p><code class="highlighter-rouge">Plist</code>主要是这几个地方要改成你自己的
+<img src="http://localhost:4000/img/in-post/plist.png" alt="Plist文件修改" /></p>
 
 <p>最后弄完是这样的
-<img src="../img/showopenurl/F2D93245-2CBA-46B6-8FBB-12F4D7528906.png" alt="Application Support" />
-<img src="../img/showopenurl/preferences.png" alt="PreferenceLoader" /></p>
+<img src="http://localhost:4000/img/in-post/F2D93245-2CBA-46B6-8FBB-12F4D7528906.png" alt="Application Support" /></p>
+
+<p><img src="http://localhost:4000/img/in-post/preferences.png" alt="PreferenceLoader" /></p>
 
 <p>都弄好了就运行试试吧，出现插件不生效的情况可以用<code class="highlighter-rouge">socat</code>看看打印的日志信息，看看到底有没有成功加载插件。</p>
 

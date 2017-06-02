@@ -5,8 +5,8 @@
     <description>不知道写些什么...</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 02 Jun 2017 09:18:07 +0000</pubDate>
-    <lastBuildDate>Fri, 02 Jun 2017 09:18:07 +0000</lastBuildDate>
+    <pubDate>Fri, 02 Jun 2017 09:40:24 +0000</pubDate>
+    <lastBuildDate>Fri, 02 Jun 2017 09:40:24 +0000</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -44,8 +44,9 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;分享文章到QQ试了试urlscheme就出来了。
-&lt;img src=&quot;../img/showopenurl/success.png&quot; alt=&quot;分享到QQ&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;分享文章到QQ试了试urlscheme就出来了。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/img/in-post/success.png&quot; alt=&quot;截屏分享到QQ&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;###从接收端入手&lt;/p&gt;
 
@@ -90,16 +91,19 @@
 &lt;p&gt;这个地方要新建一个tweak工程，通过新建的这个工程来控制。
 &lt;a href=&quot;https://github.com/DHowett/preferenceloader&quot;&gt;PreferenceLoader&lt;/a&gt;的使用非常简单。只需要在工程根目录新建一个layout文件件，按照要求放入需要的文件就行了.&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;layout/Library/Application Support&lt;/code&gt;下面放上面生成的&lt;code class=&quot;highlighter-rouge&quot;&gt;dylib&lt;/code&gt;文件，这个文件&lt;code class=&quot;highlighter-rouge&quot;&gt;dylib&lt;/code&gt;在&lt;code class=&quot;highlighter-rouge&quot;&gt;.theos/_/Library/MobileSubstrate/DynamicLibraries&lt;/code&gt;里面，反正我是在这里弄得，其他地方好像也有，我就不去找了。
-&lt;img src=&quot;https://github.com/YasinTian/YasinTian.github.io/blob/master/img/showopenurl/dynamiclibraries.png&quot; alt=&quot;dylib文件在这里&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;layout/Library/Application Support&lt;/code&gt;下面放上面生成的&lt;code class=&quot;highlighter-rouge&quot;&gt;dylib&lt;/code&gt;文件，这个文件&lt;code class=&quot;highlighter-rouge&quot;&gt;dylib&lt;/code&gt;在&lt;code class=&quot;highlighter-rouge&quot;&gt;.theos/_/Library/MobileSubstrate/DynamicLibraries&lt;/code&gt;里面，反正我是在这里弄得，其他地方好像也有，我就不去找了。&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;layout/Library/PreferenceLoader/Preferences&lt;/code&gt;里面是关于设置界面的一些配置，一个&lt;code class=&quot;highlighter-rouge&quot;&gt;Plist&lt;/code&gt;文件和图标，图标就不说了。
-&lt;code class=&quot;highlighter-rouge&quot;&gt;Plist&lt;/code&gt;主要是这几个地方要改成你自己的
-&lt;img src=&quot;../img/showopenurl/plist.png&quot; alt=&quot;Plist文件修改&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/img/in-post/dynamiclibraries.png&quot; alt=&quot;dylib文件在这里&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;layout/Library/PreferenceLoader/Preferences&lt;/code&gt;里面是关于设置界面的一些配置，一个&lt;code class=&quot;highlighter-rouge&quot;&gt;Plist&lt;/code&gt;文件和图标，图标就不说了。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Plist&lt;/code&gt;主要是这几个地方要改成你自己的
+&lt;img src=&quot;http://localhost:4000/img/in-post/plist.png&quot; alt=&quot;Plist文件修改&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;最后弄完是这样的
-&lt;img src=&quot;../img/showopenurl/F2D93245-2CBA-46B6-8FBB-12F4D7528906.png&quot; alt=&quot;Application Support&quot; /&gt;
-&lt;img src=&quot;../img/showopenurl/preferences.png&quot; alt=&quot;PreferenceLoader&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;http://localhost:4000/img/in-post/F2D93245-2CBA-46B6-8FBB-12F4D7528906.png&quot; alt=&quot;Application Support&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/img/in-post/preferences.png&quot; alt=&quot;PreferenceLoader&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;都弄好了就运行试试吧，出现插件不生效的情况可以用&lt;code class=&quot;highlighter-rouge&quot;&gt;socat&lt;/code&gt;看看打印的日志信息，看看到底有没有成功加载插件。&lt;/p&gt;
 

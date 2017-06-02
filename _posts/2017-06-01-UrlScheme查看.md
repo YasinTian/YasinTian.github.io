@@ -42,7 +42,8 @@ ios下跳转到其他App主要是`UIApplication`的这两个方法，先试一�
 ```
 
 分享文章到QQ试了试urlscheme就出来了。
-![分享到QQ](../img/showopenurl/success.png)
+
+![截屏分享到QQ]({{ site.url }}/img/in-post/success.png)
 
 ###从接收端入手
 
@@ -88,16 +89,18 @@ ios下跳转到其他App主要是`UIApplication`的这两个方法，先试一�
 [PreferenceLoader](https://github.com/DHowett/preferenceloader)的使用非常简单。只需要在工程根目录新建一个layout文件件，按照要求放入需要的文件就行了.
 
 `layout/Library/Application Support`下面放上面生成的`dylib`文件，这个文件`dylib`在`.theos/_/Library/MobileSubstrate/DynamicLibraries`里面，反正我是在这里弄得，其他地方好像也有，我就不去找了。
-![dylib文件在这里](https://github.com/YasinTian/YasinTian.github.io/blob/master/img/showopenurl/dynamiclibraries.png)
+
+![dylib文件在这里]({{ site.url }}/img/in-post/dynamiclibraries.png)
 
 `layout/Library/PreferenceLoader/Preferences`里面是关于设置界面的一些配置，一个`Plist`文件和图标，图标就不说了。
+
 `Plist`主要是这几个地方要改成你自己的
-![Plist文件修改](../img/showopenurl/plist.png)
+![Plist文件修改]({{ site.url }}/img/in-post/plist.png)
 
 最后弄完是这样的
-![Application Support](../img/showopenurl/F2D93245-2CBA-46B6-8FBB-12F4D7528906.png)
-![PreferenceLoader](../img/showopenurl/preferences.png)
+![Application Support]({{ site.url }}/img/in-post/F2D93245-2CBA-46B6-8FBB-12F4D7528906.png)
 
+![PreferenceLoader]({{ site.url }}/img/in-post/preferences.png)
 
 都弄好了就运行试试吧，出现插件不生效的情况可以用`socat`看看打印的日志信息，看看到底有没有成功加载插件。
 
