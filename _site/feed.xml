@@ -5,9 +5,113 @@
     <description>不知道写些什么...</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 07 Mar 2017 07:22:54 +0000</pubDate>
-    <lastBuildDate>Tue, 07 Mar 2017 07:22:54 +0000</lastBuildDate>
+    <pubDate>Fri, 02 Jun 2017 09:18:07 +0000</pubDate>
+    <lastBuildDate>Fri, 02 Jun 2017 09:18:07 +0000</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
+    
+      <item>
+        <title>查看App之间的跳转协议</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://github.com/yohunl/FlexInjected&quot;&gt;参考文章&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;一直想做一个App能跳转到我想去的App里面，网上找urlScheme也就是那么几个，而且大多数只能打开App不能分析进入里面的功能，索性我自己弄一个截获跳转协议的工具好了。在很久以前就已经搭建好了theos的环境，不过好久没动过了。&lt;/p&gt;
+
+&lt;p&gt;###创建工程&lt;/p&gt;
+
+&lt;p&gt;创建工程还是老步骤&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;/opt/theos/bin/nic.pl&lt;/li&gt;
+  &lt;li&gt;选择[11.] iphone/tweak&lt;/li&gt;
+  &lt;li&gt;填你的工程名，包名，作者，要hook的bundleid这里我们填com.apple.UIKit这样能对所有的app生效&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;###Hook函数&lt;/p&gt;
+
+&lt;p&gt;ios下跳转到其他App主要是&lt;code class=&quot;highlighter-rouge&quot;&gt;UIApplication&lt;/code&gt;的这两个方法，先试一下能不能行&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;%hook UIApplication
+-(BOOL)openURL:(NSURL*)url{
+	UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@&quot;Welcome&quot; message:url.absoluteString delegate:nil cancelButtonTitle:@&quot;Thanks&quot; otherButtonTitles:nil];
+	[alert show];
+	return %orig;
+}
+
+- (void)openURL:(NSURL*)url options:(NSDictionary&amp;lt;NSString *, id&amp;gt; *)options completionHandler:(id)completion{
+	UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@&quot;Welcome&quot; message:url.absoluteString delegate:nil cancelButtonTitle:@&quot;Thanks&quot; otherButtonTitles:nil];
+	[alert show];
+	%orig;
+}
+
+%end
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;分享文章到QQ试了试urlscheme就出来了。
+&lt;img src=&quot;../img/showopenurl/success.png&quot; alt=&quot;分享到QQ&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;###从接收端入手&lt;/p&gt;
+
+&lt;p&gt;前是从发送端入手，现在我们来看看接收端，从外部打开app主要是这几个方法，最后是个是ios9出的通用链接（Universal Links）进入的回调方法。全部都把url弹出来，在微信和QQ之间测试，发现QQ竟然换掉了系统的AlertView，当页面消失的时候就会收回弹框&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;%hook AppDelegate
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+    UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@&quot;Welcome&quot; message:url.absoluteString delegate:nil cancelButtonTitle:@&quot;Thanks&quot; otherButtonTitles:nil];
+    [alert show];
+    return %orig;
+}
+
+-(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary&amp;lt;UIApplicationOpenURLOptionsKey,id&amp;gt; *)options{
+    UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@&quot;Welcome&quot; message:url.absoluteString delegate:nil cancelButtonTitle:@&quot;Thanks&quot; otherButtonTitles:nil];
+    [alert show];
+    return %orig;
+}
+
+-(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url{
+    UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@&quot;Welcome&quot; message:url.absoluteString delegate:nil cancelButtonTitle:@&quot;Thanks&quot; otherButtonTitles:nil];
+    [alert show];
+    return %orig;
+}
+
+-(BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler{
+    UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@&quot;Welcome&quot; message:userActivity.webpageURL.absoluteString delegate:nil cancelButtonTitle:@&quot;Thanks&quot; otherButtonTitles:nil];
+    [alert show];
+    return %orig;
+}
+
+%end
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;代码写完了还是通过，&lt;code class=&quot;highlighter-rouge&quot;&gt;make&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;package&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;install&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;试了试可以看到app间的跳转协议了，但是这样很不方便，当我正常使用的时候很麻烦，每次都要点击关闭这个弹框，这里我们就需要做一个选择开启的功能。
+在网上找了找可以把插件和App打包成deb安装，这样通过App来控制，不过很麻烦，都要自己来处理。&lt;/p&gt;
+
+&lt;p&gt;后来在网上找到一篇教程https://github.com/yohunl/FlexInjected 里面讲到一个&lt;a href=&quot;https://github.com/DHowett/preferenceloader&quot;&gt;PreferenceLoader&lt;/a&gt;可以很方便的在系统设置里面给我们的插件添加一个开关，可以选择对哪些App启用插件。而且这个插件是很多越狱软件依赖插件，基本都装的有，我们只管用就行了。&lt;/p&gt;
+
+&lt;p&gt;这个地方要新建一个tweak工程，通过新建的这个工程来控制。
+&lt;a href=&quot;https://github.com/DHowett/preferenceloader&quot;&gt;PreferenceLoader&lt;/a&gt;的使用非常简单。只需要在工程根目录新建一个layout文件件，按照要求放入需要的文件就行了.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;layout/Library/Application Support&lt;/code&gt;下面放上面生成的&lt;code class=&quot;highlighter-rouge&quot;&gt;dylib&lt;/code&gt;文件，这个文件&lt;code class=&quot;highlighter-rouge&quot;&gt;dylib&lt;/code&gt;在&lt;code class=&quot;highlighter-rouge&quot;&gt;.theos/_/Library/MobileSubstrate/DynamicLibraries&lt;/code&gt;里面，反正我是在这里弄得，其他地方好像也有，我就不去找了。
+&lt;img src=&quot;https://github.com/YasinTian/YasinTian.github.io/blob/master/img/showopenurl/dynamiclibraries.png&quot; alt=&quot;dylib文件在这里&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;layout/Library/PreferenceLoader/Preferences&lt;/code&gt;里面是关于设置界面的一些配置，一个&lt;code class=&quot;highlighter-rouge&quot;&gt;Plist&lt;/code&gt;文件和图标，图标就不说了。
+&lt;code class=&quot;highlighter-rouge&quot;&gt;Plist&lt;/code&gt;主要是这几个地方要改成你自己的
+&lt;img src=&quot;../img/showopenurl/plist.png&quot; alt=&quot;Plist文件修改&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;最后弄完是这样的
+&lt;img src=&quot;../img/showopenurl/F2D93245-2CBA-46B6-8FBB-12F4D7528906.png&quot; alt=&quot;Application Support&quot; /&gt;
+&lt;img src=&quot;../img/showopenurl/preferences.png&quot; alt=&quot;PreferenceLoader&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;都弄好了就运行试试吧，出现插件不生效的情况可以用&lt;code class=&quot;highlighter-rouge&quot;&gt;socat&lt;/code&gt;看看打印的日志信息，看看到底有没有成功加载插件。&lt;/p&gt;
+
+</description>
+        <pubDate>Thu, 01 Jun 2017 12:00:00 +0000</pubDate>
+        <link>http://localhost:4000/2017/06/01/UrlScheme%E6%9F%A5%E7%9C%8B/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/06/01/UrlScheme%E6%9F%A5%E7%9C%8B/</guid>
+        
+        <category>安全</category>
+        
+        
+      </item>
     
       <item>
         <title>逆向开发%log的问题</title>

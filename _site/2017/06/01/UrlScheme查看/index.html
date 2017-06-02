@@ -10,7 +10,7 @@
     <meta name="keywords"  content="博客, 个人网站, 互联网, 前端, iOS, 安全, 开发">
     <meta name="theme-color" content="#000000">
     
-    <title>ReactiveCocoa快速入门 - 田云翔的博客 | Yasin Blog</title>
+    <title>查看App之间的跳转协议 - 田云翔的博客 | Yasin Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2017/01/18/ReactiveCocoa%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">
+    <link rel="canonical" href="http://localhost:4000/2017/06/01/UrlScheme%E6%9F%A5%E7%9C%8B/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -170,15 +170,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#开发" title="开发">开发</a>
+                        <a class="tag" href="/tags/#安全" title="安全">安全</a>
                         
                     </div>
-                    <h1>ReactiveCocoa快速入门</h1>
+                    <h1>查看App之间的跳转协议</h1>
                     
                     
-                    <h2 class="subheading">ReactiveCocoa（其简称为RAC）是由Github工程师们开发的一个应用于iOS和OS X开发的函数响应式编程新框架。ReactiveCocoa为开发者带来了函数式编程和响应式编程的思想。</h2>
+                    <h2 class="subheading">解决%log打印日志文件不存在的问题</h2>
                     
-                    <span class="meta">Posted by yasin on January 18, 2017</span>
+                    <span class="meta">Posted by yasin on June 1, 2017</span>
                 </div>
             </div>
         </div>
@@ -196,174 +196,97 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<p><a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa地址</a></p>
+				<p><a href="https://github.com/yohunl/FlexInjected">参考文章</a></p>
 
-<p>从RAC 5.0开始，RAC进行了巨大的变化，现在有了4个独立的库</p>
+<p>一直想做一个App能跳转到我想去的App里面，网上找urlScheme也就是那么几个，而且大多数只能打开App不能分析进入里面的功能，索性我自己弄一个截获跳转协议的工具好了。在很久以前就已经搭建好了theos的环境，不过好久没动过了。</p>
 
-<p><a href="https://github.com/ReactiveCocoa/ReactiveObjC">ReactiveObjC</a></p>
+<p>###创建工程</p>
 
-<p><a href="https://github.com/ReactiveCocoa/ReactiveSwift">ReactiveSwift</a></p>
+<p>创建工程还是老步骤</p>
+<ol>
+  <li>/opt/theos/bin/nic.pl</li>
+  <li>选择[11.] iphone/tweak</li>
+  <li>填你的工程名，包名，作者，要hook的bundleid这里我们填com.apple.UIKit这样能对所有的app生效</li>
+</ol>
 
-<p><a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa</a></p>
+<p>###Hook函数</p>
 
-<p><a href="https://github.com/ReactiveCocoa/ReactiveObjCBridge">ReactiveObjCBridge</a></p>
+<p>ios下跳转到其他App主要是<code class="highlighter-rouge">UIApplication</code>的这两个方法，先试一下能不能行</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>%hook UIApplication
+-(BOOL)openURL:(NSURL*)url{
+	UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Welcome" message:url.absoluteString delegate:nil cancelButtonTitle:@"Thanks" otherButtonTitles:nil];
+	[alert show];
+	return %orig;
+}
 
-<h3 id="导入">导入</h3>
+- (void)openURL:(NSURL*)url options:(NSDictionary&lt;NSString *, id&gt; *)options completionHandler:(id)completion{
+	UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Welcome" message:url.absoluteString delegate:nil cancelButtonTitle:@"Thanks" otherButtonTitles:nil];
+	[alert show];
+	%orig;
+}
 
-<p>用<code class="highlighter-rouge">cocoapods</code>导入</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>    target 'ReactiveCocoa_Demo' do
-      pod 'ReactiveCocoa'
-    end
+%end
 </code></pre>
 </div>
 
-<p>导入头文件<code class="highlighter-rouge">#import &lt;ReactiveCocoa.h&gt;</code></p>
+<p>分享文章到QQ试了试urlscheme就出来了。
+<img src="../img/showopenurl/success.png" alt="分享到QQ" /></p>
 
-<h3 id="基本使用">基本使用</h3>
-<p>我们先试试<code class="highlighter-rouge">UIButton</code></p>
+<p>###从接收端入手</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        NSLog(@"ddd");
-    }];
+<p>前是从发送端入手，现在我们来看看接收端，从外部打开app主要是这几个方法，最后是个是ios9出的通用链接（Universal Links）进入的回调方法。全部都把url弹出来，在微信和QQ之间测试，发现QQ竟然换掉了系统的AlertView，当页面消失的时候就会收回弹框</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>%hook AppDelegate
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+    UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Welcome" message:url.absoluteString delegate:nil cancelButtonTitle:@"Thanks" otherButtonTitles:nil];
+    [alert show];
+    return %orig;
+}
+
+-(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary&lt;UIApplicationOpenURLOptionsKey,id&gt; *)options{
+    UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Welcome" message:url.absoluteString delegate:nil cancelButtonTitle:@"Thanks" otherButtonTitles:nil];
+    [alert show];
+    return %orig;
+}
+
+-(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url{
+    UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Welcome" message:url.absoluteString delegate:nil cancelButtonTitle:@"Thanks" otherButtonTitles:nil];
+    [alert show];
+    return %orig;
+}
+
+-(BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler{
+    UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Welcome" message:userActivity.webpageURL.absoluteString delegate:nil cancelButtonTitle:@"Thanks" otherButtonTitles:nil];
+    [alert show];
+    return %orig;
+}
+
+%end
 </code></pre>
 </div>
 
-<p>点击button会打印”ddd”说明，调用了block里面的内容。
-看着可能有点复杂，但是不熟的时候可以拆开写</p>
+<p>代码写完了还是通过，<code class="highlighter-rouge">make</code> <code class="highlighter-rouge">package</code> <code class="highlighter-rouge">install</code></p>
 
-<p>先创建一个<code class="highlighter-rouge">RACSignal</code>对象，再添加要执行的block。</p>
+<p>试了试可以看到app间的跳转协议了，但是这样很不方便，当我正常使用的时候很麻烦，每次都要点击关闭这个弹框，这里我们就需要做一个选择开启的功能。
+在网上找了找可以把插件和App打包成deb安装，这样通过App来控制，不过很麻烦，都要自己来处理。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    RACSignal *racSignal = [btn rac_signalForControlEvents:UIControlEventTouchUpInside];
+<p>后来在网上找到一篇教程https://github.com/yohunl/FlexInjected 里面讲到一个<a href="https://github.com/DHowett/preferenceloader">PreferenceLoader</a>可以很方便的在系统设置里面给我们的插件添加一个开关，可以选择对哪些App启用插件。而且这个插件是很多越狱软件依赖插件，基本都装的有，我们只管用就行了。</p>
 
-    [racSignal subscribeNext:^(id x) {
-        NSLog(@"ddd");
-    }];
-</code></pre>
-</div>
+<p>这个地方要新建一个tweak工程，通过新建的这个工程来控制。
+<a href="https://github.com/DHowett/preferenceloader">PreferenceLoader</a>的使用非常简单。只需要在工程根目录新建一个layout文件件，按照要求放入需要的文件就行了.</p>
 
-<p><code class="highlighter-rouge">RACSignal</code>是RAC里面一个非常重要的概念，建议先掌握了<code class="highlighter-rouge">RACSignal</code>的基本用法后在去了解他的原理。</p>
+<p><code class="highlighter-rouge">layout/Library/Application Support</code>下面放上面生成的<code class="highlighter-rouge">dylib</code>文件，这个文件<code class="highlighter-rouge">dylib</code>在<code class="highlighter-rouge">.theos/_/Library/MobileSubstrate/DynamicLibraries</code>里面，反正我是在这里弄得，其他地方好像也有，我就不去找了。
+<img src="https://github.com/YasinTian/YasinTian.github.io/blob/master/img/showopenurl/dynamiclibraries.png" alt="dylib文件在这里" /></p>
 
-<p>再来看看连续多个block的情况，比如已经创建了一个<code class="highlighter-rouge">UITextField</code>叫<code class="highlighter-rouge">tf</code></p>
+<p><code class="highlighter-rouge">layout/Library/PreferenceLoader/Preferences</code>里面是关于设置界面的一些配置，一个<code class="highlighter-rouge">Plist</code>文件和图标，图标就不说了。
+<code class="highlighter-rouge">Plist</code>主要是这几个地方要改成你自己的
+<img src="../img/showopenurl/plist.png" alt="Plist文件修改" /></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    RACSignal *tfRac = [tf rac_textSignal];
+<p>最后弄完是这样的
+<img src="../img/showopenurl/F2D93245-2CBA-46B6-8FBB-12F4D7528906.png" alt="Application Support" />
+<img src="../img/showopenurl/preferences.png" alt="PreferenceLoader" /></p>
 
-    [[tfRac filter:^BOOL(NSNumber*length) {
-        return YES;
-    }] subscribeNext:^(id x) {
-        NSLog(@"%@", x);
-    }];
-
-</code></pre>
-</div>
-
-<p>这样当UITextField里面内容变化的时候就会打印出UITextField的内容。</p>
-
-<h3 id="filter">filter</h3>
-
-<p><code class="highlighter-rouge">filter</code>是一个过滤器里面能加一些判定条件用于判断是否继续往下面的执行。这样就表示当内容是123的时候才打印</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>    [[tfRac filter:^BOOL(id value) {
-        if([value isEqualToString:@"123"]){//过滤出内容是123的情况
-            return YES;
-        }
-        return NO;
-    }] subscribeNext:^(id x) {
-        NSLog(@"%@",x);
-    }];
-</code></pre>
-</div>
-
-<h3 id="map">map</h3>
-
-<p>还有一个常用的操作<code class="highlighter-rouge">map</code>，在<code class="highlighter-rouge">map</code>的<code class="highlighter-rouge">block</code>里面可以更改要往下传的数据，比如下面的例子，textfield的内容被传入<code class="highlighter-rouge">map</code>，在<code class="highlighter-rouge">block</code>里面计算了文字长度之后，把文字长度传了下去。后面的block收到的参数就是这个长度值了。</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>    RACSignal *tfRac = [tf rac_textSignal];
-
-    [[[tfRac
-       map:^id(NSString*text){
-           return @(text.length);//收到数据后转换成内容长度，再往后传
-       }]
-      filter:^BOOL(NSNumber*length){
-          return[length integerValue] &gt; 3;//过滤出长度大于3的
-      }]
-     subscribeNext:^(id x){
-         NSLog(@"%@", x);
-     }];
-</code></pre>
-</div>
-
-<h3 id="rac宏">RAC宏</h3>
-<p>在ReactiveCocoa有一个<code class="highlighter-rouge">RAC</code>宏非常好用,他可以直接把信号的输出应用到对象的属性上。参数1是要绑定的对象，参数2是要绑定的属性。下面的例子，当输入值为”123456”的时候背景颜色就会变成黄色了。</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>    tf.backgroundColor = [UIColor redColor];
-    RACSignal *tfRac = [tf rac_textSignal];
-    //tf的backgroundColor绑定信号
-    RAC(tf,backgroundColor) = [tfRac map:^id(id value) {
-        if([value isEqualToString:@"123456"]){
-            //如果值为123456返回黄色
-            return [UIColor yellowColor];
-        }else{
-            return [UIColor redColor];
-        }
-    }];
-</code></pre>
-</div>
-
-<h3 id="信号聚合">信号聚合</h3>
-<p>在用些时候需要聚合信号,<code class="highlighter-rouge">RACSignal</code>提供了<code class="highlighter-rouge">combineLatest:reduce:</code>这个方法可以把任意数量的信号聚合起来。</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>    //信号1
-    RACSignal *tfRac = [tf rac_textSignal];
-    [tfRac subscribeNext:^(id x) {
-        NSLog(@"%@",x);
-    }];
-
-    //信号2
-    RACSignal *tf1Rac = [tf1 rac_textSignal];
-    [tf1Rac subscribeNext:^(id x) {
-        NSLog(@"%@",x);
-    }];
-
-    //聚合信号
-    [[RACSignal combineLatest:@[tfRac, tf1Rac]
-                      reduce:^id(id x, id y){
-                      //比较2个输入框的内容是否一样
-                          if([x isEqualToString:y]){
-                              NSLog(@"一样");
-                              return @1;
-                          }else{
-                              NSLog(@"不一样");
-                              return @0;
-                          }
-                      }] subscribeNext:^(id x) {
-                          NSLog(@"%@",x);
-                      }];
-</code></pre>
-</div>
-
-<h3 id="附加操作">附加操作</h3>
-<p>有些时候我们可能需要在收到信号后进行一些附加操作，可以添加一个<code class="highlighter-rouge">doNext:</code>block。</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>    [[tfRac doNext:^(id x) {
-    	NSLog(@"附加操作");
-    }] subscribeNext:^(id x) {
-
-    }];
-</code></pre>
-</div>
-
-<p>参考资料</p>
-
-<p><a href="http://www.cnblogs.com/tangchangjiang/p/5598079.html">ReactiveCocoa - 基础篇</a></p>
-
-<p><a href="http://benbeng.leanote.com/post/ReactiveCocoaTutorial-part1">ReactiveCocoa入门教程——第一部分</a></p>
-
-<p><a href="http://benbeng.leanote.com/post/ReactiveCocoaTutorial-part2">ReactiveCocoa入门教程——第二部分</a></p>
-
-<p><a href="http://www.jianshu.com/p/87ef6720a096">最快让你上手ReactiveCocoa之基础篇</a></p>
-
-<p><a href="http://www.jianshu.com/p/e10e5ca413b7">最快让你上手ReactiveCocoa之进阶篇</a></p>
+<p>都弄好了就运行试试吧，出现插件不生效的情况可以用<code class="highlighter-rouge">socat</code>看看打印的日志信息，看看到底有没有成功加载插件。</p>
 
 
 
@@ -373,17 +296,13 @@
                 <!-- 多说 Share start -->
                 <div class="ds-share"
                     style="text-align: right"
-                    data-thread-key="/2017/01/18/ReactiveCocoa快速入门"
-                    data-title="ReactiveCocoa快速入门"
-                    data-url="http://localhost:4000/2017/01/18/ReactiveCocoa%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/"
+                    data-thread-key="/2017/06/01/UrlScheme查看"
+                    data-title="查看App之间的跳转协议"
+                    data-url="http://localhost:4000/2017/06/01/UrlScheme%E6%9F%A5%E7%9C%8B/"
                     data-images="http://localhost:4000/img/post-bg-2015.jpg"
-                    data-content="ReactiveCocoa地址
+                    data-content="参考文章
 
-从RAC 5.0开始，RAC进行了巨大的变化，现在有了4个独立的库
-
-ReactiveObjC
-
-ReactiveSwi... | 田云翔的博客 | Yasin Blog " >
+一直想做一个App能跳转到我想去的App里面，网上找urlScheme也就是那么几个，而且大多数只能打开App不能分析进入里面的功能，索性我自... | 田云翔的博客 | Yasin Blog " >
                     <div class="ds-share-inline">
                       <style> 
                         .ds-share-icons-16 {display:none;} 
@@ -406,19 +325,12 @@ ReactiveSwi... | 田云翔的博客 | Yasin Blog " >
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2017/01/05/lldb%E5%92%8Cdebugserver%E8%B0%83%E8%AF%95/" data-toggle="tooltip" data-placement="top" title="lldb调试第三方App">
-                        Previous<br>
-                        <span>lldb调试第三方App</span>
-                        </a>
-                    </li>
-                    
-                    
-                    <li class="next">
                         <a href="/2017/03/06/%E8%A7%A3%E5%86%B3-log%E6%89%93%E5%8D%B0%E6%97%A5%E5%BF%97%E4%B8%8D%E5%AD%98%E5%9C%A8%E9%97%AE%E9%A2%98/" data-toggle="tooltip" data-placement="top" title="逆向开发%log的问题">
-                        Next<br>
+                        Previous<br>
                         <span>逆向开发%log的问题</span>
                         </a>
                     </li>
+                    
                     
                 </ul>
 
@@ -427,9 +339,9 @@ ReactiveSwi... | 田云翔的博客 | Yasin Blog " >
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="/2017/01/18/ReactiveCocoa快速入门"
-                        data-title="ReactiveCocoa快速入门"
-                        data-url="http://localhost:4000/2017/01/18/ReactiveCocoa%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" >
+                        data-thread-key="/2017/06/01/UrlScheme查看"
+                        data-title="查看App之间的跳转协议"
+                        data-url="http://localhost:4000/2017/06/01/UrlScheme%E6%9F%A5%E7%9C%8B/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->
