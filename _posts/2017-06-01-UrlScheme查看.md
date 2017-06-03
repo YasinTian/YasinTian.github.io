@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "查看App之间的跳转协议"
-subtitle:   "解决%log打印日志文件不存在的问题"
+subtitle:   ""
 date:       2017-6-1 12:00:00
 author:     "yasin"
 header-img: "img/post-bg-2015.jpg"
@@ -82,6 +82,8 @@ ios下跳转到其他App主要是`UIApplication`的这两个方法，先试一�
 
 代码写完了还是通过，`make` `package` `install`
 
+### 对指定App启用
+
 试了试可以看到app间的跳转协议了，但是这样很不方便，当我正常使用的时候很麻烦，每次都要点击关闭这个弹框，这里我们就需要做一个选择开启的功能。
 在网上找了找可以把插件和App打包成deb安装，这样通过App来控制，不过很麻烦，都要自己来处理。
 
@@ -96,7 +98,7 @@ ios下跳转到其他App主要是`UIApplication`的这两个方法，先试一�
 
 `layout/Library/PreferenceLoader/Preferences`里面是关于设置界面的一些配置，一个`Plist`文件和图标，图标就不说了。
 
-`Plist`主要是这几个地方要改成你自己的
+`Plist`主要是这几个地方要改成你自己的，当然XM文件里面的地址也要对应的修改。
 ![Plist文件修改]({{ site.url }}/img/in-post/plist.png)
 
 最后弄完是这样的
@@ -104,7 +106,7 @@ ios下跳转到其他App主要是`UIApplication`的这两个方法，先试一�
 
 ![PreferenceLoader]({{ site.url }}/img/in-post/preferences.png)
 
-都弄好了就运行试试吧，出现插件不生效的情况可以用`socat`看看打印的日志信息，看看到底有没有成功加载插件。
+都弄好了就运行试试吧，出现插件不生效的情况可以用`socat`看看打印的日志信息，看看到底有没有成功加载插件。还有什么问题可以看看我的[demo](https://github.com/YasinTian/ShowOpenUrl)。
 
 
 

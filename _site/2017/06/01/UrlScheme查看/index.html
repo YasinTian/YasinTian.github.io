@@ -176,7 +176,7 @@
                     <h1>查看App之间的跳转协议</h1>
                     
                     
-                    <h2 class="subheading">解决%log打印日志文件不存在的问题</h2>
+                    <h2 class="subheading"></h2>
                     
                     <span class="meta">Posted by yasin on June 1, 2017</span>
                 </div>
@@ -270,6 +270,8 @@
 
 <p>代码写完了还是通过，<code class="highlighter-rouge">make</code> <code class="highlighter-rouge">package</code> <code class="highlighter-rouge">install</code></p>
 
+<h3 id="对指定app启用">对指定App启用</h3>
+
 <p>试了试可以看到app间的跳转协议了，但是这样很不方便，当我正常使用的时候很麻烦，每次都要点击关闭这个弹框，这里我们就需要做一个选择开启的功能。
 在网上找了找可以把插件和App打包成deb安装，这样通过App来控制，不过很麻烦，都要自己来处理。</p>
 
@@ -284,7 +286,7 @@
 
 <p><code class="highlighter-rouge">layout/Library/PreferenceLoader/Preferences</code>里面是关于设置界面的一些配置，一个<code class="highlighter-rouge">Plist</code>文件和图标，图标就不说了。</p>
 
-<p><code class="highlighter-rouge">Plist</code>主要是这几个地方要改成你自己的
+<p><code class="highlighter-rouge">Plist</code>主要是这几个地方要改成你自己的，当然XM文件里面的地址也要对应的修改。
 <img src="http://localhost:4000/img/in-post/plist.png" alt="Plist文件修改" /></p>
 
 <p>最后弄完是这样的
@@ -292,7 +294,7 @@
 
 <p><img src="http://localhost:4000/img/in-post/preferences.png" alt="PreferenceLoader" /></p>
 
-<p>都弄好了就运行试试吧，出现插件不生效的情况可以用<code class="highlighter-rouge">socat</code>看看打印的日志信息，看看到底有没有成功加载插件。</p>
+<p>都弄好了就运行试试吧，出现插件不生效的情况可以用<code class="highlighter-rouge">socat</code>看看打印的日志信息，看看到底有没有成功加载插件。还有什么问题可以看看我的<a href="https://github.com/YasinTian/ShowOpenUrl">demo</a>。</p>
 
 
 
