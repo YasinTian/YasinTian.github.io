@@ -14,16 +14,17 @@ tags:
 
 一直想做一个App能跳转到我想去的App里面，网上找urlScheme也就是那么几个，而且大多数只能打开App不能分析进入里面的功能，索性我自己弄一个截获跳转协议的工具好了。在很久以前就已经搭建好了theos的环境，不过好久没动过了。
 
-###创建工程
+### 创建工程
 
 创建工程还是老步骤
 1. /opt/theos/bin/nic.pl
 2. 选择[11.] iphone/tweak
 3. 填你的工程名，包名，作者，要hook的bundleid这里我们填com.apple.UIKit这样能对所有的app生效
 
-###Hook函数
+### Hook函数
 
 ios下跳转到其他App主要是`UIApplication`的这两个方法，先试一下能不能行
+
 ```
 %hook UIApplication
 -(BOOL)openURL:(NSURL*)url{
@@ -43,11 +44,12 @@ ios下跳转到其他App主要是`UIApplication`的这两个方法，先试一�
 
 分享文章到QQ试了试urlscheme就出来了。
 
-![截屏分享到QQ]({{ site.url }}/img/in-post/success.png)
+![截屏分享到QQ]({{ site.url }}/img/in-post/showsuccess.png)
 
-###从接收端入手
+### 从接收端入手
 
 前是从发送端入手，现在我们来看看接收端，从外部打开app主要是这几个方法，最后是个是ios9出的通用链接（Universal Links）进入的回调方法。全部都把url弹出来，在微信和QQ之间测试，发现QQ竟然换掉了系统的AlertView，当页面消失的时候就会收回弹框
+
 ```
 %hook AppDelegate
 

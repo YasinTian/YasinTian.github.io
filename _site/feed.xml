@@ -5,8 +5,8 @@
     <description>不知道写些什么...</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 02 Jun 2017 09:42:12 +0000</pubDate>
-    <lastBuildDate>Fri, 02 Jun 2017 09:42:12 +0000</lastBuildDate>
+    <pubDate>Sat, 03 Jun 2017 06:19:16 +0000</pubDate>
+    <lastBuildDate>Sat, 03 Jun 2017 06:19:16 +0000</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -15,7 +15,7 @@
 
 &lt;p&gt;一直想做一个App能跳转到我想去的App里面，网上找urlScheme也就是那么几个，而且大多数只能打开App不能分析进入里面的功能，索性我自己弄一个截获跳转协议的工具好了。在很久以前就已经搭建好了theos的环境，不过好久没动过了。&lt;/p&gt;
 
-&lt;p&gt;###创建工程&lt;/p&gt;
+&lt;h3 id=&quot;创建工程&quot;&gt;创建工程&lt;/h3&gt;
 
 &lt;p&gt;创建工程还是老步骤&lt;/p&gt;
 &lt;ol&gt;
@@ -24,9 +24,10 @@
   &lt;li&gt;填你的工程名，包名，作者，要hook的bundleid这里我们填com.apple.UIKit这样能对所有的app生效&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;###Hook函数&lt;/p&gt;
+&lt;h3 id=&quot;hook函数&quot;&gt;Hook函数&lt;/h3&gt;
 
 &lt;p&gt;ios下跳转到其他App主要是&lt;code class=&quot;highlighter-rouge&quot;&gt;UIApplication&lt;/code&gt;的这两个方法，先试一下能不能行&lt;/p&gt;
+
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;%hook UIApplication
 -(BOOL)openURL:(NSURL*)url{
 	UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@&quot;Welcome&quot; message:url.absoluteString delegate:nil cancelButtonTitle:@&quot;Thanks&quot; otherButtonTitles:nil];
@@ -46,11 +47,12 @@
 
 &lt;p&gt;分享文章到QQ试了试urlscheme就出来了。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4000/img/in-post/success.png&quot; alt=&quot;截屏分享到QQ&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/img/in-post/showsuccess.png&quot; alt=&quot;截屏分享到QQ&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;###从接收端入手&lt;/p&gt;
+&lt;h3 id=&quot;从接收端入手&quot;&gt;从接收端入手&lt;/h3&gt;
 
 &lt;p&gt;前是从发送端入手，现在我们来看看接收端，从外部打开app主要是这几个方法，最后是个是ios9出的通用链接（Universal Links）进入的回调方法。全部都把url弹出来，在微信和QQ之间测试，发现QQ竟然换掉了系统的AlertView，当页面消失的时候就会收回弹框&lt;/p&gt;
+
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;%hook AppDelegate
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
