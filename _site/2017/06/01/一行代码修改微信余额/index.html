@@ -10,7 +10,7 @@
     <meta name="keywords"  content="博客, 个人网站, 互联网, 前端, iOS, 安全, 开发">
     <meta name="theme-color" content="#000000">
     
-    <title>ReactiveCocoa快速入门 - 田云翔的博客 | Yasin Blog</title>
+    <title>一行代码修改微信余额 - 田云翔的博客 | Yasin Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2017/01/18/ReactiveCocoa%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">
+    <link rel="canonical" href="http://localhost:4000/2017/06/01/%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81%E4%BF%AE%E6%94%B9%E5%BE%AE%E4%BF%A1%E4%BD%99%E9%A2%9D/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -170,15 +170,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#开发" title="开发">开发</a>
+                        <a class="tag" href="/tags/#安全" title="安全">安全</a>
                         
                     </div>
-                    <h1>ReactiveCocoa快速入门</h1>
+                    <h1>一行代码修改微信余额</h1>
                     
                     
-                    <h2 class="subheading">ReactiveCocoa（其简称为RAC）是由Github工程师们开发的一个应用于iOS和OS X开发的函数响应式编程新框架。ReactiveCocoa为开发者带来了函数式编程和响应式编程的思想。</h2>
+                    <h2 class="subheading">装逼必备</h2>
                     
-                    <span class="meta">Posted by yasin on January 18, 2017</span>
+                    <span class="meta">Posted by yasin on June 1, 2017</span>
                 </div>
             </div>
         </div>
@@ -196,174 +196,114 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<p><a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa地址</a></p>
+				<h3 id="flex的使用">Flex的使用</h3>
 
-<p>从RAC 5.0开始，RAC进行了巨大的变化，现在有了4个独立的库</p>
+<p>以前一直用Flex来实现这个装逼功能，不过用Flex缺点非常的明显，它只能返回一个固定值，不会随着你的使用减少，正好最近在研究越狱开发，不如自己来写一个，顺便记录学习过程。
+Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的值，直接修改返回值试一试就能知道对不对。</p>
 
-<p><a href="https://github.com/ReactiveCocoa/ReactiveObjC">ReactiveObjC</a></p>
+<p>点这个加号添加一个新补丁
+<img src="http://localhost:4000/img/in-post/changewxmoney1.PNG" alt="Application Support" /></p>
 
-<p><a href="https://github.com/ReactiveCocoa/ReactiveSwift">ReactiveSwift</a></p>
+<p>title是设置补丁的名字，选下面的Add Units…
+<img src="http://localhost:4000/img/in-post/changewxmoney2.PNG" alt="Application Support" /></p>
 
-<p><a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa</a></p>
+<p>选微信，下面是一些系统的库。
+<img src="http://localhost:4000/img/in-post/changewxmoney3.PNG" alt="Application Support" /></p>
 
-<p><a href="https://github.com/ReactiveCocoa/ReactiveObjCBridge">ReactiveObjCBridge</a></p>
+<p>到这一步就看到了微信的类，点进去能查看类的方法，到这里和class-dump功能差不多
+<img src="http://localhost:4000/img/in-post/changewxmoney4.PNG" alt="Application Support" /></p>
 
-<h3 id="导入">导入</h3>
+<h3 id="寻找目标方法">寻找目标方法</h3>
 
-<p>用<code class="highlighter-rouge">cocoapods</code>导入</p>
+<p>现在可以开始动手找要Hook的方法了。开始果断先搜索一下<code class="highlighter-rouge">money</code>关键字,应该是返回<code class="highlighter-rouge">double</code><code class="highlighter-rouge">long</code><code class="highlighter-rouge">int</code>之类的吧。找了半天没找到，前面两个看着像随机红包的金额，不知道对不对，谁给我发个红包试一试呗。
+<img src="http://localhost:4000/img/in-post/changewxmoney5.PNG" alt="Application Support" /></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    target 'ReactiveCocoa_Demo' do
-      pod 'ReactiveCocoa'
-    end
+<p>英语水平不够，翻译软件来凑。钱包，余额，各种关键字翻译了往搜索框里面丢，最后让我在<code class="highlighter-rouge">WCPayBalanceInfo</code>里面发现有一个方法，这个方法返回了微信钱包里面显示的值。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>-(long)m_uiAvailableBalance
 </code></pre>
 </div>
 
-<p>导入头文件<code class="highlighter-rouge">#import &lt;ReactiveCocoa.h&gt;</code></p>
+<p>点进去设置Return Value为99999，进钱包看一下，确实变了，不过少了2位，做过微信支付的都知道微信是以分为单位。
+<img src="http://localhost:4000/img/in-post/changewxmoney6.PNG" alt="Application Support" /></p>
 
-<h3 id="基本使用">基本使用</h3>
-<p>我们先试试<code class="highlighter-rouge">UIButton</code></p>
+<p>虽然很容易就找到了，不过这样碰运气的寻找方式终究不是好的办法，是时候好好学习下汇编了。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        NSLog(@"ddd");
-    }];
+<h3 id="开始写插件">开始写插件</h3>
+
+<p>既然要Hook的方法已经找到，接下来就简单了，老一套theos建工程，在xm文件里面写这些代码，数字你想改多少都行。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>%hook WCPayBalanceInfo
+-(long)m_uiAvailableBalance{
+	return 6570000;
+}
+%end
 </code></pre>
 </div>
 
-<p>点击button会打印”ddd”说明，调用了block里面的内容。
-看着可能有点复杂，但是不熟的时候可以拆开写</p>
+<p><code class="highlighter-rouge">make package install</code>后进微信看看，有效果。只是钱的数值依然不能随着我们使用而改变。这里就需要用上<code class="highlighter-rouge">%orig</code>。</p>
 
-<p>先创建一个<code class="highlighter-rouge">RACSignal</code>对象，再添加要执行的block。</p>
+<p>%orig会执行一遍原本的方法，有返回值也会返回回来，这样的话，上面的代码直接给成这样就OK了。这相当于给我们原本的余额加了一个基本值。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    RACSignal *racSignal = [btn rac_signalForControlEvents:UIControlEventTouchUpInside];
-
-    [racSignal subscribeNext:^(id x) {
-        NSLog(@"ddd");
-    }];
+<div class="highlighter-rouge"><pre class="highlight"><code>%hook WCPayBalanceInfo
+-(long)m_uiAvailableBalance{
+	return %orig+6570000;
+}
+%end
 </code></pre>
 </div>
 
-<p><code class="highlighter-rouge">RACSignal</code>是RAC里面一个非常重要的概念，建议先掌握了<code class="highlighter-rouge">RACSignal</code>的基本用法后在去了解他的原理。</p>
+<p>到这里我们的插件就基本能用了，不过不能控制插件的开启与关闭，也不能自定义这个基本值为多少。这就需要我们再进一步的优化一下了。</p>
 
-<p>再来看看连续多个block的情况，比如已经创建了一个<code class="highlighter-rouge">UITextField</code>叫<code class="highlighter-rouge">tf</code></p>
+<h3 id="增加开关及基本值自定义功能">增加开关及基本值自定义功能</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    RACSignal *tfRac = [tf rac_textSignal];
+<p>上一篇博客<a href="https://yasintian.github.io/2017/06/01/UrlScheme%E6%9F%A5%E7%9C%8B/">查看App之间的跳转协议</a>里面我们用到了<a href="https://github.com/DHowett/preferenceloader">PreferenceLoader</a>这个库，其实这个库的功能非常强大，提供了很多的控件来帮我们搭建我们的设置页面。
+还和上次一样在根目录layout文件夹，里面加入对应的<code class="highlighter-rouge">plist</code>文件和<code class="highlighter-rouge">icon</code>，具体结构如下图。
+<img src="http://localhost:4000/img/in-post/changewxmoney7.PNG" alt="最后是这个样子" /></p>
 
-    [[tfRac filter:^BOOL(NSNumber*length) {
-        return YES;
-    }] subscribeNext:^(id x) {
-        NSLog(@"%@", x);
-    }];
+<p>不过这次的<code class="highlighter-rouge">Plist</code>文件和上次就不太一样了，上次直接引入的Applist这个库。这次我们要自己搭建界面了。
+<img src="http://localhost:4000/img/in-post/changewxmoney8.PNG" alt="Plist文件" />
+这次的<code class="highlighter-rouge">Plist</code>文件包含了三个模块。先看看<code class="highlighter-rouge">title</code>和<code class="highlighter-rouge">entry</code>这两个比较简单，是标题和设置界面里面cell的设置。</p>
 
+<p>比较复杂的是items这个数组里面，这个数组掌管了你的界面布局，preferenceloader这个插件真的是非常厉害，配置下Plist文件就能实现我们想要的功能。
+<img src="http://localhost:4000/img/in-post/changewxmoney9.PNG" alt="Plist文件" />
+看了这个图，相信你已经明白了个大概。每一个<code class="highlighter-rouge">item</code>表示了一个控件。
+<img src="http://localhost:4000/img/in-post/changewxmoney10.PNG" alt="效果图" />
+和结果图对比可能会更清晰一点。
+这里面真正有用的是<code class="highlighter-rouge">item1</code>和<code class="highlighter-rouge">item2</code>。</p>
+
+<p><code class="highlighter-rouge">item1</code>是开关<code class="highlighter-rouge">PSSwitchCell</code>，更具名字能看出是一个拥有选择功能的cell。default是默认值，我们默认为NO。defaults和key是至关重要的两个值，<code class="highlighter-rouge">defaults</code>会在<code class="highlighter-rouge">/var/mobile/Library/Preferences/com.yasin.ChangeWXMoney.plist</code>生成对应的<code class="highlighter-rouge">Plist</code>文件，而key表示这个空间和<code class="highlighter-rouge">Plist</code>文件里面的哪个值绑定。</p>
+
+<p><code class="highlighter-rouge">item2</code>是一个带有输入框的Cell。<code class="highlighter-rouge">defaults</code>和<code class="highlighter-rouge">key</code>和上面的作用一样。isDecimalPad表示我需要用数字键盘。</p>
+
+<p>更多的cell你可以到这里查看
+<a href="http://iphonedevwiki.net/index.php/Preferences_specifier_plist">http://iphonedevwiki.net/index.php/Preferences_specifier_plist</a></p>
+
+<p>到这里开关和基本值输入框我们就配置好了，可以先运行看看界面有没有出现在设置里面。</p>
+
+<h3 id="修改xm文件获取开关状态及基本值">修改XM文件获取开关状态及基本值</h3>
+<p>前面说到设置<code class="highlighter-rouge">defaults</code>会生成一个<code class="highlighter-rouge">Plist</code>文件，我们先把这个文件的地址定义成宏。</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>#define PLIST_PATH @"/var/mobile/Library/Preferences/com.yasin.ChangeWXMoney.plist"
 </code></pre>
 </div>
 
-<p>这样当UITextField里面内容变化的时候就会打印出UITextField的内容。</p>
-
-<h3 id="filter">filter</h3>
-
-<p><code class="highlighter-rouge">filter</code>是一个过滤器里面能加一些判定条件用于判断是否继续往下面的执行。这样就表示当内容是123的时候才打印</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>    [[tfRac filter:^BOOL(id value) {
-        if([value isEqualToString:@"123"]){//过滤出内容是123的情况
-            return YES;
+<p>接着修改代码,加入了判断，如果开关是开启的状态就返回(原函数返回值+基本值)，否则就返回原函数的返回值。</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>%hook WCPayBalanceInfo
+-(long)m_uiAvailableBalance{
+    NSDictionary *dic = [NSDictionary dictionaryWithContentsOfFile:PLIST_PATH];
+    if(dic&amp;&amp;dic[@"MoneySwitch"]){
+        BOOL MoneySwitch = [dic[@"MoneySwitch"] boolValue];
+        CGFloat money = [[[NSDictionary dictionaryWithContentsOfFile:PLIST_PATH] valueForKey:@"money"] floatValue];
+        if(MoneySwitch){
+            return %orig+100*money;
         }
-        return NO;
-    }] subscribeNext:^(id x) {
-        NSLog(@"%@",x);
-    }];
+    }
+    return %orig;
+}
+%end
 </code></pre>
 </div>
-
-<h3 id="map">map</h3>
-
-<p>还有一个常用的操作<code class="highlighter-rouge">map</code>，在<code class="highlighter-rouge">map</code>的<code class="highlighter-rouge">block</code>里面可以更改要往下传的数据，比如下面的例子，textfield的内容被传入<code class="highlighter-rouge">map</code>，在<code class="highlighter-rouge">block</code>里面计算了文字长度之后，把文字长度传了下去。后面的block收到的参数就是这个长度值了。</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>    RACSignal *tfRac = [tf rac_textSignal];
-
-    [[[tfRac
-       map:^id(NSString*text){
-           return @(text.length);//收到数据后转换成内容长度，再往后传
-       }]
-      filter:^BOOL(NSNumber*length){
-          return[length integerValue] &gt; 3;//过滤出长度大于3的
-      }]
-     subscribeNext:^(id x){
-         NSLog(@"%@", x);
-     }];
-</code></pre>
-</div>
-
-<h3 id="rac宏">RAC宏</h3>
-<p>在ReactiveCocoa有一个<code class="highlighter-rouge">RAC</code>宏非常好用,他可以直接把信号的输出应用到对象的属性上。参数1是要绑定的对象，参数2是要绑定的属性。下面的例子，当输入值为”123456”的时候背景颜色就会变成黄色了。</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>    tf.backgroundColor = [UIColor redColor];
-    RACSignal *tfRac = [tf rac_textSignal];
-    //tf的backgroundColor绑定信号
-    RAC(tf,backgroundColor) = [tfRac map:^id(id value) {
-        if([value isEqualToString:@"123456"]){
-            //如果值为123456返回黄色
-            return [UIColor yellowColor];
-        }else{
-            return [UIColor redColor];
-        }
-    }];
-</code></pre>
-</div>
-
-<h3 id="信号聚合">信号聚合</h3>
-<p>在用些时候需要聚合信号,<code class="highlighter-rouge">RACSignal</code>提供了<code class="highlighter-rouge">combineLatest:reduce:</code>这个方法可以把任意数量的信号聚合起来。</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>    //信号1
-    RACSignal *tfRac = [tf rac_textSignal];
-    [tfRac subscribeNext:^(id x) {
-        NSLog(@"%@",x);
-    }];
-
-    //信号2
-    RACSignal *tf1Rac = [tf1 rac_textSignal];
-    [tf1Rac subscribeNext:^(id x) {
-        NSLog(@"%@",x);
-    }];
-
-    //聚合信号
-    [[RACSignal combineLatest:@[tfRac, tf1Rac]
-                      reduce:^id(id x, id y){
-                      //比较2个输入框的内容是否一样
-                          if([x isEqualToString:y]){
-                              NSLog(@"一样");
-                              return @1;
-                          }else{
-                              NSLog(@"不一样");
-                              return @0;
-                          }
-                      }] subscribeNext:^(id x) {
-                          NSLog(@"%@",x);
-                      }];
-</code></pre>
-</div>
-
-<h3 id="附加操作">附加操作</h3>
-<p>有些时候我们可能需要在收到信号后进行一些附加操作，可以添加一个<code class="highlighter-rouge">doNext:</code>block。</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>    [[tfRac doNext:^(id x) {
-    	NSLog(@"附加操作");
-    }] subscribeNext:^(id x) {
-
-    }];
-</code></pre>
-</div>
-
-<p>参考资料</p>
-
-<p><a href="http://www.cnblogs.com/tangchangjiang/p/5598079.html">ReactiveCocoa - 基础篇</a></p>
-
-<p><a href="http://benbeng.leanote.com/post/ReactiveCocoaTutorial-part1">ReactiveCocoa入门教程——第一部分</a></p>
-
-<p><a href="http://benbeng.leanote.com/post/ReactiveCocoaTutorial-part2">ReactiveCocoa入门教程——第二部分</a></p>
-
-<p><a href="http://www.jianshu.com/p/87ef6720a096">最快让你上手ReactiveCocoa之基础篇</a></p>
-
-<p><a href="http://www.jianshu.com/p/e10e5ca413b7">最快让你上手ReactiveCocoa之进阶篇</a></p>
+<p>到这里修改微信余额的功能就弄完了，快编译运行去装逼吧。</p>
 
 
 
@@ -373,17 +313,13 @@
                 <!-- 多说 Share start -->
                 <div class="ds-share"
                     style="text-align: right"
-                    data-thread-key="/2017/01/18/ReactiveCocoa快速入门"
-                    data-title="ReactiveCocoa快速入门"
-                    data-url="http://localhost:4000/2017/01/18/ReactiveCocoa%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/"
+                    data-thread-key="/2017/06/01/一行代码修改微信余额"
+                    data-title="一行代码修改微信余额"
+                    data-url="http://localhost:4000/2017/06/01/%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81%E4%BF%AE%E6%94%B9%E5%BE%AE%E4%BF%A1%E4%BD%99%E9%A2%9D/"
                     data-images="http://localhost:4000/img/post-bg-2015.jpg"
-                    data-content="ReactiveCocoa地址
+                    data-content="Flex的使用
 
-从RAC 5.0开始，RAC进行了巨大的变化，现在有了4个独立的库
-
-ReactiveObjC
-
-ReactiveSwi... | 田云翔的博客 | Yasin Blog " >
+以前一直用Flex来实现这个装逼功能，不过用Flex缺点非常的明显，它只能返回一个固定值，不会随着你的使用减少，正好最近在研究越狱开发，... | 田云翔的博客 | Yasin Blog " >
                     <div class="ds-share-inline">
                       <style> 
                         .ds-share-icons-16 {display:none;} 
@@ -406,19 +342,12 @@ ReactiveSwi... | 田云翔的博客 | Yasin Blog " >
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2017/01/05/lldb%E5%92%8Cdebugserver%E8%B0%83%E8%AF%95/" data-toggle="tooltip" data-placement="top" title="lldb调试第三方App">
+                        <a href="/2017/06/01/UrlScheme%E6%9F%A5%E7%9C%8B/" data-toggle="tooltip" data-placement="top" title="查看App之间的跳转协议">
                         Previous<br>
-                        <span>lldb调试第三方App</span>
+                        <span>查看App之间的跳转协议</span>
                         </a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2017/03/06/%E8%A7%A3%E5%86%B3-log%E6%89%93%E5%8D%B0%E6%97%A5%E5%BF%97%E4%B8%8D%E5%AD%98%E5%9C%A8%E9%97%AE%E9%A2%98/" data-toggle="tooltip" data-placement="top" title="逆向开发%log的问题">
-                        Next<br>
-                        <span>逆向开发%log的问题</span>
-                        </a>
-                    </li>
                     
                 </ul>
 
@@ -427,9 +356,9 @@ ReactiveSwi... | 田云翔的博客 | Yasin Blog " >
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="/2017/01/18/ReactiveCocoa快速入门"
-                        data-title="ReactiveCocoa快速入门"
-                        data-url="http://localhost:4000/2017/01/18/ReactiveCocoa%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" >
+                        data-thread-key="/2017/06/01/一行代码修改微信余额"
+                        data-title="一行代码修改微信余额"
+                        data-url="http://localhost:4000/2017/06/01/%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81%E4%BF%AE%E6%94%B9%E5%BE%AE%E4%BF%A1%E4%BD%99%E9%A2%9D/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->
