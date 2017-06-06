@@ -5,8 +5,8 @@
     <description>不知道写些什么...</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 06 Jun 2017 09:08:24 +0000</pubDate>
-    <lastBuildDate>Tue, 06 Jun 2017 09:08:24 +0000</lastBuildDate>
+    <pubDate>Tue, 06 Jun 2017 09:17:03 +0000</pubDate>
+    <lastBuildDate>Tue, 06 Jun 2017 09:17:03 +0000</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -74,17 +74,20 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
 
 &lt;p&gt;上一篇博客&lt;a href=&quot;https://yasintian.github.io/2017/06/01/UrlScheme%E6%9F%A5%E7%9C%8B/&quot;&gt;查看App之间的跳转协议&lt;/a&gt;里面我们用到了&lt;a href=&quot;https://github.com/DHowett/preferenceloader&quot;&gt;PreferenceLoader&lt;/a&gt;这个库，其实这个库的功能非常强大，提供了很多的控件来帮我们搭建我们的设置页面。
 还和上次一样在根目录layout文件夹，里面加入对应的&lt;code class=&quot;highlighter-rouge&quot;&gt;plist&lt;/code&gt;文件和&lt;code class=&quot;highlighter-rouge&quot;&gt;icon&lt;/code&gt;，具体结构如下图。
-&lt;img src=&quot;http://localhost:4000/img/in-post/changewxmoney7.PNG&quot; alt=&quot;最后是这个样子&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;http://localhost:4000/img/in-post/changewxmoney7.png&quot; alt=&quot;最后是这个样子&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;不过这次的&lt;code class=&quot;highlighter-rouge&quot;&gt;Plist&lt;/code&gt;文件和上次就不太一样了，上次直接引入的Applist这个库。这次我们要自己搭建界面了。
-&lt;img src=&quot;http://localhost:4000/img/in-post/changewxmoney8.PNG&quot; alt=&quot;Plist文件&quot; /&gt;
-这次的&lt;code class=&quot;highlighter-rouge&quot;&gt;Plist&lt;/code&gt;文件包含了三个模块。先看看&lt;code class=&quot;highlighter-rouge&quot;&gt;title&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;entry&lt;/code&gt;这两个比较简单，是标题和设置界面里面cell的设置。&lt;/p&gt;
+&lt;img src=&quot;http://localhost:4000/img/in-post/changewxmoney8.png&quot; alt=&quot;Plist文件&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这次的&lt;code class=&quot;highlighter-rouge&quot;&gt;Plist&lt;/code&gt;文件包含了三个模块。先看看&lt;code class=&quot;highlighter-rouge&quot;&gt;title&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;entry&lt;/code&gt;这两个比较简单，是标题和设置界面里面cell的设置。&lt;/p&gt;
 
 &lt;p&gt;比较复杂的是items这个数组里面，这个数组掌管了你的界面布局，preferenceloader这个插件真的是非常厉害，配置下Plist文件就能实现我们想要的功能。
-&lt;img src=&quot;http://localhost:4000/img/in-post/changewxmoney9.PNG&quot; alt=&quot;Plist文件&quot; /&gt;
-看了这个图，相信你已经明白了个大概。每一个&lt;code class=&quot;highlighter-rouge&quot;&gt;item&lt;/code&gt;表示了一个控件。
-&lt;img src=&quot;http://localhost:4000/img/in-post/changewxmoney10.PNG&quot; alt=&quot;效果图&quot; /&gt;
-和结果图对比可能会更清晰一点。
+&lt;img src=&quot;http://localhost:4000/img/in-post/changewxmoney9.png&quot; alt=&quot;Plist文件&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;看了这个图，相信你已经明白了个大概。每一个&lt;code class=&quot;highlighter-rouge&quot;&gt;item&lt;/code&gt;表示了一个控件。
+&lt;img src=&quot;http://localhost:4000/img/in-post/changewxmoney10.PNG&quot; alt=&quot;效果图&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;和结果图对比可能会更清晰一点。
 这里面真正有用的是&lt;code class=&quot;highlighter-rouge&quot;&gt;item1&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;item2&lt;/code&gt;。&lt;/p&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;item1&lt;/code&gt;是开关&lt;code class=&quot;highlighter-rouge&quot;&gt;PSSwitchCell&lt;/code&gt;，更具名字能看出是一个拥有选择功能的cell。default是默认值，我们默认为NO。defaults和key是至关重要的两个值，&lt;code class=&quot;highlighter-rouge&quot;&gt;defaults&lt;/code&gt;会在&lt;code class=&quot;highlighter-rouge&quot;&gt;/var/mobile/Library/Preferences/com.yasin.ChangeWXMoney.plist&lt;/code&gt;生成对应的&lt;code class=&quot;highlighter-rouge&quot;&gt;Plist&lt;/code&gt;文件，而key表示这个空间和&lt;code class=&quot;highlighter-rouge&quot;&gt;Plist&lt;/code&gt;文件里面的哪个值绑定。&lt;/p&gt;

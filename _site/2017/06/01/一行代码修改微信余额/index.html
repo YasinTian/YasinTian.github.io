@@ -259,17 +259,20 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
 
 <p>上一篇博客<a href="https://yasintian.github.io/2017/06/01/UrlScheme%E6%9F%A5%E7%9C%8B/">查看App之间的跳转协议</a>里面我们用到了<a href="https://github.com/DHowett/preferenceloader">PreferenceLoader</a>这个库，其实这个库的功能非常强大，提供了很多的控件来帮我们搭建我们的设置页面。
 还和上次一样在根目录layout文件夹，里面加入对应的<code class="highlighter-rouge">plist</code>文件和<code class="highlighter-rouge">icon</code>，具体结构如下图。
-<img src="http://localhost:4000/img/in-post/changewxmoney7.PNG" alt="最后是这个样子" /></p>
+<img src="http://localhost:4000/img/in-post/changewxmoney7.png" alt="最后是这个样子" /></p>
 
 <p>不过这次的<code class="highlighter-rouge">Plist</code>文件和上次就不太一样了，上次直接引入的Applist这个库。这次我们要自己搭建界面了。
-<img src="http://localhost:4000/img/in-post/changewxmoney8.PNG" alt="Plist文件" />
-这次的<code class="highlighter-rouge">Plist</code>文件包含了三个模块。先看看<code class="highlighter-rouge">title</code>和<code class="highlighter-rouge">entry</code>这两个比较简单，是标题和设置界面里面cell的设置。</p>
+<img src="http://localhost:4000/img/in-post/changewxmoney8.png" alt="Plist文件" /></p>
+
+<p>这次的<code class="highlighter-rouge">Plist</code>文件包含了三个模块。先看看<code class="highlighter-rouge">title</code>和<code class="highlighter-rouge">entry</code>这两个比较简单，是标题和设置界面里面cell的设置。</p>
 
 <p>比较复杂的是items这个数组里面，这个数组掌管了你的界面布局，preferenceloader这个插件真的是非常厉害，配置下Plist文件就能实现我们想要的功能。
-<img src="http://localhost:4000/img/in-post/changewxmoney9.PNG" alt="Plist文件" />
-看了这个图，相信你已经明白了个大概。每一个<code class="highlighter-rouge">item</code>表示了一个控件。
-<img src="http://localhost:4000/img/in-post/changewxmoney10.PNG" alt="效果图" />
-和结果图对比可能会更清晰一点。
+<img src="http://localhost:4000/img/in-post/changewxmoney9.png" alt="Plist文件" /></p>
+
+<p>看了这个图，相信你已经明白了个大概。每一个<code class="highlighter-rouge">item</code>表示了一个控件。
+<img src="http://localhost:4000/img/in-post/changewxmoney10.PNG" alt="效果图" /></p>
+
+<p>和结果图对比可能会更清晰一点。
 这里面真正有用的是<code class="highlighter-rouge">item1</code>和<code class="highlighter-rouge">item2</code>。</p>
 
 <p><code class="highlighter-rouge">item1</code>是开关<code class="highlighter-rouge">PSSwitchCell</code>，更具名字能看出是一个拥有选择功能的cell。default是默认值，我们默认为NO。defaults和key是至关重要的两个值，<code class="highlighter-rouge">defaults</code>会在<code class="highlighter-rouge">/var/mobile/Library/Preferences/com.yasin.ChangeWXMoney.plist</code>生成对应的<code class="highlighter-rouge">Plist</code>文件，而key表示这个空间和<code class="highlighter-rouge">Plist</code>文件里面的哪个值绑定。</p>
