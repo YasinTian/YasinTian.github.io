@@ -5,8 +5,8 @@
     <description>不知道写些什么...</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 06 Jun 2017 10:02:27 +0000</pubDate>
-    <lastBuildDate>Tue, 06 Jun 2017 10:02:27 +0000</lastBuildDate>
+    <pubDate>Tue, 06 Jun 2017 10:03:29 +0000</pubDate>
+    <lastBuildDate>Tue, 06 Jun 2017 10:03:29 +0000</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -128,7 +128,7 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
         <link>http://localhost:4000/2017/06/05/%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81%E4%BF%AE%E6%94%B9%E5%BE%AE%E4%BF%A1%E4%BD%99%E9%A2%9D/</link>
         <guid isPermaLink="true">http://localhost:4000/2017/06/05/%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81%E4%BF%AE%E6%94%B9%E5%BE%AE%E4%BF%A1%E4%BD%99%E9%A2%9D/</guid>
         
-        <category>安全</category>
+        <category>装逼</category>
         
         
       </item>
