@@ -5,8 +5,8 @@
     <description>不知道写些什么...</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 04 Aug 2017 03:27:20 +0000</pubDate>
-    <lastBuildDate>Fri, 04 Aug 2017 03:27:20 +0000</lastBuildDate>
+    <pubDate>Fri, 04 Aug 2017 03:41:08 +0000</pubDate>
+    <lastBuildDate>Fri, 04 Aug 2017 03:41:08 +0000</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -88,13 +88,19 @@
 
 &lt;p&gt;8086形成物理地址的方法
 8086CPU用一个20位的地址总线，寻址能力1MB。但是又是16位的结构，内部存储、传输、暂时存储的地址为16位。这样如果只是直接发出，那么只能送出16位的地址，寻址能力就只有64KB。比较浪费资源。
-所以8086采用了一种在内部用两个16位地址合成的方法来形成一个20位的物理地址。流程如下
-1.CPU中的相关部件提供两个16位的地址，一个称为段地址，另一个称为偏移地址；
-2.段地址和偏移地址通过内部总线送入地址加法器；
-3.地址加法器将两个16位的地址合成位一个20位的物理地址；
-4.地址加法器通过内部总线将20位物理地址送入输入输出控制电路；
-5.输入输出控制电路将20位物理地址送上地址总线；
-6.20位物理地址被地址总线传送到存储器；&lt;/p&gt;
+所以8086采用了一种在内部用两个16位地址合成的方法来形成一个20位的物理地址。流程如下&lt;/p&gt;
+
+&lt;p&gt;1.CPU中的相关部件提供两个16位的地址，一个称为段地址，另一个称为偏移地址。&lt;/p&gt;
+
+&lt;p&gt;2.段地址和偏移地址通过内部总线送入地址加法器。&lt;/p&gt;
+
+&lt;p&gt;3.地址加法器将两个16位的地址合成位一个20位的物理地址。&lt;/p&gt;
+
+&lt;p&gt;4.地址加法器通过内部总线将20位物理地址送入输入输出控制电路。&lt;/p&gt;
+
+&lt;p&gt;5.输入输出控制电路将20位物理地址送上地址总线。&lt;/p&gt;
+
+&lt;p&gt;6.20位物理地址被地址总线传送到存储器。&lt;/p&gt;
 
 &lt;p&gt;地址加法器采用&lt;code class=&quot;highlighter-rouge&quot;&gt;物理地址=段地址x16+偏移地址&lt;/code&gt;的方法用段地址和偏移地址合成物理地址。
 传入段地址1230和00C8两个地址，把段地址x16即左移一位（二进制的左移4位），变成12300。然后和偏移地址相加得到123CB。&lt;/p&gt;
@@ -106,10 +112,13 @@
 &lt;p&gt;CS和IP是8086中最关键的寄存器，它们只是了CPU当前要读取指令的地址。CS为代码段寄存器，IP为指令指针寄存器，从名称上我们可以看出它们和指令的关系。
 在8086中，任意时刻，设CS中的内容为&lt;code class=&quot;highlighter-rouge&quot;&gt;M&lt;/code&gt;，IP中的内容为&lt;code class=&quot;highlighter-rouge&quot;&gt;N&lt;/code&gt;，8086将从&lt;code class=&quot;highlighter-rouge&quot;&gt;Mx16+N&lt;/code&gt;单元开始，读取一条指令并执行。
 也就是说任意时刻CPU将CS:IP指向的内容当做命令执行。读取一条指令后，IP中的值自动增加，让CPU读取下一条指令，当前指令长度决定了IP的增加值。
-具体流程如下
-1.从CS:IP指向的内存单元读取指令，读取的指令进入指令缓冲器；
-2.IP=IP+所读取指令的长度，从而指向下一条指令；
-3.执行指令。转到步骤1，重复。&lt;/p&gt;
+具体流程如下&lt;/p&gt;
+
+&lt;p&gt;1.从CS:IP指向的内存单元读取指令，读取的指令进入指令缓冲器；&lt;/p&gt;
+
+&lt;p&gt;2.IP=IP+所读取指令的长度，从而指向下一条指令；&lt;/p&gt;
+
+&lt;p&gt;3.执行指令。转到步骤1，重复。&lt;/p&gt;
 
 &lt;p&gt;在8086中，加电启动或复位后，CS=FFFFH，IP=0000。即FFFF0H是开机后执行的第一条指令。&lt;/p&gt;
 
@@ -239,10 +248,13 @@ pop ax表示从栈顶取出数据送入ax。
 &lt;/div&gt;
 
 &lt;p&gt;8086中有两个寄存器，段寄存器SS和寄存器SP，栈顶的段地址存放在SS中，偏移地址存放在SP中。任意时刻，SS:SP指向栈顶元素。push指令和pop指令执行时，CPU通过SS和SP找到栈顶的地址。
-push指令的执行过程如下
-1.SP向上移动2位。SP=SP-2。
-2.将数据放入SS:SP指向的内存单元。
-可以看出入栈时，栈顶从高地址向低地址方向移动。&lt;/p&gt;
+push指令的执行过程如下&lt;/p&gt;
+
+&lt;p&gt;1.SP向上移动2位。SP=SP-2。&lt;/p&gt;
+
+&lt;p&gt;2.将数据放入SS:SP指向的内存单元。&lt;/p&gt;
+
+&lt;p&gt;可以看出入栈时，栈顶从高地址向低地址方向移动。&lt;/p&gt;
 
 &lt;p&gt;pop和push的执行过程相反
 1.将SS:SP指向内存单元处的数据送入ax中。
@@ -392,9 +404,11 @@ inc bx	//bx=2
 
 &lt;p&gt;loop循环的次数是cx寄存器控制的。&lt;/p&gt;
 
-&lt;p&gt;loop执行步骤：
-1.cx-1
-2.判断cx的值，不为0就跳转至标号处执行，为0就向下执行。&lt;/p&gt;
+&lt;p&gt;loop执行步骤：&lt;/p&gt;
+
+&lt;p&gt;1.cx-1&lt;/p&gt;
+
+&lt;p&gt;2.判断cx的值，不为0就跳转至标号处执行，为0就向下执行。&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ax,2
     mov cx,10 //设置执行的次数
@@ -640,10 +654,13 @@ bp一样也可以&lt;code class=&quot;highlighter-rouge&quot;&gt;mov ax,[bp+200+
 
 &lt;h3 id=&quot;汇编中数据位置的表达&quot;&gt;汇编中数据位置的表达&lt;/h3&gt;
 
-&lt;p&gt;&lt;strong&gt;汇编语言中用3个概念来表达数据的位置。&lt;/strong&gt;
-1.立即数（idata）  &lt;code class=&quot;highlighter-rouge&quot;&gt;mov ax,1&lt;/code&gt;
-2.寄存器	       &lt;code class=&quot;highlighter-rouge&quot;&gt;mov ax,bx&lt;/code&gt;
-3.段地址+偏移地址	&lt;code class=&quot;highlighter-rouge&quot;&gt;mov ax,[bx+si+8]&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;汇编语言中用3个概念来表达数据的位置。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;1.立即数（idata）  &lt;code class=&quot;highlighter-rouge&quot;&gt;mov ax,1&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;2.寄存器	       &lt;code class=&quot;highlighter-rouge&quot;&gt;mov ax,bx&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;3.段地址+偏移地址	&lt;code class=&quot;highlighter-rouge&quot;&gt;mov ax,[bx+si+8]&lt;/code&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;寻址方式&quot;&gt;寻址方式&lt;/h3&gt;
 
@@ -870,9 +887,11 @@ bp一样也可以&lt;code class=&quot;highlighter-rouge&quot;&gt;mov ax,[bp+200+
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;jmp&lt;/code&gt;是无条件转移指令，可以只修改&lt;code class=&quot;highlighter-rouge&quot;&gt;IP&lt;/code&gt;，也可以同时修改&lt;code class=&quot;highlighter-rouge&quot;&gt;CS&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;IP&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;jmp指令要给出两种信息：
-1.转移的目的地址
-2.转移的距离&lt;/p&gt;
+&lt;p&gt;jmp指令要给出两种信息：&lt;/p&gt;
+
+&lt;p&gt;1.转移的目的地址&lt;/p&gt;
+
+&lt;p&gt;2.转移的距离&lt;/p&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;jmp short 标号&lt;/code&gt; 表示转移到标号处执行指令
 这种格式的jmp指令实现的是段内短转移，它对IP的修改范围为-128~127。指令中的&lt;code class=&quot;highlighter-rouge&quot;&gt;short&lt;/code&gt;说明指令进行的是短转移。指令中的标号指明了要转移的目的地，转移指令结束后，CS:IP应该指向标号处的指令。&lt;/p&gt;
@@ -891,19 +910,27 @@ bp一样也可以&lt;code class=&quot;highlighter-rouge&quot;&gt;mov ax,[bp+200+
 
 &lt;h5 id=&quot;jmp-short-标号&quot;&gt;jmp short 标号&lt;/h5&gt;
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;jmp short&lt;/code&gt;指令对应的机器码中不包含转移的目的地址，而是转移的位移。
-&lt;code class=&quot;highlighter-rouge&quot;&gt;jmp short&lt;/code&gt;的实际功能为IP=IP+(8位的位移)。
-1.8位位移=标号处的地址-jmp指令后的第一个字节的地址。
-2.short指明了此处的位移为8位。
-3.8位位移范围为-128~127，用补码表示。
-4.8位位移由编译器在编译时算出。&lt;/p&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;jmp short&lt;/code&gt;的实际功能为IP=IP+(8位的位移)。&lt;/p&gt;
+
+&lt;p&gt;1.8位位移=标号处的地址-jmp指令后的第一个字节的地址。&lt;/p&gt;
+
+&lt;p&gt;2.short指明了此处的位移为8位。&lt;/p&gt;
+
+&lt;p&gt;3.8位位移范围为-128~127，用补码表示。&lt;/p&gt;
+
+&lt;p&gt;4.8位位移由编译器在编译时算出。&lt;/p&gt;
 
 &lt;h5 id=&quot;jmp-near-ptr-标号&quot;&gt;jmp near ptr 标号&lt;/h5&gt;
 &lt;p&gt;还有一种和&lt;code class=&quot;highlighter-rouge&quot;&gt;jmp short 标号&lt;/code&gt;功能相近的指令格式，&lt;code class=&quot;highlighter-rouge&quot;&gt;jmp near ptr 标号&lt;/code&gt;，它实现的是段内近转移。
-&lt;code class=&quot;highlighter-rouge&quot;&gt;jmp near ptr 标号&lt;/code&gt;的功能为IP=IP+(16位位移)。
-1.16位位移=标号处的地址-jmp指令后的第一个字节的地址。
-2.near ptr指明此处的位移为16位位移，进行的是段内近转移。
-3.16位位移的范围为-32768~32767，用补码表示。
-4.16位位移由编译程序在编译时算出。&lt;/p&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;jmp near ptr 标号&lt;/code&gt;的功能为IP=IP+(16位位移)。&lt;/p&gt;
+
+&lt;p&gt;1.16位位移=标号处的地址-jmp指令后的第一个字节的地址。&lt;/p&gt;
+
+&lt;p&gt;2.near ptr指明此处的位移为16位位移，进行的是段内近转移。&lt;/p&gt;
+
+&lt;p&gt;3.16位位移的范围为-32768~32767，用补码表示。&lt;/p&gt;
+
+&lt;p&gt;4.16位位移由编译程序在编译时算出。&lt;/p&gt;
 
 &lt;h5 id=&quot;jmp-far-ptr-标号&quot;&gt;jmp far ptr 标号&lt;/h5&gt;
 
