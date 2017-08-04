@@ -5,8 +5,8 @@
     <description>不知道写些什么...</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 04 Aug 2017 03:41:08 +0000</pubDate>
-    <lastBuildDate>Fri, 04 Aug 2017 03:41:08 +0000</lastBuildDate>
+    <pubDate>Fri, 04 Aug 2017 03:46:49 +0000</pubDate>
+    <lastBuildDate>Fri, 04 Aug 2017 03:46:49 +0000</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -16,10 +16,13 @@
 &lt;h3 id=&quot;汇编指令&quot;&gt;汇编指令&lt;/h3&gt;
 
 &lt;p&gt;首先汇编是不区分大小写的。
-汇编有3类指令
-1.汇编指令：和机器码一一对应
-2.伪指令：没有对应的机器码，由编译器执行，计算机不执行，有点像define
-3.其他符号：如&lt;code class=&quot;highlighter-rouge&quot;&gt;+、-、*、/&lt;/code&gt;等，由编译器识别，没有对应的机器码&lt;/p&gt;
+汇编有3类指令&lt;/p&gt;
+
+&lt;p&gt;1.汇编指令：和机器码一一对应&lt;/p&gt;
+
+&lt;p&gt;2.伪指令：没有对应的机器码，由编译器执行，计算机不执行，有点像define&lt;/p&gt;
+
+&lt;p&gt;3.其他符号：如&lt;code class=&quot;highlighter-rouge&quot;&gt;+、-、*、/&lt;/code&gt;等，由编译器识别，没有对应的机器码&lt;/p&gt;
 
 &lt;h3 id=&quot;存储器&quot;&gt;存储器&lt;/h3&gt;
 
@@ -28,11 +31,15 @@
 
 &lt;h3 id=&quot;cpu数据读写&quot;&gt;CPU数据读写&lt;/h3&gt;
 
-&lt;p&gt;cpu对存储器的读写需要3个信息交互
-1.存储单元的地址（地址信息）
-2.器件的选择、读或写的命令（控制信息）
-3.读或写的数据（数据信息）
-用生活中的例子来表示就像快递，首先要知道快递网点的地址，然后要知道你是取还是寄包裹，最后要把包裹带上。
+&lt;p&gt;cpu对存储器的读写需要3个信息交互&lt;/p&gt;
+
+&lt;p&gt;1.存储单元的地址（地址信息）&lt;/p&gt;
+
+&lt;p&gt;2.器件的选择、读或写的命令（控制信息）&lt;/p&gt;
+
+&lt;p&gt;3.读或写的数据（数据信息）&lt;/p&gt;
+
+&lt;p&gt;用生活中的例子来表示就像快递，首先要知道快递网点的地址，然后要知道你是取还是寄包裹，最后要把包裹带上。
 信息信号物理上是通过&lt;code class=&quot;highlighter-rouge&quot;&gt;总线&lt;/code&gt;来传输的，逻辑上又分为了&lt;code class=&quot;highlighter-rouge&quot;&gt;地址总线&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;控制总线&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;数据总线&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;要让CPU进行数据读写，只要输入驱动它工作的电平信息（机器码）就行了。&lt;/p&gt;
@@ -43,10 +50,13 @@
 
 &lt;p&gt;CPU通过控制总线来对外部器件进行控制，控制总线是一些不同控制线的集合。控制总线的数量决定了CPU对外部器件有多少种控制。对于内存读取来说，有一根&lt;code class=&quot;highlighter-rouge&quot;&gt;“读信号输出”&lt;/code&gt;的控制线复制CPU向外传送读信号。当CPU向控制线输出低电平表示读取数据；还有一根&lt;code class=&quot;highlighter-rouge&quot;&gt;“写信号输出”&lt;/code&gt;的控制线负责传送写信号。&lt;/p&gt;
 
-&lt;p&gt;总的来说
-1.地址总线的宽度决定了CPU的寻找能力。
-2.数据总线的宽度决定了CPU与其他器件进行数据传送时的单次数据量，进而决定了传送次数。
-3.控制总线的宽度决定了CPU对系统中其他器件的控制能力。&lt;/p&gt;
+&lt;p&gt;总的来说&lt;/p&gt;
+
+&lt;p&gt;1.地址总线的宽度决定了CPU的寻找能力。&lt;/p&gt;
+
+&lt;p&gt;2.数据总线的宽度决定了CPU与其他器件进行数据传送时的单次数据量，进而决定了传送次数。&lt;/p&gt;
+
+&lt;p&gt;3.控制总线的宽度决定了CPU对系统中其他器件的控制能力。&lt;/p&gt;
 
 &lt;h1 id=&quot;寄存器&quot;&gt;寄存器&lt;/h1&gt;
 
