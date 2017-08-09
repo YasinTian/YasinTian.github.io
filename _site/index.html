@@ -180,6 +180,44 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2017/08/08/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+        <h2 class="post-title">
+            iOS下的多线程
+        </h2>
+        
+        <h3 class="post-subtitle">
+            苹果为iOS的多线程提供了很多种方法，我主要是用GCD，总结一下其他的方法。
+        </h3>
+        
+        <div class="post-content-preview">
+            基本方法
+
+获取主线程
+
+[NSThread mainThread]
+
+
+
+获取当前线程
+
+[NSThread currentThread]
+
+
+
+NSThread的使用
+
+基础用法，需要手动启动线程，可以对线程进行一些设置（线程名，优先级）
+
+    NSThread *thread = [[NSThread alloc]initWithTarget:self selector:@sele...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by yasin on August 8, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2017/08/03/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
         <h2 class="post-title">
             汇编学习笔记
@@ -476,6 +514,12 @@ libsubstrate.dylib
                             
                                 <a href="/tags/#汇编" title="汇编" rel="1">
                                     汇编
+                                </a>
+                            
+                        
+                            
+                                <a href="/tags/#iOS" title="iOS" rel="1">
+                                    iOS
                                 </a>
                             
                         

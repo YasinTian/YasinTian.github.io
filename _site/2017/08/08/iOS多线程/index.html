@@ -10,7 +10,7 @@
     <meta name="keywords"  content="博客, 个人网站, 互联网, 前端, iOS, 安全, 开发">
     <meta name="theme-color" content="#000000">
     
-    <title>ReactiveCocoa快速入门 - 田云翔的博客 | Yasin Blog</title>
+    <title>iOS下的多线程 - 田云翔的博客 | Yasin Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2017/01/18/ReactiveCocoa%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">
+    <link rel="canonical" href="http://localhost:4000/2017/08/08/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -170,15 +170,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#开发" title="开发">开发</a>
+                        <a class="tag" href="/tags/#iOS" title="iOS">iOS</a>
                         
                     </div>
-                    <h1>ReactiveCocoa快速入门</h1>
+                    <h1>iOS下的多线程</h1>
                     
                     
-                    <h2 class="subheading">ReactiveCocoa（其简称为RAC）是由Github工程师们开发的一个应用于iOS和OS X开发的函数响应式编程新框架。ReactiveCocoa为开发者带来了函数式编程和响应式编程的思想。</h2>
+                    <h2 class="subheading">苹果为iOS的多线程提供了很多种方法，我主要是用GCD，总结一下其他的方法。</h2>
                     
-                    <span class="meta">Posted by yasin on January 18, 2017</span>
+                    <span class="meta">Posted by yasin on August 8, 2017</span>
                 </div>
             </div>
         </div>
@@ -196,174 +196,454 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<p><a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa地址</a></p>
+				<h3 id="基本方法">基本方法</h3>
 
-<p>从RAC 5.0开始，RAC进行了巨大的变化，现在有了4个独立的库</p>
+<p>获取主线程</p>
 
-<p><a href="https://github.com/ReactiveCocoa/ReactiveObjC">ReactiveObjC</a></p>
-
-<p><a href="https://github.com/ReactiveCocoa/ReactiveSwift">ReactiveSwift</a></p>
-
-<p><a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa</a></p>
-
-<p><a href="https://github.com/ReactiveCocoa/ReactiveObjCBridge">ReactiveObjCBridge</a></p>
-
-<h3 id="导入">导入</h3>
-
-<p>用<code class="highlighter-rouge">cocoapods</code>导入</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>    target 'ReactiveCocoa_Demo' do
-      pod 'ReactiveCocoa'
-    end
+<div class="highlighter-rouge"><pre class="highlight"><code>[NSThread mainThread]
 </code></pre>
 </div>
 
-<p>导入头文件<code class="highlighter-rouge">#import &lt;ReactiveCocoa.h&gt;</code></p>
+<p>获取当前线程</p>
 
-<h3 id="基本使用">基本使用</h3>
-<p>我们先试试<code class="highlighter-rouge">UIButton</code></p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>    [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        NSLog(@"ddd");
-    }];
+<div class="highlighter-rouge"><pre class="highlight"><code>[NSThread currentThread]
 </code></pre>
 </div>
 
-<p>点击button会打印”ddd”说明，调用了block里面的内容。
-看着可能有点复杂，但是不熟的时候可以拆开写</p>
+<h3 id="nsthread的使用">NSThread的使用</h3>
 
-<p>先创建一个<code class="highlighter-rouge">RACSignal</code>对象，再添加要执行的block。</p>
+<p>基础用法，需要手动启动线程，可以对线程进行一些设置（线程名，优先级）</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    RACSignal *racSignal = [btn rac_signalForControlEvents:UIControlEventTouchUpInside];
-
-    [racSignal subscribeNext:^(id x) {
-        NSLog(@"ddd");
-    }];
+<div class="highlighter-rouge"><pre class="highlight"><code>    NSThread *thread = [[NSThread alloc]initWithTarget:self selector:@selector(run:) object:@"test1"];
+    thread.name = @"mythread1";
+    [thread start];
 </code></pre>
 </div>
 
-<p><code class="highlighter-rouge">RACSignal</code>是RAC里面一个非常重要的概念，建议先掌握了<code class="highlighter-rouge">RACSignal</code>的基本用法后在去了解他的原理。</p>
+<p>类方法快速启动线程,不需要手动开启，不能对线程进行设置</p>
 
-<p>再来看看连续多个block的情况，比如已经创建了一个<code class="highlighter-rouge">UITextField</code>叫<code class="highlighter-rouge">tf</code></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>    [NSThread detachNewThreadSelector:@selector(run:) toTarget:self withObject:@"test2"];
+</code></pre>
+</div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    RACSignal *tfRac = [tf rac_textSignal];
+<p>开启一个后台线程，不能对线程进行设置</p>
 
-    [[tfRac filter:^BOOL(NSNumber*length) {
-        return YES;
-    }] subscribeNext:^(id x) {
-        NSLog(@"%@", x);
-    }];
+<div class="highlighter-rouge"><pre class="highlight"><code>    [self performSelectorInBackground:@selector(run:) withObject:@"test3"];
+</code></pre>
+</div>
+
+<p>###线程状态</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>执行的步骤</th>
+      <th>线程状态</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>alloc</td>
+      <td>创建线程对象</td>
+    </tr>
+    <tr>
+      <td>start</td>
+      <td>放入线程池(就绪，等待CPU调度)</td>
+    </tr>
+    <tr>
+      <td>CPU调度</td>
+      <td>运行</td>
+    </tr>
+    <tr>
+      <td>CPU调度其它线程</td>
+      <td>回到就绪状态</td>
+    </tr>
+    <tr>
+      <td>CPU调度</td>
+      <td>运行</td>
+    </tr>
+    <tr>
+      <td>执行完毕</td>
+      <td>线程退出</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="线程阻塞休眠">线程阻塞(休眠)</h4>
+
+<p><code class="highlighter-rouge">sleep/等待同步锁</code>会线程阻塞，线程从线程池中移除，当阻塞结束重新进入线程池等待CPU调度</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    [NSThread sleepForTimeInterval:2];//休眠2秒
+    
+    [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:2]];//休眠到指定的时间
+    //这里的NSDate可以设置[NSDate distantFuture]时间为极大值，这样能实现只执行一次
+</code></pre>
+</div>
+
+<h4 id="线程死亡">线程死亡</h4>
+<p>1.线程任务执行完成
+2.异常/强制退出
+一旦线程死亡，就不能再开启任务。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    [NSThread exit]
+</code></pre>
+</div>
+
+<h4 id="互斥锁同步锁">互斥锁(同步锁)</h4>
+
+<p>优点:能有效防止多线程抢夺资源造成数据错乱。
+缺点:会产生线程等待，消耗大量的CPU资源。</p>
+
+<p>线程同步是多条线程在同一条线上按顺序执行。
+通过@synchronized可以使代码获得原子性，同时只能在一条线程上执行，保证了多线程的安全。<a href="http://www.cocoachina.com/ios/20161205/18279.html">这里有比较详细的介绍。</a></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    //token是锁对象，唯一的，会生成同步锁，当一条线程执行完后，才执行下一条线程
+    @synchronized (token) {数据操作代码}
+
+    //这里传入一个唯一的对象，用来做锁对象,多个线程同时调用这段代码，会一个线程一个线程的执行，所以count的值不会混乱
+    @synchronized (self) {
+        self.count++;
+    }
+</code></pre>
+</div>
+
+<h4 id="回主线程">回主线程</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    [self performSelectorOnMainThread:@selector(changeUI) withObject:nil waitUntilDone:YES];
+    //UntilDone表示执行完changeUI方法在执行下面的语句,即同步还是异步
+</code></pre>
+</div>
+
+<h3 id="gcd">GCD</h3>
+
+<h4 id="获得并行队列concurrent">获得并行队列concurrent</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    //获取全局的的并发队列 参数1是队列的优先级，参数2没用传0
+    dispatch_get_global_queue(long identifier, unsigned long flags)
+    
+    //创建队列 参数1是队列名，参数2是队列属性，判断是并行还是串行队列,DISPATCH_QUEUE_CONCURRENT表示并行队列
+    dispatch_queue_create(const char * _Nullable label, dispatch_queue_attr_t  _Nullable attr)
+</code></pre>
+</div>
+
+<h4 id="获得串行队列serial">获得串行队列serial</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    dispatch_get_main_queue()//获得主队列
+    
+    //参数2传入DISPATCH_QUEUE_SERIAL或NULL表示串行队列
+    dispatch_queue_create(const char * _Nullable label, dispatch_queue_attr_t  _Nullable attr)
 
 </code></pre>
 </div>
 
-<p>这样当UITextField里面内容变化的时候就会打印出UITextField的内容。</p>
+<h4 id="同步任务sync">同步任务sync</h4>
 
-<h3 id="filter">filter</h3>
-
-<p><code class="highlighter-rouge">filter</code>是一个过滤器里面能加一些判定条件用于判断是否继续往下面的执行。这样就表示当内容是123的时候才打印</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>    [[tfRac filter:^BOOL(id value) {
-        if([value isEqualToString:@"123"]){//过滤出内容是123的情况
-            return YES;
+<div class="highlighter-rouge"><pre class="highlight"><code>    dispatch_sync(queue, ^{
+        for(int i= 0;i&lt;5;i++){
+            NSLog(@"--2--%@",[NSThread currentThread]);
         }
-        return NO;
-    }] subscribeNext:^(id x) {
-        NSLog(@"%@",x);
-    }];
+    });
 </code></pre>
 </div>
 
-<h3 id="map">map</h3>
+<h4 id="异步任务async">异步任务async</h4>
 
-<p>还有一个常用的操作<code class="highlighter-rouge">map</code>，在<code class="highlighter-rouge">map</code>的<code class="highlighter-rouge">block</code>里面可以更改要往下传的数据，比如下面的例子，textfield的内容被传入<code class="highlighter-rouge">map</code>，在<code class="highlighter-rouge">block</code>里面计算了文字长度之后，把文字长度传了下去。后面的block收到的参数就是这个长度值了。</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>    RACSignal *tfRac = [tf rac_textSignal];
-
-    [[[tfRac
-       map:^id(NSString*text){
-           return @(text.length);//收到数据后转换成内容长度，再往后传
-       }]
-      filter:^BOOL(NSNumber*length){
-          return[length integerValue] &gt; 3;//过滤出长度大于3的
-      }]
-     subscribeNext:^(id x){
-         NSLog(@"%@", x);
-     }];
-</code></pre>
-</div>
-
-<h3 id="rac宏">RAC宏</h3>
-<p>在ReactiveCocoa有一个<code class="highlighter-rouge">RAC</code>宏非常好用,他可以直接把信号的输出应用到对象的属性上。参数1是要绑定的对象，参数2是要绑定的属性。下面的例子，当输入值为”123456”的时候背景颜色就会变成黄色了。</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>    tf.backgroundColor = [UIColor redColor];
-    RACSignal *tfRac = [tf rac_textSignal];
-    //tf的backgroundColor绑定信号
-    RAC(tf,backgroundColor) = [tfRac map:^id(id value) {
-        if([value isEqualToString:@"123456"]){
-            //如果值为123456返回黄色
-            return [UIColor yellowColor];
-        }else{
-            return [UIColor redColor];
+<div class="highlighter-rouge"><pre class="highlight"><code>    dispatch_async(queue, ^{
+        for(int i= 0;i&lt;5;i++){
+            NSLog(@"--1--%@",[NSThread currentThread]);
         }
+    });
+</code></pre>
+</div>
+
+<p><strong>队列类型:决定了任务执行是顺序还是并发
+任务类型:决定了是否开启新线程（主队列异步任务不会开启新线程）</strong></p>
+
+<h4 id="子线程回主线程">子线程回主线程</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        //耗时操作
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //主线程ui操作
+        });
+    });
+</code></pre>
+</div>
+
+<h4 id="延时">延时</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        //2秒后异步执行这里的代码
+    });
+</code></pre>
+</div>
+
+<h4 id="一次性代码">一次性代码</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    static dispatch_once_t onceToken;
+    dispatch_once(&amp;onceToken, ^{
+        //只执行1次的代码
+    });
+</code></pre>
+</div>
+
+<h4 id="遍历">遍历</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    //参数1表示遍历次数。遍历是并发的。
+    dispatch_apply(10, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(size_t index) {
+        //index当前遍历的下标
+        NSLog(@"%d",index);
+    });
+</code></pre>
+</div>
+
+<h4 id="队列组">队列组</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    //1.创建队列组
+    dispatch_group_t group = dispatch_group_create();
+    
+    //2.添加任务
+    dispatch_group_async(group, dispatch_get_global_queue(0, 0), ^{
+        //任务1
+    });
+    dispatch_group_async(group, dispatch_get_global_queue(0, 0), ^{
+        //任务2
+    });
+    
+    //3.设置任务完后回调
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        //任务1和任务2执行完成后，回到执行的线程执行这里的代码
+    });
+</code></pre>
+</div>
+
+<h3 id="nsoperation和nsoperationqueue">NSOperation和NSOperationQueue</h3>
+
+<p>NSOperation是基于GCD实现的。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>实现多线程的步骤
+1.先将任务封装到NSOperation对象中。
+2.把NSOperation添加到NSOperationQueue中。
+3.系统自动从NSOperationQueue中提取NSOperation。
+4.将提取出的NSOperation封装的任务放到一条线程中去执行。
+</code></pre>
+</div>
+
+<h4 id="nsoperation">NSOperation</h4>
+
+<p>NSOperation是一个抽象类，不具备封装任务的能力，必须使用它的子类。<code class="highlighter-rouge">NSInvocationOperation</code>、<code class="highlighter-rouge">NSBlockOperation</code>或者自定义子类继承<code class="highlighter-rouge">NSOperation</code>。</p>
+
+<h4 id="nsinvocationoperation的使用">NSInvocationOperation的使用</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    NSInvocationOperation *ip = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(run) object:nil];
+    
+    //开启任务
+    [ip start];
+</code></pre>
+</div>
+
+<h4 id="nsblockoperation的使用">NSBlockOperation的使用</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    NSBlockOperation *bp = [NSBlockOperation blockOperationWithBlock:^{
+        NSLog(@"--2--%@",[NSThread currentThread]);
+    }];
+    
+    //可以添加额外任务，在子线程中完成
+    [bp addExecutionBlock:^{
+        NSLog(@"other--%@",[NSThread currentThread]);
+    }];
+    
+    [bp start];
+</code></pre>
+</div>
+
+<h4 id="自定义operation的使用">自定义Operation的使用</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1.创建CustomOperation继承于NSOperation。
+2.添加一个属性存放要执行的代码，可以用block，用于外部传入代码。
+3.重写main方法，在main方法里面执行步骤2传入的代码。
+4.调用CustomOperation的start方法会自动调用main方法。
+</code></pre>
+</div>
+
+<h4 id="nsoperationqueue的基本使用">NSOperationQueue的基本使用</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    //创建队列(默认是并行队列)
+    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+    
+    //创建任务
+    NSInvocationOperation *op = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(run) object:nil];
+    
+    //添加任务
+    [queue addOperation:op];
+</code></pre>
+</div>
+
+<h4 id="nsoperation线程通信">NSOperation线程通信</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+    
+    [queue addOperationWithBlock:^{
+        //耗时操作
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            //回到主线程刷新UI
+        }];
     }];
 </code></pre>
 </div>
 
-<h3 id="信号聚合">信号聚合</h3>
-<p>在用些时候需要聚合信号,<code class="highlighter-rouge">RACSignal</code>提供了<code class="highlighter-rouge">combineLatest:reduce:</code>这个方法可以把任意数量的信号聚合起来。</p>
+<h4 id="dependency任务依赖">Dependency任务依赖</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    //信号1
-    RACSignal *tfRac = [tf rac_textSignal];
-    [tfRac subscribeNext:^(id x) {
-        NSLog(@"%@",x);
+<p><code class="highlighter-rouge">NSOperation</code>的<code class="highlighter-rouge">addDependency</code>方法添加依赖，如果A依赖B，等B执行完后，再执行A</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+    
+    NSBlockOperation *bp = [NSBlockOperation blockOperationWithBlock:^{
+        NSLog(@"--1--%@",[NSThread currentThread]);
     }];
-
-    //信号2
-    RACSignal *tf1Rac = [tf1 rac_textSignal];
-    [tf1Rac subscribeNext:^(id x) {
-        NSLog(@"%@",x);
+    
+    NSBlockOperation *bp1 = [NSBlockOperation blockOperationWithBlock:^{
+        NSLog(@"--2--%@",[NSThread currentThread]);
     }];
-
-    //聚合信号
-    [[RACSignal combineLatest:@[tfRac, tf1Rac]
-                      reduce:^id(id x, id y){
-                      //比较2个输入框的内容是否一样
-                          if([x isEqualToString:y]){
-                              NSLog(@"一样");
-                              return @1;
-                          }else{
-                              NSLog(@"不一样");
-                              return @0;
-                          }
-                      }] subscribeNext:^(id x) {
-                          NSLog(@"%@",x);
-                      }];
+    
+    //后面的先执行 不能相互依赖
+    [bp1 addDependency:bp];
 </code></pre>
 </div>
 
-<h3 id="附加操作">附加操作</h3>
-<p>有些时候我们可能需要在收到信号后进行一些附加操作，可以添加一个<code class="highlighter-rouge">doNext:</code>block。</p>
+<h4 id="maxconcurrentoperationcount最大并发数">maxConcurrentOperationCount最大并发数</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    [[tfRac doNext:^(id x) {
-    	NSLog(@"附加操作");
-    }] subscribeNext:^(id x) {
+<p>通过<code class="highlighter-rouge">NSOperationQueue</code>的<code class="highlighter-rouge">maxConcurrentOperationCount</code>属性可以设置最大并发数。默认为-1，不限制并发的数量。设置为1是，队列为串行队列。</p>
 
-    }];
+<h4 id="suspended队列的挂起和取消">suspended队列的挂起和取消</h4>
+
+<ul>
+  <li>将队列挂起可以暂停队列里面任务的执行。</li>
+  <li>通过<code class="highlighter-rouge">NSOperationQueue</code>的<code class="highlighter-rouge">suspended</code>属性控制是否挂起，为YES是挂起。</li>
+  <li>当任务处于执行状态，设置挂起还是会继续执行，受影响的是那些还没有执行的任务。</li>
+  <li>当队列设置为挂起状态后，可以通过修改其状态再次恢复任务。</li>
+</ul>
+
+<h4 id="cancelalloperations取消">cancelAllOperations取消</h4>
+
+<ul>
+  <li>通过<code class="highlighter-rouge">NSOperationQueue</code>的<code class="highlighter-rouge">cancelAllOperations</code>方法来取消任务。</li>
+  <li>取消任务后不可恢复。</li>
+  <li>若任务是自定义NSOperation类型的话，执行完一个耗时操作后，需加一个是否取消任务的判断，再去执行另外一个耗时操作。</li>
+</ul>
+
+<h3 id="runloop">RunLoop</h3>
+
+<p>内部由do-while循环实现的</p>
+
+<p>作用：</p>
+
+<p>1.保证程序的持续运行。</p>
+
+<p>2.处理APP的各种事件。</p>
+
+<p>3.节省CPU资源，提高程序性能。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    int main(int argc,char * argv[]){
+    	do{
+        	NSLog(@"haha");//程序开始
+        }while(1);
+        return 0;//程序结束
+    }
+</code></pre>
+</div>
+<p>runloop其实就是一个死循环，保持程序运行</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    int main(int argc, char * argv[]) {
+        @autoreleasepool {
+            return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+        }
+    }
+
 </code></pre>
 </div>
 
-<p>参考资料</p>
+<p>UIApplicationMain函数内部就启动了一个RunLoop，一直不返回程序就持续运行。
+程序启动会默认启动一个RunLoop，跟主线程相关联，主要处理与主线程相关的事件。</p>
 
-<p><a href="http://www.cnblogs.com/tangchangjiang/p/5598079.html">ReactiveCocoa - 基础篇</a></p>
+<h4 id="runloop对象">RunLoop对象</h4>
+<ul>
+  <li>NSRunLoop</li>
+  <li>CFRunLoopRef</li>
+</ul>
 
-<p><a href="http://benbeng.leanote.com/post/ReactiveCocoaTutorial-part1">ReactiveCocoa入门教程——第一部分</a></p>
+<h4 id="runloop与线程">RunLoop与线程</h4>
 
-<p><a href="http://benbeng.leanote.com/post/ReactiveCocoaTutorial-part2">ReactiveCocoa入门教程——第二部分</a></p>
+<ul>
+  <li>每条线程都有唯一的一个与之对应的RunLoop对象。</li>
+  <li>子线程的RunLoop需要手动创建</li>
+  <li>获得主线程RunLoop的方法[NSRunLoop mainRunLoop];</li>
+  <li>创建子线程RunLoop的方法是[NSRunLoop currentRunLoop];</li>
+</ul>
 
-<p><a href="http://www.jianshu.com/p/87ef6720a096">最快让你上手ReactiveCocoa之基础篇</a></p>
+<h4 id="runloop相关类">RunLoop相关类</h4>
 
-<p><a href="http://www.jianshu.com/p/e10e5ca413b7">最快让你上手ReactiveCocoa之进阶篇</a></p>
+<ul>
+  <li>CFRunLoopModeRef</li>
+  <li>CFRunLoopSourceRef</li>
+  <li>CFRunLoopTimerRef</li>
+  <li>CFRunLoopObserverRef</li>
+</ul>
+
+<h4 id="cfrunloopmoderef">CFRunLoopModeRef</h4>
+<p>1.CFRunLoopModeRef是RunLoop的运行模式。</p>
+
+<p>2.一个Runloop可以包含若干个Mode，每个Mode包含若干个Source/Timer/Observer。</p>
+
+<p>3.每次RunLoop启动时，只能指定其中的一个Mode，这个Mode被称为currentMode。</p>
+
+<p>4.如果需要切换Mode，需要退出RunLoop，在重新指定一个Mode进入。这样是为了分离不同组的Source/Timer/Observer，让它们互不影响。</p>
+
+<p>系统默认注册了5个Mode</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>1. NSDefaultRunLoopMode: App的默认 Mode，通常主线程是在这个 Mode 下运行的。
+
+2. UITrackingRunLoopMode: 界面跟踪 Mode，用于 ScrollView 追踪触摸滑动，保证界面滑动时不受其他 Mode 影响。
+
+3. UIInitializationRunLoopMode: 在刚启动 App 时第进入的第一个 Mode，启动完成后就不再使用。
+
+4: GSEventReceiveRunLoopMode: 接受系统事件的内部 Mode，通常用不到。
+
+5: NSRunLoopCommonModes: 这是一个占位的 Mode，代表了NSDefaultRunLoopMode和UITrackingRunLoopMode。
+
+</code></pre>
+</div>
+<p>NSRunLoopCommonModes只是一个标记，NSDefaultRunLoopMode和UITrackingRunLoopMode都拥有这个标记。
+设置为NSRunLoopCommonModes可以在NSDefaultRunLoopMode和UITrackingRunLoopMode模式下都执行。</p>
+
+<h4 id="cfrunlooptimerref">CFRunLoopTimerRef</h4>
+
+<p>这个类是基于时间的触发器</p>
+
+<h4 id="cfrunloopsourceref">CFRunLoopSourceRef</h4>
+
+<p>这个类是一个事件源，也可以称为输入源。</p>
+
+<p>官方文档分为3类
+1.Port-Based Sources从其他线程或内核发出的
+2.Custom Input Sources自定义的
+3.CoCoa Perform Selector Sources</p>
+
+<p>函数调用栈分为2类
+1.Sources0:非基于Port的（按钮点击）
+2.Sources1:基于Port的，通过其他线程或内核通信、接受、分发系统事件。</p>
+
+<h4 id="cfrunloopobserverref">CFRunLoopObserverRef</h4>
+
+<p>CFRunLoopObserverRef是观察者，能够监听RunLoop的状态的改变。状态是<code class="highlighter-rouge">CFRunLoopActivity</code>这个枚举。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    //创建观察者
+    CFRunLoopObserverRef observer = CFRunLoopObserverCreateWithHandler(CFAllocatorGetDefault(), kCFRunLoopAllActivities, YES, 0, ^(CFRunLoopObserverRef observer, CFRunLoopActivity activity) {
+        NSLog(@"%lu",activity);//打印RunLoop的状态
+    });
+    //添加观察者
+    CFRunLoopAddObserver(CFRunLoopGetCurrent(), observer, kCFRunLoopDefaultMode);
+</code></pre>
+</div>
 
 
 
@@ -373,17 +653,25 @@
                 <!-- 多说 Share start -->
                 <div class="ds-share"
                     style="text-align: right"
-                    data-thread-key="/2017/01/18/ReactiveCocoa快速入门"
-                    data-title="ReactiveCocoa快速入门"
-                    data-url="http://localhost:4000/2017/01/18/ReactiveCocoa%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/"
+                    data-thread-key="/2017/08/08/iOS多线程"
+                    data-title="iOS下的多线程"
+                    data-url="http://localhost:4000/2017/08/08/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/"
                     data-images="http://localhost:4000/img/post-bg-2015.jpg"
-                    data-content="ReactiveCocoa地址
+                    data-content="基本方法
 
-从RAC 5.0开始，RAC进行了巨大的变化，现在有了4个独立的库
+获取主线程
 
-ReactiveObjC
+[NSThread mainThread]
 
-ReactiveSwi... | 田云翔的博客 | Yasin Blog " >
+
+
+获取当前线程
+
+[NSThread currentThread]
+
+
+
+NST... | 田云翔的博客 | Yasin Blog " >
                     <div class="ds-share-inline">
                       <style> 
                         .ds-share-icons-16 {display:none;} 
@@ -406,19 +694,12 @@ ReactiveSwi... | 田云翔的博客 | Yasin Blog " >
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2017/01/05/lldb%E5%92%8Cdebugserver%E8%B0%83%E8%AF%95/" data-toggle="tooltip" data-placement="top" title="lldb调试第三方App">
+                        <a href="/2017/08/03/%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-toggle="tooltip" data-placement="top" title="汇编学习笔记">
                         Previous<br>
-                        <span>lldb调试第三方App</span>
+                        <span>汇编学习笔记</span>
                         </a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2017/03/06/%E8%A7%A3%E5%86%B3-log%E6%89%93%E5%8D%B0%E6%97%A5%E5%BF%97%E4%B8%8D%E5%AD%98%E5%9C%A8%E9%97%AE%E9%A2%98/" data-toggle="tooltip" data-placement="top" title="逆向开发%log的问题">
-                        Next<br>
-                        <span>逆向开发%log的问题</span>
-                        </a>
-                    </li>
                     
                 </ul>
 
@@ -427,9 +708,9 @@ ReactiveSwi... | 田云翔的博客 | Yasin Blog " >
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="/2017/01/18/ReactiveCocoa快速入门"
-                        data-title="ReactiveCocoa快速入门"
-                        data-url="http://localhost:4000/2017/01/18/ReactiveCocoa%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" >
+                        data-thread-key="/2017/08/08/iOS多线程"
+                        data-title="iOS下的多线程"
+                        data-url="http://localhost:4000/2017/08/08/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->

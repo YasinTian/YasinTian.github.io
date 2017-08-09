@@ -5,9 +5,470 @@
     <description>不知道写些什么...</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 09 Aug 2017 08:51:49 +0000</pubDate>
-    <lastBuildDate>Wed, 09 Aug 2017 08:51:49 +0000</lastBuildDate>
+    <pubDate>Wed, 09 Aug 2017 09:59:34 +0000</pubDate>
+    <lastBuildDate>Wed, 09 Aug 2017 09:59:34 +0000</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
+    
+      <item>
+        <title>iOS下的多线程</title>
+        <description>&lt;h3 id=&quot;基本方法&quot;&gt;基本方法&lt;/h3&gt;
+
+&lt;p&gt;获取主线程&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[NSThread mainThread]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;获取当前线程&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[NSThread currentThread]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;nsthread的使用&quot;&gt;NSThread的使用&lt;/h3&gt;
+
+&lt;p&gt;基础用法，需要手动启动线程，可以对线程进行一些设置（线程名，优先级）&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    NSThread *thread = [[NSThread alloc]initWithTarget:self selector:@selector(run:) object:@&quot;test1&quot;];
+    thread.name = @&quot;mythread1&quot;;
+    [thread start];
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;类方法快速启动线程,不需要手动开启，不能对线程进行设置&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [NSThread detachNewThreadSelector:@selector(run:) toTarget:self withObject:@&quot;test2&quot;];
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;开启一个后台线程，不能对线程进行设置&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [self performSelectorInBackground:@selector(run:) withObject:@&quot;test3&quot;];
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;###线程状态&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;执行的步骤&lt;/th&gt;
+      &lt;th&gt;线程状态&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;alloc&lt;/td&gt;
+      &lt;td&gt;创建线程对象&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;start&lt;/td&gt;
+      &lt;td&gt;放入线程池(就绪，等待CPU调度)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;CPU调度&lt;/td&gt;
+      &lt;td&gt;运行&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;CPU调度其它线程&lt;/td&gt;
+      &lt;td&gt;回到就绪状态&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;CPU调度&lt;/td&gt;
+      &lt;td&gt;运行&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;执行完毕&lt;/td&gt;
+      &lt;td&gt;线程退出&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h4 id=&quot;线程阻塞休眠&quot;&gt;线程阻塞(休眠)&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;sleep/等待同步锁&lt;/code&gt;会线程阻塞，线程从线程池中移除，当阻塞结束重新进入线程池等待CPU调度&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [NSThread sleepForTimeInterval:2];//休眠2秒
+    
+    [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:2]];//休眠到指定的时间
+    //这里的NSDate可以设置[NSDate distantFuture]时间为极大值，这样能实现只执行一次
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;线程死亡&quot;&gt;线程死亡&lt;/h4&gt;
+&lt;p&gt;1.线程任务执行完成
+2.异常/强制退出
+一旦线程死亡，就不能再开启任务。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [NSThread exit]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;互斥锁同步锁&quot;&gt;互斥锁(同步锁)&lt;/h4&gt;
+
+&lt;p&gt;优点:能有效防止多线程抢夺资源造成数据错乱。
+缺点:会产生线程等待，消耗大量的CPU资源。&lt;/p&gt;
+
+&lt;p&gt;线程同步是多条线程在同一条线上按顺序执行。
+通过@synchronized可以使代码获得原子性，同时只能在一条线程上执行，保证了多线程的安全。&lt;a href=&quot;http://www.cocoachina.com/ios/20161205/18279.html&quot;&gt;这里有比较详细的介绍。&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //token是锁对象，唯一的，会生成同步锁，当一条线程执行完后，才执行下一条线程
+    @synchronized (token) {数据操作代码}
+
+    //这里传入一个唯一的对象，用来做锁对象,多个线程同时调用这段代码，会一个线程一个线程的执行，所以count的值不会混乱
+    @synchronized (self) {
+        self.count++;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;回主线程&quot;&gt;回主线程&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [self performSelectorOnMainThread:@selector(changeUI) withObject:nil waitUntilDone:YES];
+    //UntilDone表示执行完changeUI方法在执行下面的语句,即同步还是异步
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;gcd&quot;&gt;GCD&lt;/h3&gt;
+
+&lt;h4 id=&quot;获得并行队列concurrent&quot;&gt;获得并行队列concurrent&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //获取全局的的并发队列 参数1是队列的优先级，参数2没用传0
+    dispatch_get_global_queue(long identifier, unsigned long flags)
+    
+    //创建队列 参数1是队列名，参数2是队列属性，判断是并行还是串行队列,DISPATCH_QUEUE_CONCURRENT表示并行队列
+    dispatch_queue_create(const char * _Nullable label, dispatch_queue_attr_t  _Nullable attr)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;获得串行队列serial&quot;&gt;获得串行队列serial&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    dispatch_get_main_queue()//获得主队列
+    
+    //参数2传入DISPATCH_QUEUE_SERIAL或NULL表示串行队列
+    dispatch_queue_create(const char * _Nullable label, dispatch_queue_attr_t  _Nullable attr)
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;同步任务sync&quot;&gt;同步任务sync&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    dispatch_sync(queue, ^{
+        for(int i= 0;i&amp;lt;5;i++){
+            NSLog(@&quot;--2--%@&quot;,[NSThread currentThread]);
+        }
+    });
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;异步任务async&quot;&gt;异步任务async&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    dispatch_async(queue, ^{
+        for(int i= 0;i&amp;lt;5;i++){
+            NSLog(@&quot;--1--%@&quot;,[NSThread currentThread]);
+        }
+    });
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;队列类型:决定了任务执行是顺序还是并发
+任务类型:决定了是否开启新线程（主队列异步任务不会开启新线程）&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;子线程回主线程&quot;&gt;子线程回主线程&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        //耗时操作
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //主线程ui操作
+        });
+    });
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;延时&quot;&gt;延时&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        //2秒后异步执行这里的代码
+    });
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;一次性代码&quot;&gt;一次性代码&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    static dispatch_once_t onceToken;
+    dispatch_once(&amp;amp;onceToken, ^{
+        //只执行1次的代码
+    });
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;遍历&quot;&gt;遍历&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //参数1表示遍历次数。遍历是并发的。
+    dispatch_apply(10, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(size_t index) {
+        //index当前遍历的下标
+        NSLog(@&quot;%d&quot;,index);
+    });
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;队列组&quot;&gt;队列组&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //1.创建队列组
+    dispatch_group_t group = dispatch_group_create();
+    
+    //2.添加任务
+    dispatch_group_async(group, dispatch_get_global_queue(0, 0), ^{
+        //任务1
+    });
+    dispatch_group_async(group, dispatch_get_global_queue(0, 0), ^{
+        //任务2
+    });
+    
+    //3.设置任务完后回调
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        //任务1和任务2执行完成后，回到执行的线程执行这里的代码
+    });
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;nsoperation和nsoperationqueue&quot;&gt;NSOperation和NSOperationQueue&lt;/h3&gt;
+
+&lt;p&gt;NSOperation是基于GCD实现的。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;实现多线程的步骤
+1.先将任务封装到NSOperation对象中。
+2.把NSOperation添加到NSOperationQueue中。
+3.系统自动从NSOperationQueue中提取NSOperation。
+4.将提取出的NSOperation封装的任务放到一条线程中去执行。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;nsoperation&quot;&gt;NSOperation&lt;/h4&gt;
+
+&lt;p&gt;NSOperation是一个抽象类，不具备封装任务的能力，必须使用它的子类。&lt;code class=&quot;highlighter-rouge&quot;&gt;NSInvocationOperation&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;NSBlockOperation&lt;/code&gt;或者自定义子类继承&lt;code class=&quot;highlighter-rouge&quot;&gt;NSOperation&lt;/code&gt;。&lt;/p&gt;
+
+&lt;h4 id=&quot;nsinvocationoperation的使用&quot;&gt;NSInvocationOperation的使用&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    NSInvocationOperation *ip = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(run) object:nil];
+    
+    //开启任务
+    [ip start];
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;nsblockoperation的使用&quot;&gt;NSBlockOperation的使用&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    NSBlockOperation *bp = [NSBlockOperation blockOperationWithBlock:^{
+        NSLog(@&quot;--2--%@&quot;,[NSThread currentThread]);
+    }];
+    
+    //可以添加额外任务，在子线程中完成
+    [bp addExecutionBlock:^{
+        NSLog(@&quot;other--%@&quot;,[NSThread currentThread]);
+    }];
+    
+    [bp start];
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;自定义operation的使用&quot;&gt;自定义Operation的使用&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1.创建CustomOperation继承于NSOperation。
+2.添加一个属性存放要执行的代码，可以用block，用于外部传入代码。
+3.重写main方法，在main方法里面执行步骤2传入的代码。
+4.调用CustomOperation的start方法会自动调用main方法。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;nsoperationqueue的基本使用&quot;&gt;NSOperationQueue的基本使用&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //创建队列(默认是并行队列)
+    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+    
+    //创建任务
+    NSInvocationOperation *op = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(run) object:nil];
+    
+    //添加任务
+    [queue addOperation:op];
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;nsoperation线程通信&quot;&gt;NSOperation线程通信&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+    
+    [queue addOperationWithBlock:^{
+        //耗时操作
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            //回到主线程刷新UI
+        }];
+    }];
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;dependency任务依赖&quot;&gt;Dependency任务依赖&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;NSOperation&lt;/code&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;addDependency&lt;/code&gt;方法添加依赖，如果A依赖B，等B执行完后，再执行A&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+    
+    NSBlockOperation *bp = [NSBlockOperation blockOperationWithBlock:^{
+        NSLog(@&quot;--1--%@&quot;,[NSThread currentThread]);
+    }];
+    
+    NSBlockOperation *bp1 = [NSBlockOperation blockOperationWithBlock:^{
+        NSLog(@&quot;--2--%@&quot;,[NSThread currentThread]);
+    }];
+    
+    //后面的先执行 不能相互依赖
+    [bp1 addDependency:bp];
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;maxconcurrentoperationcount最大并发数&quot;&gt;maxConcurrentOperationCount最大并发数&lt;/h4&gt;
+
+&lt;p&gt;通过&lt;code class=&quot;highlighter-rouge&quot;&gt;NSOperationQueue&lt;/code&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;maxConcurrentOperationCount&lt;/code&gt;属性可以设置最大并发数。默认为-1，不限制并发的数量。设置为1是，队列为串行队列。&lt;/p&gt;
+
+&lt;h4 id=&quot;suspended队列的挂起和取消&quot;&gt;suspended队列的挂起和取消&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;将队列挂起可以暂停队列里面任务的执行。&lt;/li&gt;
+  &lt;li&gt;通过&lt;code class=&quot;highlighter-rouge&quot;&gt;NSOperationQueue&lt;/code&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;suspended&lt;/code&gt;属性控制是否挂起，为YES是挂起。&lt;/li&gt;
+  &lt;li&gt;当任务处于执行状态，设置挂起还是会继续执行，受影响的是那些还没有执行的任务。&lt;/li&gt;
+  &lt;li&gt;当队列设置为挂起状态后，可以通过修改其状态再次恢复任务。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;cancelalloperations取消&quot;&gt;cancelAllOperations取消&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;通过&lt;code class=&quot;highlighter-rouge&quot;&gt;NSOperationQueue&lt;/code&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;cancelAllOperations&lt;/code&gt;方法来取消任务。&lt;/li&gt;
+  &lt;li&gt;取消任务后不可恢复。&lt;/li&gt;
+  &lt;li&gt;若任务是自定义NSOperation类型的话，执行完一个耗时操作后，需加一个是否取消任务的判断，再去执行另外一个耗时操作。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;runloop&quot;&gt;RunLoop&lt;/h3&gt;
+
+&lt;p&gt;内部由do-while循环实现的&lt;/p&gt;
+
+&lt;p&gt;作用：&lt;/p&gt;
+
+&lt;p&gt;1.保证程序的持续运行。&lt;/p&gt;
+
+&lt;p&gt;2.处理APP的各种事件。&lt;/p&gt;
+
+&lt;p&gt;3.节省CPU资源，提高程序性能。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    int main(int argc,char * argv[]){
+    	do{
+        	NSLog(@&quot;haha&quot;);//程序开始
+        }while(1);
+        return 0;//程序结束
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;runloop其实就是一个死循环，保持程序运行&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    int main(int argc, char * argv[]) {
+        @autoreleasepool {
+            return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+        }
+    }
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;UIApplicationMain函数内部就启动了一个RunLoop，一直不返回程序就持续运行。
+程序启动会默认启动一个RunLoop，跟主线程相关联，主要处理与主线程相关的事件。&lt;/p&gt;
+
+&lt;h4 id=&quot;runloop对象&quot;&gt;RunLoop对象&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;NSRunLoop&lt;/li&gt;
+  &lt;li&gt;CFRunLoopRef&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;runloop与线程&quot;&gt;RunLoop与线程&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;每条线程都有唯一的一个与之对应的RunLoop对象。&lt;/li&gt;
+  &lt;li&gt;子线程的RunLoop需要手动创建&lt;/li&gt;
+  &lt;li&gt;获得主线程RunLoop的方法[NSRunLoop mainRunLoop];&lt;/li&gt;
+  &lt;li&gt;创建子线程RunLoop的方法是[NSRunLoop currentRunLoop];&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;runloop相关类&quot;&gt;RunLoop相关类&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;CFRunLoopModeRef&lt;/li&gt;
+  &lt;li&gt;CFRunLoopSourceRef&lt;/li&gt;
+  &lt;li&gt;CFRunLoopTimerRef&lt;/li&gt;
+  &lt;li&gt;CFRunLoopObserverRef&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;cfrunloopmoderef&quot;&gt;CFRunLoopModeRef&lt;/h4&gt;
+&lt;p&gt;1.CFRunLoopModeRef是RunLoop的运行模式。&lt;/p&gt;
+
+&lt;p&gt;2.一个Runloop可以包含若干个Mode，每个Mode包含若干个Source/Timer/Observer。&lt;/p&gt;
+
+&lt;p&gt;3.每次RunLoop启动时，只能指定其中的一个Mode，这个Mode被称为currentMode。&lt;/p&gt;
+
+&lt;p&gt;4.如果需要切换Mode，需要退出RunLoop，在重新指定一个Mode进入。这样是为了分离不同组的Source/Timer/Observer，让它们互不影响。&lt;/p&gt;
+
+&lt;p&gt;系统默认注册了5个Mode&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. NSDefaultRunLoopMode: App的默认 Mode，通常主线程是在这个 Mode 下运行的。
+
+2. UITrackingRunLoopMode: 界面跟踪 Mode，用于 ScrollView 追踪触摸滑动，保证界面滑动时不受其他 Mode 影响。
+
+3. UIInitializationRunLoopMode: 在刚启动 App 时第进入的第一个 Mode，启动完成后就不再使用。
+
+4: GSEventReceiveRunLoopMode: 接受系统事件的内部 Mode，通常用不到。
+
+5: NSRunLoopCommonModes: 这是一个占位的 Mode，代表了NSDefaultRunLoopMode和UITrackingRunLoopMode。
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;NSRunLoopCommonModes只是一个标记，NSDefaultRunLoopMode和UITrackingRunLoopMode都拥有这个标记。
+设置为NSRunLoopCommonModes可以在NSDefaultRunLoopMode和UITrackingRunLoopMode模式下都执行。&lt;/p&gt;
+
+&lt;h4 id=&quot;cfrunlooptimerref&quot;&gt;CFRunLoopTimerRef&lt;/h4&gt;
+
+&lt;p&gt;这个类是基于时间的触发器&lt;/p&gt;
+
+&lt;h4 id=&quot;cfrunloopsourceref&quot;&gt;CFRunLoopSourceRef&lt;/h4&gt;
+
+&lt;p&gt;这个类是一个事件源，也可以称为输入源。&lt;/p&gt;
+
+&lt;p&gt;官方文档分为3类
+1.Port-Based Sources从其他线程或内核发出的
+2.Custom Input Sources自定义的
+3.CoCoa Perform Selector Sources&lt;/p&gt;
+
+&lt;p&gt;函数调用栈分为2类
+1.Sources0:非基于Port的（按钮点击）
+2.Sources1:基于Port的，通过其他线程或内核通信、接受、分发系统事件。&lt;/p&gt;
+
+&lt;h4 id=&quot;cfrunloopobserverref&quot;&gt;CFRunLoopObserverRef&lt;/h4&gt;
+
+&lt;p&gt;CFRunLoopObserverRef是观察者，能够监听RunLoop的状态的改变。状态是&lt;code class=&quot;highlighter-rouge&quot;&gt;CFRunLoopActivity&lt;/code&gt;这个枚举。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //创建观察者
+    CFRunLoopObserverRef observer = CFRunLoopObserverCreateWithHandler(CFAllocatorGetDefault(), kCFRunLoopAllActivities, YES, 0, ^(CFRunLoopObserverRef observer, CFRunLoopActivity activity) {
+        NSLog(@&quot;%lu&quot;,activity);//打印RunLoop的状态
+    });
+    //添加观察者
+    CFRunLoopAddObserver(CFRunLoopGetCurrent(), observer, kCFRunLoopDefaultMode);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+</description>
+        <pubDate>Tue, 08 Aug 2017 12:00:00 +0000</pubDate>
+        <link>http://localhost:4000/2017/08/08/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/08/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/</guid>
+        
+        <category>iOS</category>
+        
+        
+      </item>
     
       <item>
         <title>汇编学习笔记</title>
