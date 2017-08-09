@@ -5,8 +5,8 @@
     <description>不知道写些什么...</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 08 Aug 2017 07:30:59 +0000</pubDate>
-    <lastBuildDate>Tue, 08 Aug 2017 07:30:59 +0000</lastBuildDate>
+    <pubDate>Wed, 09 Aug 2017 08:51:49 +0000</pubDate>
+    <lastBuildDate>Wed, 09 Aug 2017 08:51:49 +0000</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -1253,6 +1253,385 @@ pop CS 操作&lt;/p&gt;
 &lt;/div&gt;
 
 &lt;h4 id=&quot;mul指令&quot;&gt;mul指令&lt;/h4&gt;
+
+&lt;p&gt;mul是乘法指令。
+两个相乘的数:必须同时为8位或者16位。如果是8位，一个默认放在AL中，另一个放在8位寄存器或内存字节单元中。如果是16位乘法，一个默认在AX中，另一个放在16位reg或内存字单元中。
+结果：如果是8位乘法，结果默认放在AX中，如果是16位乘法，结果高位默认放在DX中，低位放在AX中。&lt;/p&gt;
+
+&lt;p&gt;指令格式：&lt;code class=&quot;highlighter-rouge&quot;&gt;mul reg&lt;/code&gt;  或者 &lt;code class=&quot;highlighter-rouge&quot;&gt;mul 内存单元&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;内存单元可以用不同的寻址方式给出，如&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mul byte ptr ds:[0]
+    //含义为ax=al*(ds*16+0);
+    
+    mul word ptr [bx+si+8]
+    //含义为ax=ax*(ds*16+bx+si+8)结果的低16位
+    //     dx=ax*(ds*16+bx+si+8)结果为高16位
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;例如：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //计算100*10
+    mov al,100
+    mov bl,10
+    mul bl
+    //结果ax=1000
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;标识寄存器&quot;&gt;标识寄存器&lt;/h3&gt;
+
+&lt;p&gt;CPU内部的寄存器中，有一种特殊的寄存器，有一下作用&lt;/p&gt;
+
+&lt;p&gt;1.用来存储相关指令的某些执行结果。&lt;/p&gt;
+
+&lt;p&gt;2.用来为CPU执行相关指令提供行为依据。&lt;/p&gt;
+
+&lt;p&gt;3.用来控制CPU的相关工作方式。&lt;/p&gt;
+
+&lt;p&gt;这种特殊的寄存器在8086中，被称为标识寄存器。8086的寄存器有16位，其中存储的信息通常被称为程序状态字(PSW)。&lt;/p&gt;
+
+&lt;p&gt;有的指令影响标志寄存器，如add、sub、mul、div、inc、or、and等，大多是运算指令。
+有的指令不影响标识寄存器，如mov、push、pop等，大多是传送指令。&lt;/p&gt;
+
+&lt;p&gt;flag寄存器每一位都有专门的含义，记录特定的信息。&lt;/p&gt;
+
+&lt;p&gt;flag寄存器的1、3、5、12、13、14、15位在8086CPU中没有使用，没有含义，而0、2、4、6、7、8、9、10、11位都具有特殊的含义。&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;15&lt;/th&gt;
+      &lt;th&gt;14&lt;/th&gt;
+      &lt;th&gt;13&lt;/th&gt;
+      &lt;th&gt;12&lt;/th&gt;
+      &lt;th&gt;11&lt;/th&gt;
+      &lt;th&gt;10&lt;/th&gt;
+      &lt;th&gt;9&lt;/th&gt;
+      &lt;th&gt;8&lt;/th&gt;
+      &lt;th&gt;7&lt;/th&gt;
+      &lt;th&gt;6&lt;/th&gt;
+      &lt;th&gt;5&lt;/th&gt;
+      &lt;th&gt;4&lt;/th&gt;
+      &lt;th&gt;3&lt;/th&gt;
+      &lt;th&gt;2&lt;/th&gt;
+      &lt;th&gt;1&lt;/th&gt;
+      &lt;th&gt;0&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;OF&lt;/td&gt;
+      &lt;td&gt;DF&lt;/td&gt;
+      &lt;td&gt;IF&lt;/td&gt;
+      &lt;td&gt;TF&lt;/td&gt;
+      &lt;td&gt;SF&lt;/td&gt;
+      &lt;td&gt;ZF&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;AF&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;PF&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;CF&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h4 id=&quot;zf标志&quot;&gt;ZF标志&lt;/h4&gt;
+
+&lt;p&gt;flag的第6位是ZF，零标志位，它记录相关指令执行后，其结果是否为0。如果结果为0，那么zf=1；如果结果不为0，那么zf=0。&lt;/p&gt;
+
+&lt;p&gt;如：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ax,1
+    sub ax,1
+    //执行后，结果为0，则zf=1
+    
+    mov ax,2
+    sub ax,1
+    //执行后，结果不为0，则zf=0
+    
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;pf标志&quot;&gt;PF标志&lt;/h4&gt;
+
+&lt;p&gt;flag的第2位是PF，奇偶标志位。它记录相关指令执行后，其结果的所有bit位中1的个数是否为偶数，如果1的个数为偶数，pf=1，如果为奇数，pf=0。&lt;/p&gt;
+
+&lt;p&gt;如：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,1
+    add al,10
+    //执行后，结果为00001011B,其中有3个1，则pf=0
+    
+    mov al,1
+    or al,2
+    //执行后，结果为00000011B,其中有2个1，则pf=1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;sf标志&quot;&gt;SF标志&lt;/h4&gt;
+
+&lt;p&gt;flag的第7位是SF，符号标志位。它记录相关指令执行后，其结果是否为负。如果结果为负，sf=1；如果非负，sf=0。&lt;/p&gt;
+
+&lt;p&gt;计算机中通常用补码来表示有符号数据。计算机中的一个数据可以看作是有符号数，也可以看成是无符号数。比如：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    00000001B，可以看作无符号数1，或有符号数+1;
+    10000001B,可以看作无符号数129，也可以看作有符号数-127
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;也就是说对于同一个二进制数据，计算机可以将它当作无符号数据来运算，也可以当做有符号数据来运算
+如：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,10000001B
+    add al,1
+    //结果 al=10000010B
+    //可以将add指令进行的运算当做无符号数的运算，也可以当做有符号数计算(-127+1)，结果为-126(10000010B)。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;SF标识，就是CPU对符号数运算结果的一种记录，它记录数据的正负，在我们将数据当作有符号数来运算的时候，可以通过它来得知结果的正负。如果我们将数据当作无符号数来运算，SF的值则没有意义。&lt;/p&gt;
+
+&lt;h4 id=&quot;cf标志&quot;&gt;CF标志&lt;/h4&gt;
+
+&lt;p&gt;flag的第0位是CF，进位标志位。一般情况下，在进行无符号数运算的时候，它记录了运算结果的最高有效位向更高位的进位值，或从更高为的借位值。&lt;/p&gt;
+
+&lt;p&gt;对于位数为N的无符号数来说，其对应的二进制信息的最高位，即第N-1位，就是它的最高有效位。而假象存在的第N位，就是相对于最高有效位的更高位&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt; &lt;/th&gt;
+      &lt;th&gt;7&lt;/th&gt;
+      &lt;th&gt;6&lt;/th&gt;
+      &lt;th&gt;5&lt;/th&gt;
+      &lt;th&gt;4&lt;/th&gt;
+      &lt;th&gt;3&lt;/th&gt;
+      &lt;th&gt;2&lt;/th&gt;
+      &lt;th&gt;1&lt;/th&gt;
+      &lt;th&gt;0&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;假想的更高位&lt;/td&gt;
+      &lt;td&gt;0（最高有效位）&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;当两个数据相加的时候，有可能产生从最高有效位向更高位的进位。这个进位值就用CF来保存
+如:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,98H
+    add al,al	//执行后al=30,CF=1,CF记录了从最高有效位向更高位的进位值
+    add al,al	//执行后al=60,CF=0,CF记录了从最高有效位向更高位的进位值
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;而当两个数据做减法的时候，有可能向更高位借位。比如，两个8位数据：97H-98H,将产生借位，借位后相当于197H-98H,而flag的CF位也可以用来记录这个借位值。
+如:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,97H
+    sub al,98H   //执行后al=FFH，CF=1，CF记录了向更高位的借位值
+    sub al,al    //执行后al=0，CF=0，CF记录了向更高位的借位值
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;of标志&quot;&gt;OF标志&lt;/h4&gt;
+
+&lt;p&gt;在进行有符号运算的时候，如果结果超过了机器所能表示的范围称为溢出。&lt;/p&gt;
+
+&lt;p&gt;8位的寄存器有效范围是-128~127，16位寄存器的有效范围是-32768~32767。如果运算结果超出了机器所能表达的范围，将产生溢出。
+如：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,98
+    add al,99
+    //执行后将产生溢出，al=al+99=98+99=197
+    //197超过了8位有符号数的范围：-128~127
+    //得到的结果是al=0C5H,因为是有符号数的运算，所以al存的是补码，C5H是有符号数的-59，98-99=-59显然是不对的。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;面对这种情况，flag的第11位OF（溢出标志位）就起作用了。
+如果发生了溢出OF=1；如果没有OF=0。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;CF是对无符号数运算有意义的标志位&lt;/li&gt;
+  &lt;li&gt;OF是对有符号数运算有意义的标志位。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;adc指令&quot;&gt;adc指令&lt;/h4&gt;
+
+&lt;p&gt;adc是带进位加法指令，它利用了CF位上记录的进位值。&lt;/p&gt;
+
+&lt;p&gt;指令格式：adc 操作对象1，操作对象2
+功能：操作对象1 = 操作对象1+操作对象2+CF
+&lt;code class=&quot;highlighter-rouge&quot;&gt;adc ax，bx&lt;/code&gt;实现功能&lt;code class=&quot;highlighter-rouge&quot;&gt;ax=ax+bx+CF&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;如&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ax,2
+    mov bx,1
+    sub bx,ax
+    adx ax,1
+    //执行后ax=4，adc执行时相当于ax+1+CF=2+1+1=4
+    
+    mov ax,1
+    add ax,ax
+    adc ax,3
+    //执行后ax=5，adc执行时相当于ax+3+CF=2+3+0=5
+    
+    mov al,98H
+    add al,al
+    adc al,3
+    //执行后al=34，adc执行时相当于al+3+CF=30H+3+1=34H
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;可以看出&lt;code class=&quot;highlighter-rouge&quot;&gt;adc&lt;/code&gt;指令比&lt;code class=&quot;highlighter-rouge&quot;&gt;add&lt;/code&gt;指令多加了一个CF位的值。CF的值有adc指令前面的指令决定的。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;adc&lt;/code&gt;指令是用来进行加法的第二步运算的。add和adc指令的配合能对更大的数据进行加法运算。&lt;/p&gt;
+
+&lt;p&gt;例0198H和0183H相加，可以分为两步来进行&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1.低位相加         				  add al,bl
+2.高位相加再加上低位相加产生的进位值。adc ah,bh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;adc就是用来进行第二步的，会自动帮我们加上进位值CF。（add指令执行后，CF表示低位相加的进位置）&lt;/p&gt;
+
+&lt;h4 id=&quot;sbb指令&quot;&gt;sbb指令&lt;/h4&gt;
+
+&lt;p&gt;和adc指令类似，通过CF位来记录借位值。&lt;/p&gt;
+
+&lt;p&gt;指令格式：sbb 操作对象1，操作对象2
+功能：操作对象1 = 操作对象1-操作对象2-CF
+&lt;code class=&quot;highlighter-rouge&quot;&gt;sbb ax,bx&lt;/code&gt;实现的功能是&lt;code class=&quot;highlighter-rouge&quot;&gt;ax=ax-bx-CF&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;利用sbb指令可以对任意大数据进行减法运算
+如：&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //计算003E1000H-00202000H,结果放在ax，bx中
+    mov bx,1000H
+    mov ax,003EH
+    sub bx,2000H//如果这里借位了，CF为1
+    sbb ax,0020H//减去低位的借位值
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;cmp指令&quot;&gt;cmp指令&lt;/h4&gt;
+
+&lt;p&gt;cmp是比较指令，功能相当于减法指令，只是不保存结果。cmp比较指令执行后，将对标志寄存器产生影响，其他指令通过标识位来得知比较结果。&lt;/p&gt;
+
+&lt;p&gt;指令格式：cmp 操作对象1，操作对象2
+功能：计算操作对象1-操作对象2 当不保存结果，仅设置标识寄存器。&lt;/p&gt;
+
+&lt;p&gt;cmp ax,bx&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;结果&lt;/th&gt;
+      &lt;th&gt;减法运算&lt;/th&gt;
+      &lt;th&gt;标志状态&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ax=bx&lt;/td&gt;
+      &lt;td&gt;ax-bx=0&lt;/td&gt;
+      &lt;td&gt;zf=1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ax≠bx&lt;/td&gt;
+      &lt;td&gt;ax-bx≠0&lt;/td&gt;
+      &lt;td&gt;zf=0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ax&amp;lt;bx&lt;/td&gt;
+      &lt;td&gt;ax-bx将借位&lt;/td&gt;
+      &lt;td&gt;cf=1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ax≥bx&lt;/td&gt;
+      &lt;td&gt;ax-bx不借位&lt;/td&gt;
+      &lt;td&gt;cf=0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ax&amp;gt;bx&lt;/td&gt;
+      &lt;td&gt;ax-bx不借位，结果也不为0&lt;/td&gt;
+      &lt;td&gt;cf=0;zf=0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ax≤bx&lt;/td&gt;
+      &lt;td&gt;ax-bx即可能借位，结果可能为0&lt;/td&gt;
+      &lt;td&gt;cf=1;zf=1&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;这个比较的设计思路是通过减法运算，影响标识寄存器，来得到大小。&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;标志状态&lt;/th&gt;
+      &lt;th&gt;结果&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;zf=1&lt;/td&gt;
+      &lt;td&gt;ax=bx&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;zf=0&lt;/td&gt;
+      &lt;td&gt;ax≠bx&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;cf=1&lt;/td&gt;
+      &lt;td&gt;ax&amp;lt;bx&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;cf=0&lt;/td&gt;
+      &lt;td&gt;ax≥bx&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;cf=0;zf=0&lt;/td&gt;
+      &lt;td&gt;ax&amp;gt;bx&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;cf=1;zf=1&lt;/td&gt;
+      &lt;td&gt;ax≤bx&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;strong&gt;前面的是无符号数的规则，下面看看有符号数&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sf=1;of=0 没有溢出，逻辑正负=实际正负，ab&amp;lt;bh。
+
+sf=1;of=1 有溢出，逻辑正负≠实际正负,因sf=1，实际结果为负，又有溢出，表示是溢出导致的结果为负。逻辑上必然为正，ah&amp;gt;bh。
+
+sf=0;of=1 有溢出，逻辑正负≠实际正负，实际结果为正，又有溢出，表示是溢出导致的结果为正，逻辑上必然为负，ah&amp;lt;bh。
+
+sf=0,of=0 没有溢出，逻辑正负=实际正负，sf=0实际非负，逻辑也非负，ah≥bh
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 </description>
         <pubDate>Thu, 03 Aug 2017 12:00:00 +0000</pubDate>
