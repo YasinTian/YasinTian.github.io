@@ -5,8 +5,8 @@
     <description>不知道写些什么...</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 09 Aug 2017 09:59:34 +0000</pubDate>
-    <lastBuildDate>Wed, 09 Aug 2017 09:59:34 +0000</lastBuildDate>
+    <pubDate>Thu, 10 Aug 2017 08:12:14 +0000</pubDate>
+    <lastBuildDate>Thu, 10 Aug 2017 08:12:14 +0000</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -2093,6 +2093,598 @@ sf=0,of=0 没有溢出，逻辑正负=实际正负，sf=0实际非负，逻辑�
 
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
+&lt;h4 id=&quot;检测比较结果的条件转移指令&quot;&gt;检测比较结果的条件转移指令&lt;/h4&gt;
+
+&lt;p&gt;jcxz是一个条件转移指令，它可以检测cx中的数值，如果cx=0，就修改IP，否则什么也不做。所有条件转移指令的转移位移都是-128~127。&lt;/p&gt;
+
+&lt;p&gt;除了jcxz之外，CPU还提供了其他条件转移指令，大多数条件转移指令都检测标志寄存器的相关标志位来决定是否修改IP。
+通常检测被cmp指令影响的那些标志位，所以这些条件指令通常和cmp配合使用。&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;指令&lt;/th&gt;
+      &lt;th&gt;含义&lt;/th&gt;
+      &lt;th&gt;检测的标志位&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;je&lt;/td&gt;
+      &lt;td&gt;等于则转移&lt;/td&gt;
+      &lt;td&gt;zf=1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;jne&lt;/td&gt;
+      &lt;td&gt;不等于则转移&lt;/td&gt;
+      &lt;td&gt;zf=0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;jb&lt;/td&gt;
+      &lt;td&gt;低于则转移&lt;/td&gt;
+      &lt;td&gt;cf=1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;jnb&lt;/td&gt;
+      &lt;td&gt;不低于则转移&lt;/td&gt;
+      &lt;td&gt;cf=0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;ja&lt;/td&gt;
+      &lt;td&gt;高于则转移&lt;/td&gt;
+      &lt;td&gt;cf=0且zf=0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;jna&lt;/td&gt;
+      &lt;td&gt;不高于则转移&lt;/td&gt;
+      &lt;td&gt;cf=1或zf=1&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;e:表示equal
+ne:表示not equal
+b:表示below
+nb:表示not below
+a:表示above
+na:表示not above&lt;/p&gt;
+
+&lt;p&gt;例：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //实现ah=bh则ah=ah+ah，否则ah=ah+bh
+    cmp ah,bh    //比较ah和bh改变对应的标志位
+    je s		 //标志位符合等于跳转到s标号执行
+    add ah,bh	 //标志位不符合等于执行这里
+    jmp short ok //跳过s标号的语句
+  s:add ah,ah
+  ok:....
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;df标志和串传送指令&quot;&gt;DF标志和串传送指令&lt;/h4&gt;
+
+&lt;p&gt;flag的第10位是DF，方向标志位，在串处理指令中，控制每次操作后si、di的增减。
+df=0 每次操作后si、di递增
+df=1 每次操作后si、di递减&lt;/p&gt;
+
+&lt;p&gt;串传送指令
+格式：movsb
+功能：执行movsb相当于执行以下步骤&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    1.es*16+di=ds*16+si
+    2.如果df=0则 si=si+1,di=di+1
+    3.如果df=1则 si=si-1,di=di-1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;也可以按字来传送
+格式：movsw
+将ds:si指向的内存单元中的字送入es:di中，然后根据标识寄存器df位的值，将si和di加2或减2。&lt;/p&gt;
+
+&lt;p&gt;相当于&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov es:[di],word ptr ds:[si]
+	如果df=0
+    add si,2
+    add di,2
+    
+    如果df=1
+    sub si,2
+    sub di,2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;一般情况下movsb和movsw进行的是串传送操作中的一个步骤，需要和rep配合使用。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    rep movsb//循环调用movsb，循环cx次
+
+    //和下面代码功能一样
+    s:movsb
+      loop s
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;由于flag的df位决定这串传送指令执行后，si和di的改变方向，我们需要提前设置好df位的值。
+8086提供了2条指令来对df位进行设置。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    cld指令：将标志寄存器的df位置0
+    std指令：将标志寄存器的df位置1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;例:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //将data段的第一个字符串复制到它后面的空间
+    data segment
+      db 'Welcome to masm!'
+      db 16 dup (0)
+    data ends
+    
+    code segment
+      mov ax,data  //设置数据的起始位置
+      mov ds,ax
+      mov si,0
+      mov es,ax    //设置数据的目标位置
+      mov di,16    
+      mov cx,16    //设置循环次数
+      cld          //设置方向，si和di递增
+      rep movsb    //开始循环传送
+    code ends
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;pushf和popf&quot;&gt;pushf和popf&lt;/h4&gt;
+
+&lt;p&gt;pushf的功能是将标志寄存器的值压栈，而popf是从栈中取出数据送入标志寄存器。&lt;/p&gt;
+
+&lt;h4 id=&quot;标志寄存器在debug中的表示&quot;&gt;标志寄存器在Debug中的表示&lt;/h4&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;标志&lt;/th&gt;
+      &lt;th&gt;值为1的标记&lt;/th&gt;
+      &lt;th&gt;值为0的标记&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;of&lt;/td&gt;
+      &lt;td&gt;OV&lt;/td&gt;
+      &lt;td&gt;NV&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;sf&lt;/td&gt;
+      &lt;td&gt;NG&lt;/td&gt;
+      &lt;td&gt;PL&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;zf&lt;/td&gt;
+      &lt;td&gt;ZR&lt;/td&gt;
+      &lt;td&gt;NZ&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;pf&lt;/td&gt;
+      &lt;td&gt;PE&lt;/td&gt;
+      &lt;td&gt;PO&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;cf&lt;/td&gt;
+      &lt;td&gt;CY&lt;/td&gt;
+      &lt;td&gt;NC&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;df&lt;/td&gt;
+      &lt;td&gt;DN&lt;/td&gt;
+      &lt;td&gt;UP&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;内中断&quot;&gt;内中断&lt;/h3&gt;
+
+&lt;p&gt;当CPU内部发生以下事情的时候，将产生相应的中断信息。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;除法错误，如执行div指令产生的除法移除。中断码：0&lt;/li&gt;
+  &lt;li&gt;单步执行。中断码：1&lt;/li&gt;
+  &lt;li&gt;执行into指令。中断码：4&lt;/li&gt;
+  &lt;li&gt;执行int指令。中断码为指令携带，&lt;code class=&quot;highlighter-rouge&quot;&gt;int n&lt;/code&gt;，终端吗即为n&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;中断向量表中存储了中断码对应的处理程序的入口地址。
+中断向量表在内存中保存，其中存放了256个中断源所对应的中断处理程序的入口。CPU通过中断码就能找到对应的处理程序。
+在8086中，中断向量表指定放在内存地址0处，从0000:0000到0000:03FF的1024个单元中。不能放在别处。&lt;/p&gt;
+
+&lt;p&gt;8086收到中断信息后，中断过程&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;从中断信息中取得中断类型码。&lt;/li&gt;
+  &lt;li&gt;标志寄存器的值入栈（因为中断过程中要改变标志寄存器的值，所有先将其保存在栈中）。&lt;/li&gt;
+  &lt;li&gt;设置标识寄存器的第8位TF和第9位IF的值为0&lt;/li&gt;
+  &lt;li&gt;CS的内容入栈&lt;/li&gt;
+  &lt;li&gt;IP的内容入栈&lt;/li&gt;
+  &lt;li&gt;从内存地址为(中断类型码&lt;em&gt;4)和(中断类型码&lt;/em&gt;4+2)的两个字单元中读取中断处理程序的入口，设置IP和CS。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;中断处理程序和iret指令&quot;&gt;中断处理程序和iret指令&lt;/h4&gt;
+
+&lt;p&gt;中断处理程序的编写方法和子程序比较相似&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;保存用的的寄存器&lt;/li&gt;
+  &lt;li&gt;处理中断&lt;/li&gt;
+  &lt;li&gt;恢复用到的寄存器&lt;/li&gt;
+  &lt;li&gt;用iret指令返回&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;iret&lt;/code&gt;实现了下面的功能&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    pop IP
+    pop CS
+    popf
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;单步中断&quot;&gt;单步中断&lt;/h4&gt;
+
+&lt;p&gt;CPU执行完一条指令后，如果检测到标志寄存器的TF位为1，则产生单步中断，引发中断过程。单步中断的类型码为1.则中断过程如下。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;取得中断类型码1&lt;/li&gt;
+  &lt;li&gt;标志寄存器入栈，TF、IF设置为0&lt;/li&gt;
+  &lt;li&gt;CS、IP入栈&lt;/li&gt;
+  &lt;li&gt;IP=1&lt;em&gt;4，CS=1&lt;/em&gt;4+2&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Debug程序的T命令就是通过这个实现的。使用t命令执行指令时，Debug将TF设置为1。这条指令执行完后，引发单步中断，执行单步中断处理程序。&lt;/p&gt;
+
+&lt;p&gt;CPU提供单步中断功能的原因就是，为单步跟踪程序的执行过程，提供了实现机制。&lt;/p&gt;
+
+&lt;p&gt;一些情况下即使发生中断，也不会响应。
+例如当执行完想ss寄存器传送数据的指令后，即便是发生中断，CPU也不会响应。这样做的主要原因是，ss:sp联合指向栈顶，而对它们的设置应该连续完成。如果在执行完设置ss的指令后，CPU响应中断，引发中断过程，要在栈中压入标志寄存器、CS和IP的值。而ss改变，sp并未改变，ss:sp指向的不是正确的栈顶，将引起错误。
+我们应该利用这个特性，将设置ss和sp的指令连续存放，使得设置sp的指令紧接着设置ss的指令执行，而在此之间CPU不会引发中断过程。&lt;/p&gt;
+
+&lt;p&gt;如：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //将栈顶设置为1000:0
+    mov ax,1000h
+    mov ss,ax
+    mov sp,0
+    而不应该
+    mov ax,1000h
+    mov ss,ax
+    mov ax,0
+    mov sp,0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;int指令&quot;&gt;int指令&lt;/h3&gt;
+
+&lt;p&gt;格式：&lt;code class=&quot;highlighter-rouge&quot;&gt;int n&lt;/code&gt;。n为中断类型码&lt;/p&gt;
+
+&lt;p&gt;可以在程序中使用int 指令调用任何一个中断的中断处理程序。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;int&lt;/code&gt;配合&lt;code class=&quot;highlighter-rouge&quot;&gt;iret&lt;/code&gt;配合使用与&lt;code class=&quot;highlighter-rouge&quot;&gt;call&lt;/code&gt;指令和&lt;code class=&quot;highlighter-rouge&quot;&gt;ret&lt;/code&gt;指令的配合使用有相似的思路。&lt;/p&gt;
+
+&lt;h4 id=&quot;bios和dos中断例程的安装过程&quot;&gt;BIOS和DOS中断例程的安装过程&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;开机后,CPU加电，初始化CS=0FFFFH,IP=0,自动从FFFF:0单元开始执行程序。FFFF:0处有一条跳转指令，CPU执行该指令后，转去执行BIOS中的硬件系统检测和初始化程序。&lt;/li&gt;
+  &lt;li&gt;初始化程序将建立BIOS所支持的中断向量，即将BIOS提供的中断例程的入口地址登记在中断向量表中。&lt;/li&gt;
+  &lt;li&gt;硬件系统检测和初始化完成后，调用int 19h进行操作系统的引导，从此将计算机交由操作系统控制。&lt;/li&gt;
+  &lt;li&gt;DOS启动后，除完成其他工作外，还将它所提供的中断例程转入内存，并建立相应的中断向量。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;bios中断例程的应用&quot;&gt;BIOS中断例程的应用&lt;/h4&gt;
+
+&lt;p&gt;int 10h 中断例程是BIOS提供的中断例程，其中包含了多个和屏幕输出相关的程序。&lt;/p&gt;
+
+&lt;p&gt;设置光标位置&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ah,2    //设置用int 10h中断例程里面的2号子程序
+    mov bh,0    //第0页
+    mov dh,5    //行号
+    mov dl,12   //列号
+    int 10h
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;在光标位置显示字符&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ah,9    //9号子程序，在光标位置显示字符
+    mov al,'a'  //要显示的字符
+    mov bl,7    //颜色
+    mov bh,0    //第0页
+    mov cx,3    //字符重复个数
+    int 10h     //
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;bl中颜色的格式如下&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;7&lt;/th&gt;
+      &lt;th&gt;6&lt;/th&gt;
+      &lt;th&gt;5&lt;/th&gt;
+      &lt;th&gt;4&lt;/th&gt;
+      &lt;th&gt;3&lt;/th&gt;
+      &lt;th&gt;2&lt;/th&gt;
+      &lt;th&gt;1&lt;/th&gt;
+      &lt;th&gt;0&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;BL&lt;/td&gt;
+      &lt;td&gt;R&lt;/td&gt;
+      &lt;td&gt;G&lt;/td&gt;
+      &lt;td&gt;B&lt;/td&gt;
+      &lt;td&gt;I&lt;/td&gt;
+      &lt;td&gt;R&lt;/td&gt;
+      &lt;td&gt;G&lt;/td&gt;
+      &lt;td&gt;B&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;闪烁&lt;/td&gt;
+      &lt;td&gt;背景&lt;/td&gt;
+      &lt;td&gt;背景&lt;/td&gt;
+      &lt;td&gt;背景&lt;/td&gt;
+      &lt;td&gt;高亮&lt;/td&gt;
+      &lt;td&gt;前景&lt;/td&gt;
+      &lt;td&gt;前景&lt;/td&gt;
+      &lt;td&gt;前景&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;若想显示红的高亮将bl设置为&lt;code class=&quot;highlighter-rouge&quot;&gt;11001010b&lt;/code&gt;就可以了。&lt;/p&gt;
+
+&lt;h4 id=&quot;dos中断例程应用&quot;&gt;DOS中断例程应用&lt;/h4&gt;
+
+&lt;p&gt;int 21h就是DOS提供的中断例程。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ah,4ch   //表示调用4ch号子程序
+    mov al,0     //返回值
+    int 21h
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;int 21h在光标位置显示字符串的功能&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    ds:dx 指向字符串   //要显示的字符串用$作为结束符
+    mov ah,9         //使用第9号子程序
+    int 21h
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;在屏幕5行12列显示字符串&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:code
+    
+    data segment
+      db 'Welcome to masm','$'
+    data ends
+    
+    code segment
+      start:mov ah,2    //选择设置光标功能
+            mov bh,0    //设置页数
+            mov dh,5    //行数
+            mov dl,12   //列数
+            int 10h     //执行，移动光标
+            
+            mov ax,data //设置数据
+            mov ds,ax   
+            mov dx,0    //ds:dx指向字符串的首地址data:0
+            mov ah,9    //选择9号功能，显示字符串
+            int 21h     //执行
+            
+            mov ax,4c00h//相当于设置mov ah,4ch
+            int 21h
+    code ends
+    end start
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;端口&quot;&gt;端口&lt;/h3&gt;
+
+&lt;p&gt;在PC机系统中，和CPU通过总线相连的芯片除了各种存储器外，还有以下3种芯片&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;各种借口卡(网卡，显卡)上的接口芯片，它们控制接口卡进行工作。&lt;/li&gt;
+  &lt;li&gt;主板上的接口芯片，CPU通过它们对部分外设进行访问。&lt;/li&gt;
+  &lt;li&gt;其他芯片，用来存储相关的系统信息，或进行相关的输入输出处理。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这些芯片中，都有一组可以有CPU读写的寄存器。这些寄存器，它们在物理上可能处于不同的芯片中，但它们在一下两点上相同。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;都和CPU的总线相连，当然这种连接是通过它们所在的芯片进行的。&lt;/li&gt;
+  &lt;li&gt;CPU对它们进行读或写的时候都通过控制线向它们所在的芯片发出端口读写命令。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;可见，从CPU的角度，将这些寄存器都当做端口，对它们进行统一编址，从而建立了一个统一的端口地址空间。每一个端口在地址空间中都有一个地址。&lt;/p&gt;
+
+&lt;p&gt;CPU可以直接读写一下3个地方的数据&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;CPU内部寄存器&lt;/li&gt;
+  &lt;li&gt;内存单元&lt;/li&gt;
+  &lt;li&gt;端口&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;端口的读写&quot;&gt;端口的读写&lt;/h4&gt;
+
+&lt;p&gt;CPU通过端口地址来定位端口，因为端口所在的芯片和CPU通过总线相连，所以，端口地址和内存地址一样，通过地址总线来传送。在PC系统中，CPU最多可以定位64KB个不同的端口。则端口的地址范围为0~65535.&lt;/p&gt;
+
+&lt;p&gt;对端口的读写不能用&lt;code class=&quot;highlighter-rouge&quot;&gt;mov、push、pop&lt;/code&gt;等内存读写指令。&lt;/p&gt;
+
+&lt;p&gt;端口的读写指令只有两条&lt;code class=&quot;highlighter-rouge&quot;&gt;in&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;out&lt;/code&gt;，分别用于从端口读取数据和往端口写入数据。&lt;/p&gt;
+
+&lt;p&gt;访问端口：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    in al,60h    //从60h号端口读入一个字节
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;CPU通过地址线将地址信息60h发出；
+CPU通过控制线发出端口读命令，选中端口所在的芯片，并通知它，将要从中读取数据；
+端口所在芯片将60h端口中的数据通过数据线送入CPU&lt;/p&gt;
+
+&lt;p&gt;在&lt;code class=&quot;highlighter-rouge&quot;&gt;in&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;out&lt;/code&gt;指令中，只能使用&lt;code class=&quot;highlighter-rouge&quot;&gt;ax&lt;/code&gt;或&lt;code class=&quot;highlighter-rouge&quot;&gt;al&lt;/code&gt;来存放从端口中读取或要发送到端口中的数据。&lt;/p&gt;
+
+&lt;p&gt;访问8位端口时用al，访问16位端口用ax。&lt;/p&gt;
+
+&lt;h4 id=&quot;cmos-ram芯片&quot;&gt;CMOS RAM芯片&lt;/h4&gt;
+
+&lt;p&gt;PC机中，有一个&lt;code class=&quot;highlighter-rouge&quot;&gt;CMOS RAM&lt;/code&gt;芯片，一般简称&lt;code class=&quot;highlighter-rouge&quot;&gt;CMOS&lt;/code&gt;。芯片特性如下&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;包含一个实时钟和一个有128个存储单元的RAM存储器。&lt;/li&gt;
+  &lt;li&gt;该芯片靠电池供电，关机后内部实时钟仍可正常工作，RAM中的信息不丢失。&lt;/li&gt;
+  &lt;li&gt;128个字节的RAM中，内部实时钟占用0~0dh单元来保存时间信息，其余大部分单元用于保存系统配置信息，供系统启动时BIOS程序读取。BIOS页也提供了相关的程序，使我们可以在开始的时候配置&lt;code class=&quot;highlighter-rouge&quot;&gt;CMOS RAM&lt;/code&gt;中的系统信息。&lt;/li&gt;
+  &lt;li&gt;该芯片内部有两个端口，端口地址为70h和71h。CPU通过这两个端口来读写&lt;code class=&quot;highlighter-rouge&quot;&gt;CMOS RAM&lt;/code&gt;。&lt;/li&gt;
+  &lt;li&gt;70h为地址端口，存放要访问的&lt;code class=&quot;highlighter-rouge&quot;&gt;CMOS RAM&lt;/code&gt;单元的地址；71h位数据端口，存放从选定的&lt;code class=&quot;highlighter-rouge&quot;&gt;CMOS RAM&lt;/code&gt;单元读取的数据，或要写入到其中的数据.CPU对&lt;code class=&quot;highlighter-rouge&quot;&gt;CMOS RAM&lt;/code&gt;的读写分两步进行。&lt;code class=&quot;highlighter-rouge&quot;&gt;1.将2送入端口70h； 2.从端口71h读出2号单元的内容&lt;/code&gt;。&lt;/li&gt;
+  &lt;li&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;shl和shr指令&quot;&gt;shl和shr指令&lt;/h4&gt;
+
+&lt;p&gt;shl和shr是逻辑位移指令。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;shl:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;将一个寄存器或内存单元中的数据向左移位&lt;/li&gt;
+  &lt;li&gt;将最后移出的移位写入CF中&lt;/li&gt;
+  &lt;li&gt;最低位补0&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,01001000b
+    shl al,1   //将al中的数据左移一位
+    //执行后al=10010000b,CF=0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;cmos-ram中存储的时间信息&quot;&gt;CMOS RAM中存储的时间信息&lt;/h4&gt;
+
+&lt;p&gt;在CMOS RAM中，存放着当前的时间：年、月、日、时、分、秒。这6个信息长度都为1字节，存放单元为：
+秒0 分2 时4 日7 月8 年9&lt;/p&gt;
+
+&lt;p&gt;这些数据以BCD码方式存放。一个字节可以表示两个BCD码，高4位BCD码表示十位，低4位BCD码表示各位。
+例:00010100b表示14&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //读取月份
+    mov al,8    //设置要读取的单元
+    out 70h,al  //要读取的单元地址传给CMOS
+    in al,71h   //从数据端口71h中取得指定单元的数据
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;外中断&quot;&gt;外中断&lt;/h3&gt;
+
+&lt;p&gt;CPU除了能执行指令，进行运算外，还应该能够对外部设备进行控制，接受它们的输入，向它们输出。I/O能力。&lt;/p&gt;
+
+&lt;p&gt;外设的输入不直接送入内存和CPU,而是送入相关的接口芯片的端口中。CPU向外设的输出也不是直接送入外设。
+CPU还可以向外设输出控制命令，也都是先送到相关芯片的端口中，在由相关芯片根据命令对外设实施控制。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;CPU通过端口和外部设备进行联系&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;当外设的输入到达，相关芯片将向CPU发出相应的中断信息。CPU执行完当前指令后，检测到发送过来的中断信息，引发中断过程，处理外设的输入。&lt;/p&gt;
+
+&lt;p&gt;在PC系统中，外中断源一共有一下两类:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;1.可屏蔽中断&lt;/strong&gt;
+可屏蔽中断是CPU可以不响应的外中断。CPU是否响应可屏蔽中断，要看标志寄存器的IF位的设置，IF=1，CPU执行完当前指令后响应中断，IF=0，不响应。
+前面讲到的内中断中有一步是IF=0，TF=0,这里就能开出作用了，内中断时不响应可屏蔽中断。&lt;/p&gt;
+
+&lt;p&gt;8086提供了设置IF的指令
+sti,设置IF=1。cli,设置IF=0。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;2.不可屏蔽中断&lt;/strong&gt;
+不可屏蔽中断是CPU必须响应的外中断。当CPU检测到后，当前指令执行完，立即响应。
+8086的不可屏蔽中断的中断类型码固定为2，所以中断过程中，不需要取中断类型码。中断过程如下：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;标志寄存器入栈，设置IF=0，TF=0&lt;/li&gt;
+  &lt;li&gt;CS、IP入栈&lt;/li&gt;
+  &lt;li&gt;IP=0,CS=0AH&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;几乎所有由外设引发的外中断，都是可屏蔽中断。
+不可屏蔽中断是系统中有必须处理的紧急情况发生时用来通知CPU的中断信息。&lt;/p&gt;
+
+&lt;h4 id=&quot;pc机键盘的处理过程&quot;&gt;PC机键盘的处理过程&lt;/h4&gt;
+
+&lt;h5 id=&quot;键盘输入&quot;&gt;键盘输入&lt;/h5&gt;
+
+&lt;p&gt;键盘上的每一个键相当于一个开关，键盘中有一个芯片对键盘上的每一个键的开关状态进行扫描。按下一个键时，开关接通，该芯片就产生一个扫描码，扫描码说明了键在键盘的位置，扫描码被送入主板上的相关接口芯片的寄存器中，端口为60h。
+松开按键时，也产生一个扫描码。说明了松开按键的位置，页送入60h端口中。&lt;/p&gt;
+
+&lt;p&gt;一般讲按下产生的扫描码称为通码，松开时产生的称为断码。扫描码长度为一个字节，通码的第7位为0，断码第7位为1。
+断码=通码+80h&lt;/p&gt;
+
+&lt;h5 id=&quot;引发9号中断&quot;&gt;引发9号中断&lt;/h5&gt;
+
+&lt;p&gt;当键盘的输入到达60h端口时，相关芯片就会向CPU发出中断类型码为9的可屏蔽中断信息。CPU检测到该中断信息后，如果IF=1，则响应中断。执行int 9的中断例程。&lt;/p&gt;
+
+&lt;h5 id=&quot;执行9号中断&quot;&gt;执行9号中断&lt;/h5&gt;
+
+&lt;p&gt;BIOS提供了int 9中断例程，用来进行基本的键盘输入处理。&lt;/p&gt;
+
+&lt;p&gt;1.读出60h端口中的扫描码&lt;/p&gt;
+
+&lt;p&gt;2.如果是字符键的扫描码，将该扫描码和它所对应的字符码（ASCII码）送入内存中的BIOS键盘缓存区；如果是控制键（如Ctrl）和切换键的扫描码，则将其转变为状态字节，写入内存中存储状态的字节单元。&lt;/p&gt;
+
+&lt;p&gt;3.对键盘系统进行相关的控制，比如说，向相关芯片发出应答信息。&lt;/p&gt;
+
+&lt;p&gt;BIOS键盘缓冲区是系统启动后，BIOS用于存放int 9中断例程所接收的键盘输入的内存区。该内存区可以储存15个键盘输入。因为int 9中断例程除了接收扫描码外，还要产生和扫描码对应的字符码，所以在BIOS的键盘缓冲区中，一个键盘输入用一个字单元存放，高位字节存放扫描码，低位字节存放字符码。&lt;/p&gt;
+
+&lt;p&gt;0040:17单元存储键盘状态字节，该字节记录了控制键和切换键的状态。键盘状态字节各位记录的信息如下。&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;第几字节&lt;/th&gt;
+      &lt;th&gt;置1表示&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;右shift&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;左shift&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;Ctrl&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;Alt&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;Scroll灯亮&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;5&lt;/td&gt;
+      &lt;td&gt;小键盘输入的是数字&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;输入大写字母&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;7&lt;/td&gt;
+      &lt;td&gt;删除态&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
 </description>
         <pubDate>Thu, 03 Aug 2017 12:00:00 +0000</pubDate>
