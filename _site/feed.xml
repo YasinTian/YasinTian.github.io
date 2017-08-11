@@ -5,8 +5,8 @@
     <description>不知道写些什么...</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 10 Aug 2017 08:12:14 +0000</pubDate>
-    <lastBuildDate>Thu, 10 Aug 2017 08:12:14 +0000</lastBuildDate>
+    <pubDate>Fri, 11 Aug 2017 02:12:17 +0000</pubDate>
+    <lastBuildDate>Fri, 11 Aug 2017 02:12:17 +0000</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -472,7 +472,9 @@
     
       <item>
         <title>汇编学习笔记</title>
-        <description>&lt;h1 id=&quot;基础知识&quot;&gt;基础知识&lt;/h1&gt;
+        <description>&lt;p&gt;前段时间搞微信余额修改遇到瓶颈，想着还是学学汇编吧，工作之余看了几个月的书，收获还是不少，把重点记录在此，方便查阅。看的书是王爽老师的&lt;a href=&quot;https://item.jd.com/11314390.html&quot;&gt;《汇编语言》&lt;/a&gt;，写的真是非常的清晰易懂，推荐想学汇编的先看这本书。&lt;/p&gt;
+
+&lt;h1 id=&quot;基础知识&quot;&gt;基础知识&lt;/h1&gt;
 
 &lt;h3 id=&quot;汇编指令&quot;&gt;汇编指令&lt;/h3&gt;
 
@@ -2685,6 +2687,120 @@ sti,设置IF=1。cli,设置IF=0。&lt;/p&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
+
+&lt;h3 id=&quot;直接定址表&quot;&gt;直接定址表&lt;/h3&gt;
+
+&lt;p&gt;前面有用标号来标记指令、数据、段的起始地址的用法。这些标号仅仅表示了内存单元的地址。&lt;/p&gt;
+
+&lt;p&gt;还要一种标号，不但表示内存单元的地址，还表示内存单元的长度，即表示在此标号处的单元，是一个字节单元，还是字单元，还是双字单元。&lt;/p&gt;
+
+&lt;p&gt;如：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:code
+    code segment
+        //这里的标号后面没有&quot;:&quot;，它们是同时描述内存地址和单元长度的标号
+        a db 1,2,3,4,5,6,7,8  //a描述了地址code:0，以后的内存单元都是字节单元
+        b dw 0                //b描述了地址code:8，以后的内存单元都是字单元
+      start:mov si,0
+            mov cx,8
+          s:mov al,a[si]
+            mov ah,0
+            add b,ax
+            inc si
+            loop s
+            mov ax,4c00h
+            int 21h
+    code ends
+    end start
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;这样指定之后,下面的指令中，标号b代表了一个内存单元，地址为code:8，长度为两个字节。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;指令：  mov ax,b
+相当于：mov ax,cs:[8]
+
+指令：  mov b,2
+相当于：mov word ptr cs:[8],2
+
+指令：  inc b
+相当于：inc word ptr cs:[8]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;在其他段中使用数据标号&quot;&gt;在其他段中使用数据标号&lt;/h4&gt;
+
+&lt;p&gt;一般来说，我们不在代码段中定义数据，而是将数据定义到其他段中，在其他段中，我们也可以使用数据标号来描述储存数据的单元的地址和长度。
+在后面加油”:”的地址标号，只能在代码段中使用，不能在其他段中使用。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:code,ds:data //把data和ds寄存器联系起来
+    data segment
+       a db 1,2,3,4,5,6,7,8
+       b dw 0
+       c dw a,b   //可以将标号当作数据来定义，标号所表示的地址当作数据的值。
+                  //相当于c dw offset a,seg a,offset b,seg b。seg操作符能取得标号的段地址
+    data ends
+    
+    code segment
+    start: mov ax,data   //先要把ds设置为data段的段地址
+           mov ds,ax
+           
+           mov si,0
+           mov cx,8
+        s: mov al,a[si]  //相当于mov al,[si+0]
+           mov ah,0
+           add b,ax      //相当于add [8],ax
+           inc si
+           loop s
+           
+           mov ax,4c00h
+           int 21h
+    code ends
+    end start
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;程序的入口地址也能用直接定址表存放&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    setscreen: jmp short set
+         table dw sub1,sub2,sub3,sub4
+          set: push bx
+               cmp ah,3                //判断功能号是否大于3
+               ja sret
+               mov bl,ah
+               mov bh,0
+               add bx,bx               //计算子程序的便宜地址
+               
+               call word ptr table[bx] //调用对应的子程序
+               
+         sret: pop bx
+               ret
+    
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;运用前面的知识还能改成下面这样&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;	setscreen: cmp ah,0
+               je do1
+               cmp ah,1
+               je do2
+               cmp ah,2
+               je do3
+               cmp ah,3
+               je do4
+               jmp short sret
+          do1: call sub1
+               jmp short sret
+          do2: call sub2
+               jmp short sret
+          do3: call sub3
+               jmp short sret
+          do4: call sub4
+          
+         sret: ret
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 </description>
         <pubDate>Thu, 03 Aug 2017 12:00:00 +0000</pubDate>
