@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="不知道写些什么...">
+    <meta name="keywords"  content="博客, 个人网站, 互联网, 前端, iOS, 安全, 开发">
+    <meta name="theme-color" content="#000000">
+    
+    <title>iOS小技巧总结 - 田云翔的博客 | Yasin Blog</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/2015/10/23/iOS%E5%B0%8F%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Yasin Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from
+     * $toggle/$collapse will break global delegation.
+     *
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/post-bg-2015.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post-bg-2015.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#iOS" title="iOS">iOS</a>
+                        
+                    </div>
+                    <h1>iOS小技巧总结</h1>
+                    
+                    
+                    <h2 class="subheading">转眼也写了好久的iOS了，把工作中的小技巧总结一下</h2>
+                    
+                    <span class="meta">Posted by yasin on October 23, 2015</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<h3 id="oc和swift混编">OC和swift混编</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>swift调用OC
+1、创建一个swift或者oc的工程：我这里是创建的Swift语言的工程，工程名SwiftTest 
+2、在工程中代码目录下创建一个oc的类，选择oc语言， 会出一个对话框，选择YES    
+3、这时会在工程里看到下图这样一个头文件  *-Bridging-Header.h
+4、在这个头文件里添加你的OC文件的.h文件，就可以在任意swift文件中自行调用所包含的oc文件了。 #import “aaa.h”
+
+OC调用swift
+在工程的target-》build Setting-&gt;package下个性如下两项 
+Defines Module 改为YES
+Product Module Name的值加上“-swift.h”作为头文件被OC包含
+</code></pre>
+</div>
+<h3 id="图片拉伸填满">图片拉伸填满</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>//拉伸填满
++(UIImage *)resizeImageWithImageName:(NSString *)imageName{
+    UIImage *image=[self imageNamed:imageName];
+    //从中间开始拉伸
+    return [image stretchableImageWithLeftCapWidth:image.size.width*0.5 topCapHeight:image.size.height*0.5];
+}
+</code></pre>
+</div>
+
+<h3 id="改变图片大小">改变图片大小</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- (UIImage *)scaleToSize:(UIImage *)img size:(CGSize)size{
+    UIGraphicsBeginImageContext(size);
+    [img drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage* scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return scaledImage;
+}
+</code></pre>
+</div>
+
+<h3 id="隐藏状态栏">隐藏状态栏</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>-(BOOL)prefersStatusBarHidden{
+    return YES;
+}
+</code></pre>
+</div>
+
+<h3 id="跳转时隐藏tabbar">跳转时隐藏tabbar</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>viewController.hidesBottomBarWhenPushed=YES;
+</code></pre>
+</div>
+
+<h3 id="json和nsstring转换">Json和NSString转换</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>//将json对象装换成json字符串
++(NSString *)coverseObj2JsonStrWithObj:(id)obj{
+    NSError *error=nil;
+    NSData *data=[NSJSONSerialization dataWithJSONObject:obj options:0 error:&amp;error];
+    if(!error){
+        return [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    }else{
+        return nil;
+    }
+}
+//将json字符串转换成json对象
++(id)converseJsonStr2ObjWithJsonStr:(NSString *)jsonStr{
+    NSError *error=nil;
+    NSData *data=[jsonStr dataUsingEncoding:NSUTF8StringEncoding];
+    id obj =[NSJSONSerialization JSONObjectWithData:data options:0 error:&amp;error];
+    if(!error){
+        return obj;
+    }else{
+        return nil;
+    }
+}
+</code></pre>
+</div>
+
+<h3 id="改变状态栏的颜色">改变状态栏的颜色</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+     /*
+     UIBarStyleDefault          = 0,
+     UIBarStyleBlack            = 1,
+     UIBarStyleBlackOpaque      = 1, // Deprecated. Use UIBarStyleBlack
+     UIBarStyleBlackTranslucent = 2
+     */
+
+</code></pre>
+</div>
+
+<h3 id="改变导航栏上左右视图的位置">改变导航栏上左右视图的位置</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>_weatherView=[[WeatherView alloc]initWithFrame:CGRectMake(0, 0, 45, 50)];
+    UIBarButtonItem *leftBarButon = [[ UIBarButtonItem alloc ] initWithCustomView :_weatherView];
+    if(([[[UIDevice currentDevice] systemVersion] floatValue]&gt;=7.0?20:0)){
+        UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        negativeSpacer.width = -10;//这个数值可以根据情况自由变化
+        self.navigationItem.leftBarButtonItems = @[negativeSpacer, leftBarButon];
+    }else{
+        self.navigationItem.leftBarButtonItem = leftBarButon;
+    }
+</code></pre>
+</div>
+
+<h3 id="af网络检测">AF网络检测</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>-(void)internet{
+    
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+    //设置网络变化回调
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        switch (status) {
+                
+            case AFNetworkReachabilityStatusNotReachable:{
+                NSLog(@"无网络");
+                break;
+            }
+            case AFNetworkReachabilityStatusReachableViaWiFi:{
+                NSLog(@"WiFi网络");
+                if (!_weatherView.isLoad) {//如果weather没加载
+                    [_weatherView download];
+                }
+                break;
+            }
+            case AFNetworkReachabilityStatusReachableViaWWAN:{
+                NSLog(@"无线网络");
+                if (!_weatherView.isLoad) {//如果weather没加载
+                    [_weatherView download];
+                }
+                break;
+            }
+            default:
+                break;
+        }
+    }];
+}
+</code></pre>
+</div>
+
+<h3 id="af的接受数据类型设置">AF的接受数据类型设置</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>manger.responseSerializer.acceptableContentTypes=[NSSet setWithObjects:@"application/json",@"text/html",@"text/plain", nil];
+</code></pre>
+</div>
+
+<h3 id="弹簧动画">弹簧动画</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[UIView animateWithDuration:0.2 delay:0.0 usingSpringWithDamping:1 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        _imageview.transform=CGAffineTransformMakeTranslation(0,-3);
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.3  initialSpringVelocity:5.0 options:UIViewAnimationOptionCurveLinear animations:^{
+            _imageview.transform=CGAffineTransformMakeTranslation(0, 0);
+        } completion:^(BOOL finished) {
+            
+        }];
+    }];
+</code></pre>
+</div>
+
+<h3 id="判断代理实现代理方法">判断代理实现代理方法</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>if(self.delegate&amp;&amp;[self.delegate respondsToSelector:@selector(SignBtnClick: ScoreLabel:)]){
+        [self.delegate SignBtnClick:_TitleLabel ScoreLabel:_ScoreLabel];
+    }
+</code></pre>
+</div>
+
+<h3 id="tabbar按钮自定义图片">tabbar按钮自定义图片</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>user.tabBarItem.image = [[UIImage imageNamed:@"user"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+</code></pre>
+</div>
+
+<h3 id="富文本改颜色">富文本改颜色</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>NSDictionary *dic =@{NSForegroundColorAttributeName:UIColorFromRGB(0xFE4500),NSFontAttributeName:[UIFont systemFontOfSize:13]};
+[home.tabBarItem setTitleTextAttributes:dic forState:UIControlStateSelected];
+</code></pre>
+</div>
+
+<h3 id="态栏的颜色">态栏的颜色</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+</code></pre>
+</div>
+
+<h3 id="改变导航栏上左右视图的位置-1">改变导航栏上左右视图的位置</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>_weatherView=[[WeatherView alloc]initWithFrame:CGRectMake(0, 0, 45, 50)];
+    UIBarButtonItem *leftBarButon = [[ UIBarButtonItem alloc ] initWithCustomView :_weatherView];
+    if(([[[UIDevice currentDevice] systemVersion] floatValue]&gt;=7.0?20:0)){
+        UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        negativeSpacer.width = -10;//这个数值可以根据情况自由变化
+        self.navigationItem.leftBarButtonItems = @[negativeSpacer, leftBarButon];
+    }else{
+        self.navigationItem.leftBarButtonItem = leftBarButon;
+    }
+</code></pre>
+</div>
+
+<h3 id="af网络检测-1">AF网络检测</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>-(void)internet{
+    
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+    //设置网络变化回调
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        switch (status) {
+                
+            case AFNetworkReachabilityStatusNotReachable:{
+                NSLog(@"无网络");
+                break;
+            }
+            case AFNetworkReachabilityStatusReachableViaWiFi:{
+                NSLog(@"WiFi网络");
+                if (!_weatherView.isLoad) {//如果weather没加载
+                    [_weatherView download];
+                }
+                break;
+            }
+            case AFNetworkReachabilityStatusReachableViaWWAN:{
+                NSLog(@"无线网络");
+                if (!_weatherView.isLoad) {//如果weather没加载
+                    [_weatherView download];
+                }
+                break;
+            }
+            default:
+                break;
+        }
+    }];
+}
+</code></pre>
+</div>
+
+<h3 id="af的接受数据类型设置-1">AF的接受数据类型设置</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>manger.responseSerializer.acceptableContentTypes=[NSSet setWithObjects:@"application/json",@"text/html",@"text/plain", nil];
+
+Client.httpClient.responseSerializer = [AFHTTPResponseSerializer serializer];//不自动转换类型
+</code></pre>
+</div>
+
+<h3 id="af设置超时">AF设置超时</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>self.manager.requestSerializer.timeoutInterval 
+</code></pre>
+</div>
+
+<h3 id="判断代理实现代理方法-1">判断代理实现代理方法</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>if(self.delegate&amp;&amp;[self.delegate respondsToSelector:@selector(SignBtnClick: ScoreLabel:)]){
+        [self.delegate SignBtnClick:_TitleLabel ScoreLabel:_ScoreLabel];
+    }
+</code></pre>
+</div>
+
+<h3 id="tabbar按钮自定义图片-1">tabbar按钮自定义图片</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>user.tabBarItem.image = [[UIImage imageNamed:@"user"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+</code></pre>
+</div>
+
+<h3 id="富文本改颜色-1">富文本改颜色</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>NSDictionary *dic =@{NSForegroundColorAttributeName:UIColorFromRGB(0xFE4500),NSFontAttributeName:[UIFont systemFontOfSize:13]};
+[home.tabBarItem setTitleTextAttributes:dic forState:UIControlStateSelected];
+</code></pre>
+</div>
+
+<h3 id="富文本划线">富文本划线</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> NSString *str=[NSString stringWithFormat:@"¥%.2f",[moudel.lastPrice floatValue]];
+ NSDictionary *dict=@{NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle|NSUnderlinePatternSolid),NSStrikethroughColorAttributeName:[UIColor grayColor]};
+    NSMutableAttributedString *aStr=[[NSMutableAttributedString alloc]initWithString:str attributes:dict];
+    _myLastPriceLabel.attributedText=aStr;
+</code></pre>
+</div>
+
+<h3 id="重写button上图片和文字的位置">重写button上图片和文字的位置</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>-(CGRect)titleRectForContentRect:(CGRect)contentRect{
+    return CGRectMake(0, 0, CGRectGetWidth(contentRect)*RATIO, CGRectGetHeight(contentRect));
+}
+//改变image的位置
+-(CGRect)imageRectForContentRect:(CGRect)contentRect{
+    return CGRectMake(CGRectGetWidth(contentRect)*RATIO, 0, CGRectGetWidth(contentRect)*(1-RATIO), CGRectGetHeight(contentRect));
+}
+</code></pre>
+</div>
+
+<h3 id="设置导航栏标题">设置导航栏标题</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:24],NSForegroundColorAttributeName:[UIColor magentaColor]}];
+</code></pre>
+</div>
+
+<h3 id="把图片存进相册">把图片存进相册</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>UIImageWriteToSavedPhotosAlbum(imageview.image, nil, nil, nil);
+</code></pre>
+</div>
+
+<h3 id="重绘系统cell图片大小">重绘系统cell图片大小</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>CGSize itemSize = CGSizeMake(60, 60);
+UIGraphicsBeginImageContext(itemSize);
+CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
+[cell.imageView.image drawInRect:imageRect];
+cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+UIGraphicsEndImageContext();
+</code></pre>
+</div>
+
+<h3 id="设置cell选中后得背景颜色">设置cell选中后得背景颜色</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cell.selectedBackgroundView=bgView;
+</code></pre>
+</div>
+
+<h3 id="隐藏cell分界线">隐藏cell分界线</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Tableview.separatorStyle=UITableViewCellSeparatorStyleNone;
+</code></pre>
+</div>
+
+<h3 id="cell自适应会用重绘">cell自适应会用重绘</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[cell setNeedsDisplay];//将cell标识为需要重绘
+[cell layoutIfNeeded];//cell如果需要重绘就重新绘制
+tableView.estimatedRowHeight=CGRectGetMaxY(cell.MyCol.frame)+10;//预估算高度
+tableView.rowHeight=UITableViewAutomaticDimension;//自适应高度
+</code></pre>
+</div>
+
+<h3 id="检测键盘弹出">检测键盘弹出</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[[NSNotificationCenter defaultCenter]addObserver:self   selector:@selector()  name:UIKeyboardWillShowNotification  object:nil];
+</code></pre>
+</div>
+
+<h1 id="第二部分">第二部分</h1>
+
+<h3 id="ios调用系统相册相机-显示中文标题">iOS调用系统相册、相机 显示中文标题</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>info.plist中添加
+Localized resources can be mixed   设置为  YES
+</code></pre>
+</div>
+
+<h3 id="ios8后ios定位">IOS8后IOS定位</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>在IOS8以后调用定位需要在info.plist里面加入两个属性
+1.NSLocationAlwaysUsageDescription      
+2.NSLocationWhenInUseUsageDescription
+设置为String 值为1
+不这样系统设置定位会蹦
+</code></pre>
+</div>
+
+<h3 id="判断gps开启没">判断GPS开启没</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+    if (kCLAuthorizationStatusDenied == status || kCLAuthorizationStatusRestricted == status) {
+        UIAlertController *alert=[UIAlertController alertControllerWithTitle:@"提示" message:@"请打开定位功能" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [alert addAction:okAction];
+        [[UIApplication sharedApplication].windows.firstObject.rootViewController presentViewController:alert animated:YES completion:^{
+            
+        }];
+    }
+</code></pre>
+</div>
+
+<h3 id="请求用户授权">请求用户授权</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>//如果没有授权则请求用户授权
+    if ([CLLocationManager authorizationStatus]==kCLAuthorizationStatusNotDetermined){
+        [_locationMgr requestAlwaysAuthorization];
+        if([[UIDevice currentDevice].systemVersion doubleValue] &gt;= 8.0)
+        {
+            NSLog(@"是iOS8");
+            // 主动要求用户对我们的程序授权, 授权状态改变就会通知代理
+            [_locationMgr requestAlwaysAuthorization]; // 请求前台和后台定位权限
+        }
+    }else if([CLLocationManager authorizationStatus]==kCLAuthorizationStatusAuthorizedAlways){
+        //设置代理
+        // _locationMgr.delegate=self;
+        //设置定位精度
+        _locationMgr.desiredAccuracy=kCLLocationAccuracyBest;
+        //定位频率,每隔多少米定位一次
+        CLLocationDistance distance=10.0;//十米定位一次
+        _locationMgr.distanceFilter=distance;
+        //启动跟踪定位
+        [_locationMgr startUpdatingLocation];
+    }
+</code></pre>
+</div>
+
+<h3 id="移除所有的子视图">移除所有的子视图</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+</code></pre>
+</div>
+
+<h3 id="ios自带表情上传服务器">IOS自带表情上传服务器</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[string stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+[string  stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+</code></pre>
+</div>
+
+<h3 id="webview内存清理">webview内存清理</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
+}
+</code></pre>
+</div>
+
+<h3 id="复制一段文字">复制一段文字</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> [[UIPasteboard generalPasteboard] setString:urlStr];
+</code></pre>
+</div>
+
+<h3 id="设置地区">设置地区</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>NSLocale
+
+若你只开发中国区的应用，需要保证用户修改当前语言环境时应用的显示不发生变化。而像NSDateFormatter这样的类，会根据设备的设置，自动返回不同语言的数据。为了保证返回数据的语言一致，我们需要设置NSLocale。
+NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh"];
+NSDateFormatter *secondDateFormatter = [[NSDateFormatter alloc] init];
+[secondDateFormatter setDateFormat:@"cccc"];
+secondDateFormatter.locale = locale;
+NSDate *date = [NSDate date];
+NSLog(@"%@", [secondDateFormatter stringFromDate:date]);
+</code></pre>
+</div>
+
+<h3 id="信用卡判断">信用卡判断</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>使用Luhn算法（Luhn algorithm）校验信用卡号的：
+
+1、从卡号最右边开始，由右向左，奇数位数字直接累加；
+2、从卡号最右边开始，由右向左，偶数位数字先乘以2（如果乘积为两位数，则将这两位数再次累加或者将其减去9），再求和。
+例如：10 = 1 + 0 = 1, 14 = 1 + 4 = 5 等价于 10 - 9 = 1， 14 - 9 = 5；
+
+3、将奇数位总和加上偶数位总和，结果对10取模为0。
+
+例如，卡号是：356827027232780
+奇数位和=28
+偶数位乘以2（有些要减去9）的结果求和=32。
+最后28+32=70 % 10 = 0，信用卡号校验通过。
+- (BOOL)checkCreditCardNumber:(NSString *)cardNum
+{
+    NSAssert(cardNum &amp;&amp; cardNum != @"" , @"checkCreditCardNumber: cardNum is nil.");
+    NSInteger len = [cardNum length];
+    NSInteger sumNumOdd = 0;
+    NSInteger sumNumEven = 0;
+    BOOL isOdd = YES;
+    
+    for (NSInteger i = len - 1; i &gt;= 0; i--) {
+        
+        NSInteger num = [cardNum substringWithRange:NSMakeRange(i, 1)].integerValue;
+        if (isOdd) {//奇数位
+            sumNumOdd += num;
+        }else{//偶数位
+            num = num * 2;
+            if (num &gt; 9) {
+                num = num - 9;
+            }
+            sumNumEven += num;
+        }
+        isOdd = !isOdd;
+    }
+    
+    return ((sumNumOdd + sumNumEven) % 10 == 0);
+}
+</code></pre>
+</div>
+
+<h3 id="uiwebview修改user-agent">uiwebview修改User-Agent</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>-(void)changeUserAgent{
+    static int i=0;
+    if(i++){
+        return;
+    }
+    // 获取 iOS 默认的 UserAgent，可以很巧妙地创建一个空的UIWebView来获取
+    NSString *userAgent = [[[UIWebView alloc]init] stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+    // 获取App名称，我的App有本地化支持，所以是如下的写法
+    //NSString *appName = NSLocalizedStringFromTable(@"CFBundleDisplayName", @"InfoPlist", nil);
+    NSString *version = [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"];
+    NSString *customUserAgent = [userAgent stringByAppendingFormat:@" %@/%@", @"ios", version];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"UserAgent":customUserAgent}];
+}
+</code></pre>
+</div>
+
+<h3 id="自定义导航栏返回按钮滑动返回失效解决办法">自定义导航栏返回按钮滑动返回失效解决办法</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>self.navigationController.interactivePopGestureRecognizer.delegate=(id)self;
+</code></pre>
+</div>
+
+<h3 id="rc4加密">RC4加密</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>+(NSString*)HloveyRC4:(NSString*)aInput key:(NSString*)aKey
+{
+
+    NSMutableArray *iS = [[NSMutableArray alloc] initWithCapacity:256];
+    NSMutableArray *iK = [[NSMutableArray alloc] initWithCapacity:256];
+
+    for (int i= 0; i&lt;256; i++) {
+        [iS addObject:[NSNumber numberWithInt:i]];
+    }
+
+    int j=1;
+
+    for (short i=0; i&lt;256; i++) {
+
+        UniChar c = [aKey characterAtIndex:i%aKey.length];
+
+        [iK addObject:[NSNumber numberWithChar:c]];
+    }
+
+    j=0;
+
+    for (int i=0; i&lt;255; i++) {
+        int is = [[iS objectAtIndex:i] intValue];
+        UniChar ik = (UniChar)[[iK objectAtIndex:i] charValue];
+
+        j = (j + is + ik)%256;
+        NSNumber *temp = [iS objectAtIndex:i];
+        [iS replaceObjectAtIndex:i withObject:[iS objectAtIndex:j]];
+        [iS replaceObjectAtIndex:j withObject:temp];
+
+    }
+
+    int i=0;
+    j=0;
+
+    NSString *result = aInput;
+
+    for (short x=0; x&lt;[aInput length]; x++) {
+        i = (i+1)%256;
+
+        int is = [[iS objectAtIndex:i] intValue];
+        j = (j+is)%256;
+
+        int is_i = [[iS objectAtIndex:i] intValue];
+        int is_j = [[iS objectAtIndex:j] intValue]; 
+
+        int t = (is_i+is_j) % 256;
+        int iY = [[iS objectAtIndex:t] intValue];
+
+        UniChar ch = (UniChar)[aInput characterAtIndex:x];
+        UniChar ch_y = ch^iY;
+
+        result = [result stringByReplacingCharactersInRange:NSMakeRange(x, 1) withString:[NSString stringWithCharacters:&amp;ch_y length:1]];
+    }
+
+    [iS release];
+    [iK release];
+
+    return result;
+}
+</code></pre>
+</div>
+
+<h3 id="将一个uiview对象的内容保存为uiimage">将一个UIView对象的内容保存为UIImage</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>+ (UIImage*)imageFromView:(UIView*)view{
+    UIGraphicsBeginImageContextWithOptions(view.bounds.size, YES, view.layer.contentsScale);
+    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
+</code></pre>
+</div>
+
+<h3 id="截取屏幕图片">截取屏幕图片</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>// 创建一个基于位 图的图形上下文并指定大小为CGSizeMake(200,400) 
+UIGraphicsBeginImageContext(CGSizeMake(200,400));  
+
+//renderInContext  呈现接受者及其子范围到 指定的上下文 
+[self.view.layer renderInContext:UIGraphicsGetCurrentContext()]; 
+
+// 返回 一个基于当前图形上下文的图片 
+UIImage *aImage = UIGraphicsGetImageFromCurrentImageContext(); 
+// 移除栈顶 的基于当前位图的图形上下文 
+UIGraphicsEndImageContext(); 
+// 以 png 格式 返回指定图片的数据 
+imageData = UIImagePNGR epresentation(aImage);  
+</code></pre>
+</div>
+
+<h3 id="present一个半透明的视图">present一个半透明的视图</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>	TestViewController * testVC = [TestViewController new];
+    self.definesPresentationContext = YES; //self is presenting view controller
+    testVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
+    testVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    [self presentViewController:testVC animated:YES completion:nil];
+</code></pre>
+</div>
+<h3 id="present一个半透明的带导航栏的视图">present一个半透明的带导航栏的视图</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    SecondViewController * testVC = [SecondViewController new];
+    self.definesPresentationContext = YES; //self is presenting view controller
+    testVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.5];
+//    testVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:testVC];
+    nav.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    nav.view.backgroundColor = [UIColor clearColor];
+    [self presentViewController:nav animated:YES completion:nil];
+</code></pre>
+</div>
+
+<h3 id="防止类是不存在的">防止类是不存在的</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Class class = NSClassFromString(@"SecondViewController");
+    if (class) {
+        UIViewController *vc = [class new];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+</code></pre>
+</div>
+
+<h3 id="afhttpsessionmanager">AFHTTPSessionManager</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>AFHTTPSessionManager *sess = [AFHTTPSessionManager manager];
+    sess.requestSerializer.timeoutInterval = 30;//设置超时
+    [sess.requestSerializer setValue:Client.token forHTTPHeaderField:@"token"];
+    sess.responseSerializer.acceptableContentTypes=[NSSet setWithObjects:@"application/json",@"text/html",@"text/plain", nil];
+    [sess GET:urlStr parameters:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+        [self analysisWithDic:responseObject];//解析数据
+    } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
+        [_tableview.header endRefreshing];
+        [_tableview.footer endRefreshing];
+        [SVProgressHUD showInfoWithStatus:@"请检查您的网络连接!"];
+        NSLog(@"%@",error);
+    }];
+</code></pre>
+</div>
+<h3 id="url编码">URL编码</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1.url编码
+
+ios中http请求遇到汉字的时候，需要转化成UTF-8，用到的方法是：
+
+NSString * encodingString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
+2.url解码
+
+请求后，返回的数据，如何显示的是这样的格式：%3A%2F%2F，此时需要我们进行UTF-8解码，用到的方法是：
+
+NSString *str = [model.album_name stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+</code></pre>
+</div>
+
+
+                <hr style="visibility: hidden;">
+
+                
+                <!-- 多说 Share start -->
+                <div class="ds-share"
+                    style="text-align: right"
+                    data-thread-key="/2015/10/23/iOS小技巧总结"
+                    data-title="iOS小技巧总结"
+                    data-url="http://localhost:4000/2015/10/23/iOS%E5%B0%8F%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93/"
+                    data-images="http://localhost:4000/img/post-bg-2015.jpg"
+                    data-content="OC和swift混编
+
+swift调用OC
+1、创建一个swift或者oc的工程：我这里是创建的Swift语言的工程，工程名SwiftTest 
+2、在工... | 田云翔的博客 | Yasin Blog " >
+                    <div class="ds-share-inline">
+                      <style> 
+                        .ds-share-icons-16 {display:none;} 
+                      </style>
+                      <ul class="ds-share-icons-16">
+                        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
+                        <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+                        <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo">微博</a></li>
+                        <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban">豆瓣</a></li>
+                      </ul>
+                      <div class="ds-share-icons-more">
+                      </div>
+                    </div>
+                <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2016/04/03/iOS%E6%94%AF%E4%BB%98%E5%AE%9D%E9%9B%86%E6%88%90/" data-toggle="tooltip" data-placement="top" title="iOS支付宝集成">
+                        Next<br>
+                        <span>iOS支付宝集成</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                        data-thread-key="/2015/10/23/iOS小技巧总结"
+                        data-title="iOS小技巧总结"
+                        data-url="http://localhost:4000/2015/10/23/iOS%E5%B0%8F%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93/" >
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#iOS" title="iOS" rel="6">
+                                    iOS
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#安全" title="安全" rel="5">
+                                    安全
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#开发" title="开发" rel="1">
+                                    开发
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#装逼" title="装逼" rel="1">
+                                    装逼
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#汇编" title="汇编" rel="1">
+                                    汇编
+                                </a>
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'yasintian';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user };
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/YasinTian">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/YasinTian">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/YasinTian">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Yasin Blog 2017
+                    <br>
+                    <!-- Theme by <a href="http://huangxuan.me">Hux</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=YasinTian&repo=YasinTian.github.io&type=star&count=true" >
+                    </iframe> -->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script type="text/javascript">
+    if(navigator.serviceWorker){
+        // For security reasons, a service worker can only control the pages that are in the same directory level or below it. That's why we put sw.js at ROOT level.
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then((registration) => {console.log('Service Worker Registered. ', registration)})
+            .catch((error) => {console.log('ServiceWorker registration failed: ', error)})
+    }
+</script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

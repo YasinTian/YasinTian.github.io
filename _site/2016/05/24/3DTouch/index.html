@@ -10,7 +10,7 @@
     <meta name="keywords"  content="博客, 个人网站, 互联网, 前端, iOS, 安全, 开发">
     <meta name="theme-color" content="#000000">
     
-    <title>theos越狱环境搭建 - 田云翔的博客 | Yasin Blog</title>
+    <title>3DTouch的使用 - 田云翔的博客 | Yasin Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2016/12/29/theos%E5%AE%89%E8%A3%85/">
+    <link rel="canonical" href="http://localhost:4000/2016/05/24/3DTouch/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -170,15 +170,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#安全" title="安全">安全</a>
+                        <a class="tag" href="/tags/#iOS" title="iOS">iOS</a>
                         
                     </div>
-                    <h1>theos越狱环境搭建</h1>
+                    <h1>3DTouch的使用</h1>
                     
                     
-                    <h2 class="subheading">说到iOS越狱开发，就少不了theos，今天就先从环境搭建开始吧</h2>
+                    <h2 class="subheading">3DTouch是苹果新出的一种交互模式，我尝试在帖子列表页加入了这个功能，感觉还不错，记录下使用方法</h2>
                     
-                    <span class="meta">Posted by yasin on December 29, 2016</span>
+                    <span class="meta">Posted by yasin on May 24, 2016</span>
                 </div>
             </div>
         </div>
@@ -196,106 +196,74 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<p><a href="https://github.com/theos/theos/wiki/Installation">参考文档</a></p>
+				<h3 id="1给控件注册事件以cell为例">1、给控件注册事件（以cell为例</h3>
 
-<p><a href="https://github.com/YasinTian/TheosFirstDemo/tree/master">demo在这里</a></p>
-
-<h2 id="ldid安装">ldid安装</h2>
-
-<p>ldid可以在http://joedj.net/ldid 下载
-复制到<code class="highlighter-rouge">/opt/theos/bin</code>里面
-执行<code class="highlighter-rouge">sudo chmod 777 /opt/theos/bin/ldid</code>提升权限</p>
-
-<h2 id="libsubstratedylib">libsubstrate.dylib</h2>
-
-<p>这个需要用到手机助手的文件管理功能把<code class="highlighter-rouge">/Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate</code>复制出来
-改名为<code class="highlighter-rouge">libsubstrate.dylib</code>，然后放到<code class="highlighter-rouge">/opt/theos/lib</code> 中。</p>
-
-<h2 id="dkpg安装">dkpg安装</h2>
-
-<p>这个命令需要安装<a href="https://www.macports.org/install.php">MacPorts</a>，选择对应的系统下下来安装即可。
-<code class="highlighter-rouge">sudo port install dpkg</code></p>
-
-<h2 id="theos安装">theos安装</h2>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>cd /opt
-$ git clone --recursive https://github.com/theos/theos.git
-</code></pre>
-</div>
-
-<h2 id="环境配置">环境配置</h2>
-
-<p><code class="highlighter-rouge">~./bash_profile</code>中加入下面的代码，没有这文件就创建一个
-<code class="highlighter-rouge">export THEOS=/opt/theos</code>
-<code class="highlighter-rouge">export PATH=/opt/theos/bin/:$PATH</code></p>
-
-<h2 id="测试一下">测试一下</h2>
-
-<p>cd到准备放工程的目录执行<code class="highlighter-rouge">/opt/theos/bin/nic.pl</code>能输入输出下面的选项，theos就配置好了。</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>$ /opt/theos/bin/nic.pl
-NIC 2.0 - New Instance Creator
-------------------------------
-  [1.] iphone/activator_event
-  [2.] iphone/application_modern
-  [3.] iphone/cydget
-  [4.] iphone/flipswitch_switch
-  [5.] iphone/framework
-  [6.] iphone/ios7_notification_center_widget
-  [7.] iphone/library
-  [8.] iphone/notification_center_widget
-  [9.] iphone/preference_bundle_modern
-  [10.] iphone/tool
-  [11.] iphone/tweak
-  [12.] iphone/xpc_service
-</code></pre>
-</div>
-
-<h2 id="运行">运行</h2>
-
-<p>选择<code class="highlighter-rouge">iphone/tweak</code>这个选项，输入11回车。
-会让你输入工程名，bundleId，目标bundleId等。这里呢，我们只是要运行一下demo测试环境搭建是否成功，把工程名输了，其他直接回车就行了，都是有默认的。
-打开工程目录下的<code class="highlighter-rouge">Makefile</code></p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>include $(THEOS)/makefiles/common.mk
-TWEAK_NAME = firstdemo
-firstdemo_FILES = Tweak.xm
-include $(THEOS_MAKE_PATH)/tweak.mk
-THEOS_DEVICE_IP = 192.168.2.157	#手机的ip地址
-iOSRE_FRAMEWORKS=UIKit Foundation	#导入的库
-ARCHS = arm64 #手机是64位还是32位
-after-install::
-	install.exec "killall -9 SpringBoard"	#在安装成功后杀掉SpringBoard，会从新启动以加载我们的插件
-</code></pre>
-</div>
-
-<p>打开工程目录下的<code class="highlighter-rouge">Tweak.xm</code>文件
-粘贴下面的代码</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>#import &lt;UIKit/UIKit.h&gt;
-#import &lt;SpringBoard/SpringBoard.h&gt;
-
-%hook SBLockScreenDateViewController
-- (void)setCustomSubtitleText:(id)arg1 withColor:(id)arg2
-{
-NSString *str = @"锁屏界面的日期文字变成了这段话!";
-%orig(str, arg2);
+<div class="highlighter-rouge"><pre class="highlight"><code>-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    PostsFrameModel *model = _FrameArray[indexPath.row];
+    PostsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PostsCell"];
+    cell.fModel=model;
+    //注册3DTouch
+    if (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable) {
+        NSLog(@"3D Touch  可用!");
+        //给cell注册3DTouch的peek（预览）和pop功能
+        [self registerForPreviewingWithDelegate:self sourceView:cell];
+    } else {
+        NSLog(@"3D Touch 无效");
+    }
+    return cell;
 }
-%end
-
 </code></pre>
 </div>
 
-<p>最后<code class="highlighter-rouge">make</code>编译<code class="highlighter-rouge">make package</code>打包<code class="highlighter-rouge">make install</code>安装，过程会叫你输入2次ssh密码,全部成功的话，你就会看到SpringBoard正在重启。重启之后锁屏界面的日期，变成了我们自定义的字符串。
-如果提示THEOS_DEVICE_IP错误之类的就先输入<code class="highlighter-rouge">export THEOS_DEVICE_IP=手机的ip地址</code></p>
+<h3 id="2实现代理方法">2、实现代理方法</h3>
 
-<h2 id="theos的升级">theos的升级</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;UIViewControllerPreviewingDelegate&gt;
+//预览
+- (nullable UIViewController *)previewingContext:(id &lt;UIViewControllerPreviewing&gt;)previewingContext viewControllerForLocation:(CGPoint)location
+{
+    //获取按压的cell所在行，[previewingContext sourceView]就是按压的那个视图
+    NSIndexPath *indexPath = [_tableview indexPathForCell:(UITableViewCell* )[previewingContext sourceView]];
+    //设定预览的界面
+    WebViewController *web = [[WebViewController alloc]init];
+    PostsModel *model = _dataArray[indexPath.row];
+    web.postsUrl=model.href;
+    web.tid=model.tid;
+    web.tTitle=model.subject;
+    web.preferredContentSize = CGSizeMake(0.0f,500.0f);
+    //调整不被虚化的范围，按压的那个cell不被虚化（轻轻按压时周边会被虚化，再少用力展示预览，再加力跳页至设定界面）
+    CGRect rect = CGRectMake(0, 0, self.view.frame.size.width,40);
+    previewingContext.sourceRect = rect;
+    //返回预览界面
+    return web;
+}
 
-<p><code class="highlighter-rouge">git submodule update –recursive</code></p>
+//pop按用点力进入
+- (void)previewingContext:(id &lt;UIViewControllerPreviewing&gt;)previewingContext commitViewController:(UIViewController *)viewControllerToCommit {
+    viewControllerToCommit.hidesBottomBarWhenPushed=YES;
+    [self showViewController:viewControllerToCommit sender:self];
+}
+</code></pre>
+</div>
 
-<h2 id="注意">注意</h2>
+<h3 id="3在要进入的页面添加上滑快捷操作按钮">3、在要进入的页面添加上滑快捷操作按钮</h3>
 
-<p>在一些老板的安装方法中有<code class="highlighter-rouge">sudo /opt/theos/bin/bootstrap.sh substrate</code>,现在可以不用管了。</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>- (NSArray&lt;id&lt;UIPreviewActionItem&gt;&gt; *)previewActionItems {
+    // setup a list of preview actions
+    UIPreviewAction *action1 = [UIPreviewAction actionWithTitle:@"Aciton1" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
+        NSLog(@"Aciton1");
+    }];
+    UIPreviewAction *action2 = [UIPreviewAction actionWithTitle:@"Aciton2" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
+        NSLog(@"Aciton2");
+    }];
+    UIPreviewAction *action3 = [UIPreviewAction actionWithTitle:@"Aciton3" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
+        NSLog(@"Aciton3");
+    }];
+    NSArray *actions = @[action1,action2,action3];
+    // and return them (return the array of actions instead to see all items ungrouped)
+    return actions;
+}
+</code></pre>
+</div>
 
 
                 <hr style="visibility: hidden;">
@@ -304,19 +272,13 @@ NSString *str = @"锁屏界面的日期文字变成了这段话!";
                 <!-- 多说 Share start -->
                 <div class="ds-share"
                     style="text-align: right"
-                    data-thread-key="/2016/12/29/theos安装"
-                    data-title="theos越狱环境搭建"
-                    data-url="http://localhost:4000/2016/12/29/theos%E5%AE%89%E8%A3%85/"
+                    data-thread-key="/2016/05/24/3DTouch"
+                    data-title="3DTouch的使用"
+                    data-url="http://localhost:4000/2016/05/24/3DTouch/"
                     data-images="http://localhost:4000/img/post-bg-2015.jpg"
-                    data-content="参考文档
+                    data-content="1、给控件注册事件（以cell为例
 
-demo在这里
-
-ldid安装
-
-ldid可以在http://joedj.net/ldid 下载
-复制到/opt/theos/bin里面
-执行... | 田云翔的博客 | Yasin Blog " >
+-(UITableViewCell *)tableView:(UITableView *)tableView cel... | 田云翔的博客 | Yasin Blog " >
                     <div class="ds-share-inline">
                       <style> 
                         .ds-share-icons-16 {display:none;} 
@@ -339,17 +301,17 @@ ldid可以在http://joedj.net/ldid 下载
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2016/05/24/RN%E8%B0%83%E7%94%A8%E5%8E%9F%E7%94%9F%E7%9A%84%E9%A1%B5%E9%9D%A2/" data-toggle="tooltip" data-placement="top" title="RN调用原生的页面">
+                        <a href="/2016/04/06/iOS%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%E9%9B%86%E6%88%90/" data-toggle="tooltip" data-placement="top" title="iOS微信支付集成">
                         Previous<br>
-                        <span>RN调用原生的页面</span>
+                        <span>iOS微信支付集成</span>
                         </a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2016/12/29/wifi%E7%A0%B4%E8%A7%A3/" data-toggle="tooltip" data-placement="top" title="Mac下的WIFI破解">
+                        <a href="/2016/05/24/RN%E8%B0%83%E7%94%A8%E5%8E%9F%E7%94%9F%E7%9A%84%E9%A1%B5%E9%9D%A2/" data-toggle="tooltip" data-placement="top" title="RN调用原生的页面">
                         Next<br>
-                        <span>Mac下的WIFI破解</span>
+                        <span>RN调用原生的页面</span>
                         </a>
                     </li>
                     
@@ -360,9 +322,9 @@ ldid可以在http://joedj.net/ldid 下载
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="/2016/12/29/theos安装"
-                        data-title="theos越狱环境搭建"
-                        data-url="http://localhost:4000/2016/12/29/theos%E5%AE%89%E8%A3%85/" >
+                        data-thread-key="/2016/05/24/3DTouch"
+                        data-title="3DTouch的使用"
+                        data-url="http://localhost:4000/2016/05/24/3DTouch/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->

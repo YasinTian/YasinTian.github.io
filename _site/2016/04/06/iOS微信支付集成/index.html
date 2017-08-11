@@ -10,7 +10,7 @@
     <meta name="keywords"  content="博客, 个人网站, 互联网, 前端, iOS, 安全, 开发">
     <meta name="theme-color" content="#000000">
     
-    <title>theos越狱环境搭建 - 田云翔的博客 | Yasin Blog</title>
+    <title>iOS微信支付集成 - 田云翔的博客 | Yasin Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2016/12/29/theos%E5%AE%89%E8%A3%85/">
+    <link rel="canonical" href="http://localhost:4000/2016/04/06/iOS%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%E9%9B%86%E6%88%90/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -170,15 +170,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#安全" title="安全">安全</a>
+                        <a class="tag" href="/tags/#iOS" title="iOS">iOS</a>
                         
                     </div>
-                    <h1>theos越狱环境搭建</h1>
+                    <h1>iOS微信支付集成</h1>
                     
                     
-                    <h2 class="subheading">说到iOS越狱开发，就少不了theos，今天就先从环境搭建开始吧</h2>
+                    <h2 class="subheading">微信支付签名比较麻烦，两次签名把我们后台绕晕了，客户端来说也还是比较简单。</h2>
                     
-                    <span class="meta">Posted by yasin on December 29, 2016</span>
+                    <span class="meta">Posted by yasin on April 6, 2016</span>
                 </div>
             </div>
         </div>
@@ -196,106 +196,183 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<p><a href="https://github.com/theos/theos/wiki/Installation">参考文档</a></p>
+				<h3 id="导入">导入</h3>
 
-<p><a href="https://github.com/YasinTian/TheosFirstDemo/tree/master">demo在这里</a></p>
-
-<h2 id="ldid安装">ldid安装</h2>
-
-<p>ldid可以在http://joedj.net/ldid 下载
-复制到<code class="highlighter-rouge">/opt/theos/bin</code>里面
-执行<code class="highlighter-rouge">sudo chmod 777 /opt/theos/bin/ldid</code>提升权限</p>
-
-<h2 id="libsubstratedylib">libsubstrate.dylib</h2>
-
-<p>这个需要用到手机助手的文件管理功能把<code class="highlighter-rouge">/Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate</code>复制出来
-改名为<code class="highlighter-rouge">libsubstrate.dylib</code>，然后放到<code class="highlighter-rouge">/opt/theos/lib</code> 中。</p>
-
-<h2 id="dkpg安装">dkpg安装</h2>
-
-<p>这个命令需要安装<a href="https://www.macports.org/install.php">MacPorts</a>，选择对应的系统下下来安装即可。
-<code class="highlighter-rouge">sudo port install dpkg</code></p>
-
-<h2 id="theos安装">theos安装</h2>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>cd /opt
-$ git clone --recursive https://github.com/theos/theos.git
+<div class="highlighter-rouge"><pre class="highlight"><code>和支付宝一样拖进去就可以了。报错的话照官方文档拖些库进去。
 </code></pre>
 </div>
 
-<h2 id="环境配置">环境配置</h2>
+<h3 id="集成">集成</h3>
 
-<p><code class="highlighter-rouge">~./bash_profile</code>中加入下面的代码，没有这文件就创建一个
-<code class="highlighter-rouge">export THEOS=/opt/theos</code>
-<code class="highlighter-rouge">export PATH=/opt/theos/bin/:$PATH</code></p>
-
-<h2 id="测试一下">测试一下</h2>
-
-<p>cd到准备放工程的目录执行<code class="highlighter-rouge">/opt/theos/bin/nic.pl</code>能输入输出下面的选项，theos就配置好了。</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>$ /opt/theos/bin/nic.pl
-NIC 2.0 - New Instance Creator
-------------------------------
-  [1.] iphone/activator_event
-  [2.] iphone/application_modern
-  [3.] iphone/cydget
-  [4.] iphone/flipswitch_switch
-  [5.] iphone/framework
-  [6.] iphone/ios7_notification_center_widget
-  [7.] iphone/library
-  [8.] iphone/notification_center_widget
-  [9.] iphone/preference_bundle_modern
-  [10.] iphone/tool
-  [11.] iphone/tweak
-  [12.] iphone/xpc_service
+<div class="highlighter-rouge"><pre class="highlight"><code>	//设置微信支付
+    [WXApi registerApp:@"你的AppId" withDescription:@"应用附加信息，我写的是bundelID+一些字符"];
+    
+    如果你用了友盟的分享的话最好把分享的方法放在前面。
+    [UMSocialWechatHandler setWXAppId:@"" appSecret:@"" url:@""];
 </code></pre>
 </div>
 
-<h2 id="运行">运行</h2>
+<h3 id="生成订单">生成订单</h3>
+<p>有一点要注意的是微信的支付单位为分，要支付1块钱就要传100过去。
+同样微信也是应该在服务器进行签名，如果要本地签名就先创建一个字典，设置下面的这些参数。</p>
 
-<p>选择<code class="highlighter-rouge">iphone/tweak</code>这个选项，输入11回车。
-会让你输入工程名，bundleId，目标bundleId等。这里呢，我们只是要运行一下demo测试环境搭建是否成功，把工程名输了，其他直接回车就行了，都是有默认的。
-打开工程目录下的<code class="highlighter-rouge">Makefile</code></p>
+<p>| 参数名 | 值 |
+|——–|——–|
+|    appid    |    开放平台appid    |
+|    mch_id    |    商户号    |
+|   nonce_str     |      随机串  |
+|    trade_type    |    支付类型，固定为APP    |
+|     body   |    订单描述，展示给用户    |
+|     out_trade_no   |    商户订单号    |
+|     total_fee   |   订单金额，单位为分     |
+|     spbill_create_ip   |    发器支付的机器ip    |
+|     notify_url   |   支付结果异步通知     |
+|sign|对上面的参数签名得到的|
+把这个字典签名去掉微信的统一下单接口</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>include $(THEOS)/makefiles/common.mk
-TWEAK_NAME = firstdemo
-firstdemo_FILES = Tweak.xm
-include $(THEOS_MAKE_PATH)/tweak.mk
-THEOS_DEVICE_IP = 192.168.2.157	#手机的ip地址
-iOSRE_FRAMEWORKS=UIKit Foundation	#导入的库
-ARCHS = arm64 #手机是64位还是32位
-after-install::
-	install.exec "killall -9 SpringBoard"	#在安装成功后杀掉SpringBoard，会从新启动以加载我们的插件
-</code></pre>
-</div>
-
-<p>打开工程目录下的<code class="highlighter-rouge">Tweak.xm</code>文件
-粘贴下面的代码</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>#import &lt;UIKit/UIKit.h&gt;
-#import &lt;SpringBoard/SpringBoard.h&gt;
-
-%hook SBLockScreenDateViewController
-- (void)setCustomSubtitleText:(id)arg1 withColor:(id)arg2
+<div class="highlighter-rouge"><pre class="highlight"><code>签名的代码
+- (NSString *)genSign:(NSDictionary *)signParams
 {
-NSString *str = @"锁屏界面的日期文字变成了这段话!";
-%orig(str, arg2);
+    // 排序, 因为微信规定 ---&gt; 参数名ASCII码从小到大排序
+    NSArray *keys = [signParams allKeys];
+    NSArray *sortedKeys = [keys sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [obj1 compare:obj2 options:NSNumericSearch];
+    }];
+    
+    //生成 ---&gt; 微信规定的签名格式
+    NSMutableString *sign = [NSMutableString string];
+    for (NSString *key in sortedKeys) {
+        [sign appendString:key];
+        [sign appendString:@"="];
+        [sign appendString:[signParams objectForKey:key]];
+        [sign appendString:@"&amp;"];
+    }
+    NSString *signString = [[sign copy] substringWithRange:NSMakeRange(0, sign.length - 1)];
+    
+    // 拼接API密钥
+    NSString *result = [NSString stringWithFormat:@"%@&amp;key=%@", signString, WXAPIKey];
+    // 打印检查
+    NSLog(@"result = %@", result);
+    // md5加密
+    NSString *signMD5 = [CommonUtil md5:result];
+    // 微信规定签名英文大写
+    signMD5 = signMD5.uppercaseString;
+    // 打印检查
+    NSLog(@"signMD5 = %@", signMD5);
+    return signMD5;
 }
-%end
-
 </code></pre>
 </div>
 
-<p>最后<code class="highlighter-rouge">make</code>编译<code class="highlighter-rouge">make package</code>打包<code class="highlighter-rouge">make install</code>安装，过程会叫你输入2次ssh密码,全部成功的话，你就会看到SpringBoard正在重启。重启之后锁屏界面的日期，变成了我们自定义的字符串。
-如果提示THEOS_DEVICE_IP错误之类的就先输入<code class="highlighter-rouge">export THEOS_DEVICE_IP=手机的ip地址</code></p>
+<h3 id="第二次签名">第二次签名</h3>
 
-<h2 id="theos的升级">theos的升级</h2>
+<p>微信同意下单接口会返回一个字典，但是我们只需要里面的prepayid这个参数，重新创建一个字典包含下面的参数</p>
 
-<p><code class="highlighter-rouge">git submodule update –recursive</code></p>
+<table>
+  <thead>
+    <tr>
+      <th>参数名</th>
+      <th>值</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>appid</td>
+      <td>开放平台appid</td>
+    </tr>
+    <tr>
+      <td>partnerid</td>
+      <td>商户号</td>
+    </tr>
+    <tr>
+      <td>noncestr</td>
+      <td>随机串</td>
+    </tr>
+    <tr>
+      <td>package</td>
+      <td>Sign=WXPay不变</td>
+    </tr>
+    <tr>
+      <td>timestamp</td>
+      <td>时间戳</td>
+    </tr>
+    <tr>
+      <td>prepayid</td>
+      <td>统一下单接口返回的</td>
+    </tr>
+    <tr>
+      <td>sign</td>
+      <td>对上面的参数签名得到的</td>
+    </tr>
+  </tbody>
+</table>
 
-<h2 id="注意">注意</h2>
+<h3 id="调用微信的支付接口">调用微信的支付接口</h3>
 
-<p>在一些老板的安装方法中有<code class="highlighter-rouge">sudo /opt/theos/bin/bootstrap.sh substrate</code>,现在可以不用管了。</p>
+<p>如果你们的后台直接签完名给你，你可以直接从这里开始看，用后台传给你的字典直接调用微信的支付放久就OK了</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[WXApi sendReq:request];//request是拥有上面这些值得字典
+</code></pre>
+</div>
+<h3 id="回调">回调</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>
+回调先要在AppDelegate的这个方法里面加入
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+	//先判断是微信支付返回的
+	if([url.absoluteString rangeOfString:@"你的WXAppId://pay"].length){
+    	//调用代理的方法执行支付完成回调
+        return [WXApi handleOpenURL:url delegate:实现了代理方法的对象];
+    }
+}
+
+代理要实现这个方法
+-(void)onResp:(BaseResp*)resp{
+    if ([resp isKindOfClass:[PayResp class]]){
+        PayResp*response=(PayResp*)resp;
+        switch(response.errCode){
+            case WXSuccess:
+                NSLog(@"支付成功");
+                break;
+            default:
+            	NSLog(@"支付失败");
+                break;
+        }
+    }
+}
+</code></pre>
+</div>
+
+<h3 id="优化">优化</h3>
+
+<p>支付宝和微信属于一个支付管理单例来管理
+我对微信的方法进行了封装，变成了下面这个样子</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>//通过微信的订单类来发起支付
+-(void)weixinPayWithPayReq:(PayReq *)payReq andSuc:(weixinSuc)suc andErr:(weixinErr)err{
+	self.weixinSuc=suc;
+    self.weixinErr=err;
+    [WXApi sendReq:payReq];
+}
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>//通过后台返回的数据来发起支付
+-(void)weixinPayWithdatePay:(NSDictionary *)datePay andSuc:(weixinSuc)suc andErr:(weixinErr)err{
+	PayReq *request = [[PayReq alloc] init];
+    request.partnerId = datePay[@"partnerid"];//商户号
+    request.prepayId= datePay[@"prepayid"];//预支付交易会话ID
+    request.package = @"Sign=WXPay";//扩展字段
+    request.nonceStr= datePay[@"noncestr"];//随机字符串
+    request.timeStamp= [datePay[@"timestamp"] intValue];//时间戳
+    request.sign= datePay[@"sign"];//签名
+    [self weixinPayWithPayReq:request andSuc:suc andErr:err];
+}
+</code></pre>
+</div>
+
+<p>这样在外边只需要把支付完成或失败后的代码写在block里面就可以了</p>
+
 
 
                 <hr style="visibility: hidden;">
@@ -304,19 +381,20 @@ NSString *str = @"锁屏界面的日期文字变成了这段话!";
                 <!-- 多说 Share start -->
                 <div class="ds-share"
                     style="text-align: right"
-                    data-thread-key="/2016/12/29/theos安装"
-                    data-title="theos越狱环境搭建"
-                    data-url="http://localhost:4000/2016/12/29/theos%E5%AE%89%E8%A3%85/"
+                    data-thread-key="/2016/04/06/iOS微信支付集成"
+                    data-title="iOS微信支付集成"
+                    data-url="http://localhost:4000/2016/04/06/iOS%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%E9%9B%86%E6%88%90/"
                     data-images="http://localhost:4000/img/post-bg-2015.jpg"
-                    data-content="参考文档
+                    data-content="导入
 
-demo在这里
+和支付宝一样拖进去就可以了。报错的话照官方文档拖些库进去。
 
-ldid安装
 
-ldid可以在http://joedj.net/ldid 下载
-复制到/opt/theos/bin里面
-执行... | 田云翔的博客 | Yasin Blog " >
+
+集成
+
+	//设置微信支付
+    [WXApi registerApp:@"你... | 田云翔的博客 | Yasin Blog " >
                     <div class="ds-share-inline">
                       <style> 
                         .ds-share-icons-16 {display:none;} 
@@ -339,17 +417,17 @@ ldid可以在http://joedj.net/ldid 下载
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2016/05/24/RN%E8%B0%83%E7%94%A8%E5%8E%9F%E7%94%9F%E7%9A%84%E9%A1%B5%E9%9D%A2/" data-toggle="tooltip" data-placement="top" title="RN调用原生的页面">
+                        <a href="/2016/04/03/iOS%E6%94%AF%E4%BB%98%E5%AE%9D%E9%9B%86%E6%88%90/" data-toggle="tooltip" data-placement="top" title="iOS支付宝集成">
                         Previous<br>
-                        <span>RN调用原生的页面</span>
+                        <span>iOS支付宝集成</span>
                         </a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2016/12/29/wifi%E7%A0%B4%E8%A7%A3/" data-toggle="tooltip" data-placement="top" title="Mac下的WIFI破解">
+                        <a href="/2016/05/24/3DTouch/" data-toggle="tooltip" data-placement="top" title="3DTouch的使用">
                         Next<br>
-                        <span>Mac下的WIFI破解</span>
+                        <span>3DTouch的使用</span>
                         </a>
                     </li>
                     
@@ -360,9 +438,9 @@ ldid可以在http://joedj.net/ldid 下载
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="/2016/12/29/theos安装"
-                        data-title="theos越狱环境搭建"
-                        data-url="http://localhost:4000/2016/12/29/theos%E5%AE%89%E8%A3%85/" >
+                        data-thread-key="/2016/04/06/iOS微信支付集成"
+                        data-title="iOS微信支付集成"
+                        data-url="http://localhost:4000/2016/04/06/iOS%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%E9%9B%86%E6%88%90/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->

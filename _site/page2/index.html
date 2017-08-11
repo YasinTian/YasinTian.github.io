@@ -10,7 +10,7 @@
     <meta name="keywords"  content="博客, 个人网站, 互联网, 前端, iOS, 安全, 开发">
     <meta name="theme-color" content="#000000">
     
-    <title>逆向开发%log的问题 - 田云翔的博客 | Yasin Blog</title>
+    <title>田云翔的博客 | Yasin Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2017/03/06/%E8%A7%A3%E5%86%B3-log%E6%89%93%E5%8D%B0%E6%97%A5%E5%BF%97%E4%B8%8D%E5%AD%98%E5%9C%A8%E9%97%AE%E9%A2%98/">
+    <link rel="canonical" href="http://localhost:4000/page2/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -149,222 +149,260 @@
 </script>
 
 
-    <!-- Image to hack wechat -->
-<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-2015.jpg" width="0" height="0"> -->
-
-<!-- Post Header -->
-<style type="text/css">
-    header.intro-header{
-        position: relative;
-        background-image: url('/img/post-bg-2015.jpg')
-    }
-
-    
-</style>
-<header class="intro-header" >
-    <div class="header-mask"></div>
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="post-heading">
-                    <div class="tags">
-                        
-                        <a class="tag" href="/tags/#安全" title="安全">安全</a>
-                        
-                    </div>
-                    <h1>逆向开发%log的问题</h1>
-                    
-                    
-                    <h2 class="subheading">解决%log打印日志文件不存在的问题</h2>
-                    
-                    <span class="meta">Posted by yasin on March 6, 2017</span>
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
+                <div class="site-heading">
+                    <h1>Yasin Blog</h1>
+                    <!--<hr class="small">-->
+                    <span class="subheading">好好学习，天天向上</span>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<!-- Post Content -->
-<article>
-    <div class="container">
-        <div class="row">
-
-    <!-- Post Container -->
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                post-container">
-
-				<p><a href="http://bbs.iosre.com/t/ios-socat/139">参考文章</a></p>
-
-<p>看了许多文章说%log会在/var/log/syslog日志里，但是我的ios9.3.3的系统怎么都没有发现这个文件。</p>
-
-<p>网上搜了一下。发现可以按照<a href="https://www.theiphonewiki.com/wiki/System_Log">https://www.theiphonewiki.com/wiki/System_Log</a>里面的方法试一试。</p>
-
-<p>其中使用<code class="highlighter-rouge">socat</code>的方法使用非常简单方便，推荐使用。</p>
-
-<h3 id="socat">socat</h3>
-
-<p>我是直接用Cydia安装的，搜索syslogd to /var/log/syslog这个安装就行了。
-看别人的文章可以直接用命令安装<code class="highlighter-rouge">apt-get install socat</code></p>
-
-<p>使用就比较简单了</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>socat - UNIX-CONNECT:/var/run/lockdown/syslog.sock
-</code></pre>
-</div>
-
-<p>显示<code class="highlighter-rouge">ASL is here to serve you</code>说明准备好了，这个时候输入</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>watch
-</code></pre>
-</div>
-
-<p>屏幕上就会打印一大推东西出来。
-我们只想看我们<code class="highlighter-rouge">Hook</code>的程序只需要输入</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>*PID 要看的PID
-</code></pre>
-</div>
-
-<p>还有其他用法可以输入<code class="highlighter-rouge">help</code>看看其他命令。了解到这里，基本的调试就够用了。</p>
-
-
-                <hr style="visibility: hidden;">
-
-                
-                <!-- 多说 Share start -->
-                <div class="ds-share"
-                    style="text-align: right"
-                    data-thread-key="/2017/03/06/解决%log打印日志不存在问题"
-                    data-title="逆向开发%log的问题"
-                    data-url="http://localhost:4000/2017/03/06/%E8%A7%A3%E5%86%B3-log%E6%89%93%E5%8D%B0%E6%97%A5%E5%BF%97%E4%B8%8D%E5%AD%98%E5%9C%A8%E9%97%AE%E9%A2%98/"
-                    data-images="http://localhost:4000/img/post-bg-2015.jpg"
-                    data-content="参考文章
-
-看了许多文章说%log会在/var/log/syslog日志里，但是我的ios9.3.3的系统怎么都没有发现这个文件。
-
-网上搜了一下。发现可... | 田云翔的博客 | Yasin Blog " >
-                    <div class="ds-share-inline">
-                      <style> 
-                        .ds-share-icons-16 {display:none;} 
-                      </style>
-                      <ul class="ds-share-icons-16">
-                        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
-                        <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-                        <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo">微博</a></li>
-                        <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban">豆瓣</a></li>
-                      </ul>
-                      <div class="ds-share-icons-more">
-                      </div>
-                    </div>
-                <hr>
-                </div>
-                <!-- 多说 Share end-->
-                
-
-
-                <ul class="pager">
-                    
-                    <li class="previous">
-                        <a href="/2017/01/18/ReactiveCocoa%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" data-toggle="tooltip" data-placement="top" title="ReactiveCocoa快速入门">
-                        Previous<br>
-                        <span>ReactiveCocoa快速入门</span>
-                        </a>
-                    </li>
-                    
-                    
-                    <li class="next">
-                        <a href="/2017/06/01/UrlScheme%E6%9F%A5%E7%9C%8B/" data-toggle="tooltip" data-placement="top" title="查看App之间的跳转协议">
-                        Next<br>
-                        <span>查看App之间的跳转协议</span>
-                        </a>
-                    </li>
-                    
-                </ul>
-
-
-                
-                <!-- 多说评论框 start -->
-                <div class="comment">
-                    <div class="ds-thread"
-                        data-thread-key="/2017/03/06/解决%log打印日志不存在问题"
-                        data-title="逆向开发%log的问题"
-                        data-url="http://localhost:4000/2017/03/06/%E8%A7%A3%E5%86%B3-log%E6%89%93%E5%8D%B0%E6%97%A5%E5%BF%97%E4%B8%8D%E5%AD%98%E5%9C%A8%E9%97%AE%E9%A2%98/" >
-                    </div>
-                </div>
-                <!-- 多说评论框 end -->
-                
-
-                
-
-            </div>  
-
-    <!-- Side Catalog Container -->
-        
-            <div class="
-                col-lg-2 col-lg-offset-0
-                visible-lg-block
-                sidebar-container
-                catalog-container">
-                <div class="side-catalog">
-                    <hr class="hidden-sm hidden-xs">
-                    <h5>
-                        <a class="catalog-toggle" href="#">CATALOG</a>
-                    </h5>
-                    <ul class="catalog-body"></ul>
-                </div>
-            </div>
+<!-- Main Content -->
+<div class="container">
+	<div class="row">
         
 
+<!-- USE SIDEBAR -->
+    <!-- PostList Container -->
+    		<div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                postlist-container
+            ">
+    			
+<div class="post-preview">
+    <a href="/2016/05/24/3DTouch/">
+        <h2 class="post-title">
+            3DTouch的使用
+        </h2>
+        
+        <h3 class="post-subtitle">
+            3DTouch是苹果新出的一种交互模式，我尝试在帖子列表页加入了这个功能，感觉还不错，记录下使用方法
+        </h3>
+        
+        <div class="post-content-preview">
+            1、给控件注册事件（以cell为例
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    PostsFrameModel *model = _FrameArray[indexPath.row];
+    PostsCell *cel...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by yasin on May 24, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/04/06/iOS%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%E9%9B%86%E6%88%90/">
+        <h2 class="post-title">
+            iOS微信支付集成
+        </h2>
+        
+        <h3 class="post-subtitle">
+            微信支付签名比较麻烦，两次签名把我们后台绕晕了，客户端来说也还是比较简单。
+        </h3>
+        
+        <div class="post-content-preview">
+            导入
+
+和支付宝一样拖进去就可以了。报错的话照官方文档拖些库进去。
+
+
+
+集成
+
+	//设置微信支付
+    [WXApi registerApp:@"你的AppId" withDescription:@"应用附加信息，我写的是bundelID+一些字符"];
+    
+    如果你用了友盟的分享的话最好把分享的方法放在前面。
+    [UMSocialWechatHandler setW...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by yasin on April 6, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/04/03/iOS%E6%94%AF%E4%BB%98%E5%AE%9D%E9%9B%86%E6%88%90/">
+        <h2 class="post-title">
+            iOS支付宝集成
+        </h2>
+        
+        <h3 class="post-subtitle">
+            支付宝集成还是蛮简单的，就是开发者后台比较坑。
+        </h3>
+        
+        <div class="post-content-preview">
+            私钥和公钥
+
+RSA的具体内容就不讲了，自己搜搜就有。
+但是要知道的是RSA加密有一个公钥一个私钥，用公钥可以验证是否是私钥加密过的内容，防止数据传输过程中劫持修改内容。
+支付宝这边需要的是你给他一个公钥，和私钥一样是在你的本机生成。然后把公钥填到支付宝，支付宝也会给你一个公钥，用于验证支付完成后支付宝回调的数据是否正确。
+
+
+
+私钥和公钥生成
+
+生成比较简单就把官方文档的搬过来了，下面的选...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by yasin on April 3, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2015/10/23/iOS%E5%B0%8F%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93/">
+        <h2 class="post-title">
+            iOS小技巧总结
+        </h2>
+        
+        <h3 class="post-subtitle">
+            转眼也写了好久的iOS了，把工作中的小技巧总结一下
+        </h3>
+        
+        <div class="post-content-preview">
+            OC和swift混编
+
+swift调用OC
+1、创建一个swift或者oc的工程：我这里是创建的Swift语言的工程，工程名SwiftTest 
+2、在工程中代码目录下创建一个oc的类，选择oc语言， 会出一个对话框，选择YES    
+3、这时会在工程里看到下图这样一个头文件  *-Bridging-Header.h
+4、在这个头文件里添加你的OC文件的.h文件，就可以在任意swift文件...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by yasin on October 23, 2015
+    </p>
+</div>
+<hr>
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+    <li class="previous">
+        <a href="/">&larr; Newer Posts</a>
+    </li>
+    
+    
+</ul>
+
+
+    		</div>
     <!-- Sidebar Container -->
             <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                sidebar-container">
-
+                col-lg-3 col-lg-offset-0
+                col-md-3 col-md-offset-0
+                col-sm-12
+                col-xs-12
+                sidebar-container
+            ">
                 <!-- Featured Tags -->
                 
                 <section>
                     <hr class="hidden-sm hidden-xs">
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
-        				
+                        
                             
-                				<a href="/tags/#iOS" title="iOS" rel="6">
+                                <a href="/tags/#iOS" title="iOS" rel="6">
                                     iOS
                                 </a>
                             
-        				
+                        
                             
-                				<a href="/tags/#安全" title="安全" rel="5">
+                                <a href="/tags/#安全" title="安全" rel="5">
                                     安全
                                 </a>
                             
-        				
+                        
                             
-                				<a href="/tags/#开发" title="开发" rel="1">
+                                <a href="/tags/#开发" title="开发" rel="1">
                                     开发
                                 </a>
                             
-        				
+                        
                             
-                				<a href="/tags/#装逼" title="装逼" rel="1">
+                                <a href="/tags/#装逼" title="装逼" rel="1">
                                     装逼
                                 </a>
                             
-        				
+                        
                             
-                				<a href="/tags/#汇编" title="汇编" rel="1">
+                                <a href="/tags/#汇编" title="汇编" rel="1">
                                     汇编
                                 </a>
                             
-        				
-        			</div>
+                        
+                    </div>
                 </section>
                 
 
+                <!-- Short About -->
+                <section class="visible-md visible-lg">
+                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
+                    <div class="short-about">
+                        
+                            <img src="/img/avatar-yasin.jpg" />
+                        
+                        
+                            <p>这家伙很懒，什么也没留下。</p>
+                        
+                        <!-- SNS Link -->
+                        <ul class="list-inline">
+                            
+                            
+                            
+                            <li>
+                                <a target="_blank" href="https://www.zhihu.com/people/YasinTian">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa  fa-stack-1x fa-inverse">知</i>
+                                    </span>
+                                </a>
+                            </li>
+                            
+                            
+                            <li>
+                                <a target="_blank" href="http://weibo.com/YasinTian">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            
+                            
+                            
+                            <li>
+                                <a target="_blank" href="https://github.com/YasinTian">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            
+                            
+                        </ul>
+                    </div>
+                </section>
                 <!-- Friends Blog -->
                 
                 <hr>
@@ -373,70 +411,10 @@
                     
                 </ul>
                 
-            </div>
-        </div>
-    </div>
-</article>
-
-
-
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<script type="text/javascript">
-    // dynamic User by Hux
-    var _user = 'yasintian';
-
-    // duoshuo comment query.
-    var duoshuoQuery = {short_name: _user };
-    (function() {
-        var ds = document.createElement('script');
-        ds.type = 'text/javascript';ds.async = true;
-        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-        ds.charset = 'UTF-8';
-        (document.getElementsByTagName('head')[0]
-         || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-</script>
-<!-- 多说公共JS代码 end -->
-
-
-
-
-
-
-
-<!-- async load function -->
-<script>
-    function async(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
-    }
-</script>
-<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
-<script>
-    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
-        anchors.options = {
-          visible: 'always',
-          placement: 'right',
-          icon: '#'
-        };
-        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
-    })
-</script>
-<style>
-    /* place left on bigger screen */
-    @media all and (min-width: 800px) {
-        .anchorjs-link{
-            position: absolute;
-            left: -0.75em;
-            font-size: 1.1em;
-            margin-top : -0.1em;
-        }
-    }
-</style>
+    		</div>
+        
+	</div>
+</div>
 
 
     <!-- Footer -->
@@ -587,50 +565,6 @@
 
 
 <!-- Side Catalog -->
-
-<script type="text/javascript">
-    function generateCatalog (selector) {
-        var P = $('div.post-container'),a,n,t,l,i,c;
-        a = P.find('h1,h2,h3,h4,h5,h6');
-        a.each(function () {
-            n = $(this).prop('tagName').toLowerCase();
-            i = "#"+$(this).prop('id');
-            t = $(this).text();
-            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
-            l = $('<li class="'+n+'_nav"></li>').append(c);
-            $(selector).append(l);
-        });
-        return true;
-    }
-
-    generateCatalog(".catalog-body");
-
-    // toggle side catalog
-    $(".catalog-toggle").click((function(e){
-        e.preventDefault();
-        $('.side-catalog').toggleClass("fold")
-    }))
-
-    /*
-     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
-     * Fork by Hux to support padding
-     */
-    async("/js/jquery.nav.js", function () {
-        $('.catalog-body').onePageNav({
-            currentClass: "active",
-            changeHash: !1,
-            easing: "swing",
-            filter: "",
-            scrollSpeed: 700,
-            scrollOffset: 0,
-            scrollThreshold: .2,
-            begin: null,
-            end: null,
-            scrollChange: null,
-            padding: 80
-        });
-    });
-</script>
 
 
 

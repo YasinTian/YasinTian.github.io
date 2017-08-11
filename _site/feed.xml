@@ -5,8 +5,8 @@
     <description>不知道写些什么...</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 11 Aug 2017 02:12:17 +0000</pubDate>
-    <lastBuildDate>Fri, 11 Aug 2017 02:12:17 +0000</lastBuildDate>
+    <pubDate>Fri, 11 Aug 2017 02:47:56 +0000</pubDate>
+    <lastBuildDate>Fri, 11 Aug 2017 02:47:56 +0000</lastBuildDate>
     <generator>Jekyll v3.3.1</generator>
     
       <item>
@@ -3634,6 +3634,77 @@ NSString *str = @&quot;锁屏界面的日期文字变成了这段话!&quot;;
         <guid isPermaLink="true">http://localhost:4000/2016/12/29/theos%E5%AE%89%E8%A3%85/</guid>
         
         <category>安全</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>RN调用原生的页面</title>
+        <description>&lt;h3 id=&quot;暴露给rn的接口&quot;&gt;暴露给RN的接口&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//push方式切换页面
+RCT_EXPORT_METHOD(pushTo:(NSString *)name param:(NSDictionary *)param)
+{
+    //要在主线程里面刷新UI
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [NoticeMgr.Tabbar.selectedViewController pushViewController:[self getVCWithName:name andParam:param] animated:YES];
+    });
+}
+//模态方式切换页面
+RCT_EXPORT_METHOD(presentTo:(NSString *)name param:(NSDictionary *)param){
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:[self getVCWithName:name andParam:param] animated:YES completion:^{
+        }];
+    });
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;根据字符串获取要切换的控制器并设置了属性&quot;&gt;根据字符串获取要切换的控制器，并设置了属性&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-(UIViewController *)getVCWithName:(NSString *)name andParam:(NSDictionary *)param{
+    id corl = [[NSClassFromString(name) alloc]init];
+    if([corl isKindOfClass:[UIViewController class]]){
+        for(NSString *key in [param allKeys]){
+            NSLog(@&quot;11&quot;);
+            //遍历控制器所有属性，如果有相同的才设置
+            for(NSString *prop in [self getAllPropertyWithClass:corl]){
+                if([key isEqualToString:prop]){
+                    [corl setValue:param[prop] forKey:prop];
+                    break;
+                }
+            }
+        }
+        UIViewController *cc = corl;
+        cc.hidesBottomBarWhenPushed=YES;
+    }
+    return corl;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;运行时获取目标页面拥有的属性&quot;&gt;运行时获取目标页面拥有的属性&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-(NSMutableArray *)getAllPropertyWithClass:(id)Class{
+    u_int count;
+    objc_property_t *properties  =class_copyPropertyList([Class class], &amp;amp;count);
+    NSMutableArray *propertiesArray = [NSMutableArray array];
+    for (int i = 0; i&amp;lt;count; i++)
+    {
+        const char* propertyName =property_getName(properties[i]);
+        [propertiesArray addObject: [NSString stringWithUTF8String: propertyName]];
+    }
+    free(properties);
+    return propertiesArray;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Tue, 24 May 2016 12:00:00 +0000</pubDate>
+        <link>http://localhost:4000/2016/05/24/RN%E8%B0%83%E7%94%A8%E5%8E%9F%E7%94%9F%E7%9A%84%E9%A1%B5%E9%9D%A2/</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/05/24/RN%E8%B0%83%E7%94%A8%E5%8E%9F%E7%94%9F%E7%9A%84%E9%A1%B5%E9%9D%A2/</guid>
+        
+        <category>iOS</category>
         
         
       </item>

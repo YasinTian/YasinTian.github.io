@@ -10,7 +10,7 @@
     <meta name="keywords"  content="博客, 个人网站, 互联网, 前端, iOS, 安全, 开发">
     <meta name="theme-color" content="#000000">
     
-    <title>theos越狱环境搭建 - 田云翔的博客 | Yasin Blog</title>
+    <title>iOS支付宝集成 - 田云翔的博客 | Yasin Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2016/12/29/theos%E5%AE%89%E8%A3%85/">
+    <link rel="canonical" href="http://localhost:4000/2016/04/03/iOS%E6%94%AF%E4%BB%98%E5%AE%9D%E9%9B%86%E6%88%90/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -170,15 +170,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#安全" title="安全">安全</a>
+                        <a class="tag" href="/tags/#iOS" title="iOS">iOS</a>
                         
                     </div>
-                    <h1>theos越狱环境搭建</h1>
+                    <h1>iOS支付宝集成</h1>
                     
                     
-                    <h2 class="subheading">说到iOS越狱开发，就少不了theos，今天就先从环境搭建开始吧</h2>
+                    <h2 class="subheading">支付宝集成还是蛮简单的，就是开发者后台比较坑。</h2>
                     
-                    <span class="meta">Posted by yasin on December 29, 2016</span>
+                    <span class="meta">Posted by yasin on April 3, 2016</span>
                 </div>
             </div>
         </div>
@@ -196,106 +196,125 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<p><a href="https://github.com/theos/theos/wiki/Installation">参考文档</a></p>
+				<h3 id="私钥和公钥">私钥和公钥</h3>
 
-<p><a href="https://github.com/YasinTian/TheosFirstDemo/tree/master">demo在这里</a></p>
-
-<h2 id="ldid安装">ldid安装</h2>
-
-<p>ldid可以在http://joedj.net/ldid 下载
-复制到<code class="highlighter-rouge">/opt/theos/bin</code>里面
-执行<code class="highlighter-rouge">sudo chmod 777 /opt/theos/bin/ldid</code>提升权限</p>
-
-<h2 id="libsubstratedylib">libsubstrate.dylib</h2>
-
-<p>这个需要用到手机助手的文件管理功能把<code class="highlighter-rouge">/Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate</code>复制出来
-改名为<code class="highlighter-rouge">libsubstrate.dylib</code>，然后放到<code class="highlighter-rouge">/opt/theos/lib</code> 中。</p>
-
-<h2 id="dkpg安装">dkpg安装</h2>
-
-<p>这个命令需要安装<a href="https://www.macports.org/install.php">MacPorts</a>，选择对应的系统下下来安装即可。
-<code class="highlighter-rouge">sudo port install dpkg</code></p>
-
-<h2 id="theos安装">theos安装</h2>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>cd /opt
-$ git clone --recursive https://github.com/theos/theos.git
+<div class="highlighter-rouge"><pre class="highlight"><code>RSA的具体内容就不讲了，自己搜搜就有。
+但是要知道的是RSA加密有一个公钥一个私钥，用公钥可以验证是否是私钥加密过的内容，防止数据传输过程中劫持修改内容。
+支付宝这边需要的是你给他一个公钥，和私钥一样是在你的本机生成。然后把公钥填到支付宝，支付宝也会给你一个公钥，用于验证支付完成后支付宝回调的数据是否正确。
 </code></pre>
 </div>
 
-<h2 id="环境配置">环境配置</h2>
+<h3 id="私钥和公钥生成">私钥和公钥生成</h3>
 
-<p><code class="highlighter-rouge">~./bash_profile</code>中加入下面的代码，没有这文件就创建一个
-<code class="highlighter-rouge">export THEOS=/opt/theos</code>
-<code class="highlighter-rouge">export PATH=/opt/theos/bin/:$PATH</code></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>生成比较简单就把官方文档的搬过来了，下面的选一个就行了。要注意的是填到支付宝里面的时候不要有空格换行。PHP需要的是.pem的文件，但是IOS这边模拟生成订单只需要把里面的字符串取出来用就行了。
+Linux用户（以Ubuntu为例）
+$ openssl 进入OpenSSL程序
+OpenSSL&gt; genrsa -out rsa_private_key.pem 1024 生成私钥
+OpenSSL&gt; pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -nocrypt Java开发者需要将私钥转换成PKCS8格式
+OpenSSL&gt; rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem 生成公钥
+OpenSSL&gt; exit ## 退出OpenSSL程序
 
-<h2 id="测试一下">测试一下</h2>
-
-<p>cd到准备放工程的目录执行<code class="highlighter-rouge">/opt/theos/bin/nic.pl</code>能输入输出下面的选项，theos就配置好了。</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>$ /opt/theos/bin/nic.pl
-NIC 2.0 - New Instance Creator
-------------------------------
-  [1.] iphone/activator_event
-  [2.] iphone/application_modern
-  [3.] iphone/cydget
-  [4.] iphone/flipswitch_switch
-  [5.] iphone/framework
-  [6.] iphone/ios7_notification_center_widget
-  [7.] iphone/library
-  [8.] iphone/notification_center_widget
-  [9.] iphone/preference_bundle_modern
-  [10.] iphone/tool
-  [11.] iphone/tweak
-  [12.] iphone/xpc_service
+Windows用户在cmd窗口中进行以下操作：
+C:\Users\Hammer&gt;cd C:\OpenSSL-Win32\bin 进入OpenSSL安装目录
+C:\OpenSSL-Win32\bin&gt;openssl.exe 进入OpenSSL程序
+OpenSSL&gt; genrsa -out rsa_private_key.pem 1024 生成私钥
+OpenSSL&gt; pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -nocrypt Java开发者需要将私钥转换成PKCS8格式
+OpenSSL&gt; rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem 生成公钥
+OpenSSL&gt; exit ## 退出OpenSSL程序
 </code></pre>
 </div>
 
-<h2 id="运行">运行</h2>
+<h3 id="需要准备的">需要准备的</h3>
 
-<p>选择<code class="highlighter-rouge">iphone/tweak</code>这个选项，输入11回车。
-会让你输入工程名，bundleId，目标bundleId等。这里呢，我们只是要运行一下demo测试环境搭建是否成功，把工程名输了，其他直接回车就行了，都是有默认的。
-打开工程目录下的<code class="highlighter-rouge">Makefile</code></p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>include $(THEOS)/makefiles/common.mk
-TWEAK_NAME = firstdemo
-firstdemo_FILES = Tweak.xm
-include $(THEOS_MAKE_PATH)/tweak.mk
-THEOS_DEVICE_IP = 192.168.2.157	#手机的ip地址
-iOSRE_FRAMEWORKS=UIKit Foundation	#导入的库
-ARCHS = arm64 #手机是64位还是32位
-after-install::
-	install.exec "killall -9 SpringBoard"	#在安装成功后杀掉SpringBoard，会从新启动以加载我们的插件
+<div class="highlighter-rouge"><pre class="highlight"><code>首先要到支付宝查到下面的值
+NSString *partner = @"2088开头的16为数字";//商户ID
+NSString *seller = @"账号ID，应该是邮箱";//账号ID
+NSString *privateKey = @"本机生成的私钥";//调试用，应该放在服务器上进行签名
+NSString *publicKey = @"支付宝给的公钥";//在后台找
 </code></pre>
 </div>
+<h3 id="开始支付">开始支付</h3>
 
-<p>打开工程目录下的<code class="highlighter-rouge">Tweak.xm</code>文件
-粘贴下面的代码</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>-(void)createOrder{
+    //创建订单
+    Order *order = [[Order alloc] init];
+    order.partner = partner;//合作者ID
+    order.seller = seller;//账号ID
+    order.tradeNO = [self generateTradeNO]; //订单ID（由商家自行制定）设置订单号，随机生成
+    order.productName = product.subject; //商品标题
+    order.productDescription = product.body; //商品描述
+    order.amount = [NSString stringWithFormat:@"%.2f",product.price]; //商品价格
+    order.notifyURL =  @"http://www.xxx.com"; //回调URL填你们的服务器接口，支付成功支付宝会通知后台。
+    order.service = @"mobile.securitypay.pay";//接口名称，固定值。
+    order.paymentType = @"1";//支付类型。默认值为：1（商品购买）。
+    order.inputCharset = @"utf-8";//参数编码字符集
+    order.itBPay = @"30m";//未付款交易的超时时间
+    
+    //你应用的urlScheme，在info的URL types里面添加，用于支付完成的回调
+    NSString *appScheme = @"dsc";
+    
+    //将商品信息拼接成字符串
+    NSString *orderSpec = [order description];
+    
+    //获取私钥并将商户信息签名,外部商户可以根据情况存放私钥和签名,只需要遵循RSA签名规范,并将签名字符串base64编码和UrlEncode
+    id&lt;DataSigner&gt; signer = CreateRSADataSigner(privateKey);//实例化签名对象
+    NSString *signedString = [signer signString:orderSpec];//调用支付宝提供的函数，在Util文件夹里面
+    
+    //将签名成功字符串格式化为订单字符串,请严格按照该格式
+    NSString *orderString = nil;
+    if (signedString != nil) {
+        //将订单信息，签名字符串，和签名方式拼接成字符串
+        orderString = [NSString stringWithFormat:@"%@&amp;sign=\"%@\"&amp;sign_type=\"%@\"",
+                       orderSpec, signedString, @"RSA"];
 
-<div class="highlighter-rouge"><pre class="highlight"><code>#import &lt;UIKit/UIKit.h&gt;
-#import &lt;SpringBoard/SpringBoard.h&gt;
-
-%hook SBLockScreenDateViewController
-- (void)setCustomSubtitleText:(id)arg1 withColor:(id)arg2
-{
-NSString *str = @"锁屏界面的日期文字变成了这段话!";
-%orig(str, arg2);
+//如果是后台签名的话，前面的都不用写了，直接拿后台返回的字符串调用支付宝就OK了
+        //调用SDK发送支付请求
+        [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
+            NSLog(@"reslut = %@",resultDic);
+            NSString *str = resultDic[@"result"];
+            NSArray *arr = [str componentsSeparatedByString:@"&amp;sign_type=\"RSA\"&amp;sign=\""];
+            NSString *information = [arr firstObject];
+            NSString *temp = [arr lastObject];
+            temp = [temp componentsSeparatedByString:@"\""].firstObject;
+            
+            id&lt;DataVerifier&gt; publicSinger = CreateRSADataVerifier(publicKey);
+            //用支付宝给你的公钥进行验证
+            BOOL ret = [publicSinger verifyString:information withSign:temp];
+            if(ret){
+                NSLog(@"验证成功");
+                if([resultDic[@"resultStatus"] isEqualToString:@"9000"]){
+                    NSLog(@"支付成功");
+                }
+            }
+        }];
+    }
 }
-%end
-
 </code></pre>
 </div>
 
-<p>最后<code class="highlighter-rouge">make</code>编译<code class="highlighter-rouge">make package</code>打包<code class="highlighter-rouge">make install</code>安装，过程会叫你输入2次ssh密码,全部成功的话，你就会看到SpringBoard正在重启。重启之后锁屏界面的日期，变成了我们自定义的字符串。
-如果提示THEOS_DEVICE_IP错误之类的就先输入<code class="highlighter-rouge">export THEOS_DEVICE_IP=手机的ip地址</code></p>
+<h3 id="一些优化">一些优化</h3>
 
-<h2 id="theos的升级">theos的升级</h2>
-
-<p><code class="highlighter-rouge">git submodule update –recursive</code></p>
-
-<h2 id="注意">注意</h2>
-
-<p>在一些老板的安装方法中有<code class="highlighter-rouge">sudo /opt/theos/bin/bootstrap.sh substrate</code>,现在可以不用管了。</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>和后台对接完成后，我创建了一个支付管理单例。得到后台返回签名后的字符串，调用这个方法就行了
+-(void)aliPayWithDataPay:(NSString *)dataPay andScheme:(NSString *)scheme andSuc:(aliSuc)aliSuc andErr:(aliErr)aliErr{
+    if([dataPay isKindOfClass:[NSDictionary class]]){
+        [SVProgressHUD showErrorWithStatus:@"订单创建失败!"];
+        return;
+    }
+    [[AlipaySDK defaultService] payOrder:dataPay fromScheme:scheme callback:^(NSDictionary *resultDic) {
+        if([resultDic[@"resultStatus"] isEqualToString:@"9000"]){
+            if(aliSuc){
+                aliSuc();
+            }
+        }else{
+            [SVProgressHUD showErrorWithStatus:@"支付失败!"];
+            if(aliErr){
+                aliErr();
+            }
+        }
+    }];
+}
+</code></pre>
+</div>
 
 
                 <hr style="visibility: hidden;">
@@ -304,19 +323,14 @@ NSString *str = @"锁屏界面的日期文字变成了这段话!";
                 <!-- 多说 Share start -->
                 <div class="ds-share"
                     style="text-align: right"
-                    data-thread-key="/2016/12/29/theos安装"
-                    data-title="theos越狱环境搭建"
-                    data-url="http://localhost:4000/2016/12/29/theos%E5%AE%89%E8%A3%85/"
+                    data-thread-key="/2016/04/03/iOS支付宝集成"
+                    data-title="iOS支付宝集成"
+                    data-url="http://localhost:4000/2016/04/03/iOS%E6%94%AF%E4%BB%98%E5%AE%9D%E9%9B%86%E6%88%90/"
                     data-images="http://localhost:4000/img/post-bg-2015.jpg"
-                    data-content="参考文档
+                    data-content="私钥和公钥
 
-demo在这里
-
-ldid安装
-
-ldid可以在http://joedj.net/ldid 下载
-复制到/opt/theos/bin里面
-执行... | 田云翔的博客 | Yasin Blog " >
+RSA的具体内容就不讲了，自己搜搜就有。
+但是要知道的是RSA加密有一个公钥一个私钥，用公钥可以验证是否是私钥加密过的内容，防止数据传输过程... | 田云翔的博客 | Yasin Blog " >
                     <div class="ds-share-inline">
                       <style> 
                         .ds-share-icons-16 {display:none;} 
@@ -339,17 +353,17 @@ ldid可以在http://joedj.net/ldid 下载
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2016/05/24/RN%E8%B0%83%E7%94%A8%E5%8E%9F%E7%94%9F%E7%9A%84%E9%A1%B5%E9%9D%A2/" data-toggle="tooltip" data-placement="top" title="RN调用原生的页面">
+                        <a href="/2015/10/23/iOS%E5%B0%8F%E6%8A%80%E5%B7%A7%E6%80%BB%E7%BB%93/" data-toggle="tooltip" data-placement="top" title="iOS小技巧总结">
                         Previous<br>
-                        <span>RN调用原生的页面</span>
+                        <span>iOS小技巧总结</span>
                         </a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2016/12/29/wifi%E7%A0%B4%E8%A7%A3/" data-toggle="tooltip" data-placement="top" title="Mac下的WIFI破解">
+                        <a href="/2016/04/06/iOS%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98%E9%9B%86%E6%88%90/" data-toggle="tooltip" data-placement="top" title="iOS微信支付集成">
                         Next<br>
-                        <span>Mac下的WIFI破解</span>
+                        <span>iOS微信支付集成</span>
                         </a>
                     </li>
                     
@@ -360,9 +374,9 @@ ldid可以在http://joedj.net/ldid 下载
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="/2016/12/29/theos安装"
-                        data-title="theos越狱环境搭建"
-                        data-url="http://localhost:4000/2016/12/29/theos%E5%AE%89%E8%A3%85/" >
+                        data-thread-key="/2016/04/03/iOS支付宝集成"
+                        data-title="iOS支付宝集成"
+                        data-url="http://localhost:4000/2016/04/03/iOS%E6%94%AF%E4%BB%98%E5%AE%9D%E9%9B%86%E6%88%90/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->

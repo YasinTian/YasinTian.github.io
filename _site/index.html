@@ -470,8 +470,44 @@ libsubstrate.dylib
 </div>
 <hr>
 
+<div class="post-preview">
+    <a href="/2016/05/24/RN%E8%B0%83%E7%94%A8%E5%8E%9F%E7%94%9F%E7%9A%84%E9%A1%B5%E9%9D%A2/">
+        <h2 class="post-title">
+            RN调用原生的页面
+        </h2>
+        
+        <h3 class="post-subtitle">
+            公司的项目想往RN靠拢，先把一个板块转换为RN开发，这就涉及到了RN调用老的原生页面，经过研究，这样做可以很方便的调用以前的页面
+        </h3>
+        
+        <div class="post-content-preview">
+            暴露给RN的接口
+
+//push方式切换页面
+RCT_EXPORT_METHOD(pushTo:(NSString *)name param:(NSDictionary *)param)
+{
+    //要在主线程里面刷新UI
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [NoticeMgr.Tabbar.selected...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by yasin on May 24, 2016
+    </p>
+</div>
+<hr>
+
 
 <!-- Pager -->
+
+<ul class="pager">
+    
+    
+    <li class="next">
+        <a href="/page2">Older Posts &rarr;</a>
+    </li>
+    
+</ul>
 
 
     		</div>
@@ -489,6 +525,12 @@ libsubstrate.dylib
                     <hr class="hidden-sm hidden-xs">
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
+                        
+                            
+                                <a href="/tags/#iOS" title="iOS" rel="6">
+                                    iOS
+                                </a>
+                            
                         
                             
                                 <a href="/tags/#安全" title="安全" rel="5">
@@ -511,12 +553,6 @@ libsubstrate.dylib
                             
                                 <a href="/tags/#汇编" title="汇编" rel="1">
                                     汇编
-                                </a>
-                            
-                        
-                            
-                                <a href="/tags/#iOS" title="iOS" rel="1">
-                                    iOS
                                 </a>
                             
                         
