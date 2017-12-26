@@ -5,9 +5,220 @@
     <description>不知道写些什么...</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 11 Aug 2017 02:47:56 +0000</pubDate>
-    <lastBuildDate>Fri, 11 Aug 2017 02:47:56 +0000</lastBuildDate>
-    <generator>Jekyll v3.3.1</generator>
+    <pubDate>Tue, 26 Dec 2017 07:38:36 +0000</pubDate>
+    <lastBuildDate>Tue, 26 Dec 2017 07:38:36 +0000</lastBuildDate>
+    <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>Git使用教程</title>
+        <description>&lt;h3 id=&quot;初始化git&quot;&gt;初始化git&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd 目标文件夹
+git init
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;配置用户名和邮箱&quot;&gt;配置用户名和邮箱&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git config user.name &quot;用户名&quot;
+git config user.email &quot;邮箱&quot;
+
+//给git配置全局的用户名和邮箱
+git config --global user.name &quot;用户名&quot;
+git config --global user.email &quot;邮箱&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;查看git状态&quot;&gt;查看git状态&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git status
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;红色表示添加过或者修改过，但是暂未添加到暂缓区。
+添加过的文件和修改过得文件都需要再次添加到暂缓区。&lt;/p&gt;
+
+&lt;h3 id=&quot;添加到暂缓区unstage&quot;&gt;添加到暂缓区（unstage）&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git add 文件名	//添加指定的文件到暂缓区
+git add .	//将所有未加到暂缓区的内容添加到暂缓区
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;提交到本地版本库&quot;&gt;提交到本地版本库&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git commit -m &quot;注释&quot; //提交到HEAD指向的当前分支
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;给命令起别名&quot;&gt;给命令起别名&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git config alias.st &quot;status&quot;		//给status命令起别名为st
+
+git config --global alias.st &quot;status&quot;	//起全局别名
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;删除文件&quot;&gt;删除文件&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git rm 文件名
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;查看版本信息&quot;&gt;查看版本信息&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git log		//版本是由sha1算法生成的40哈希值
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git reflog	//包含了所有版本回退的操作
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;回退到当前版本&quot;&gt;回退到当前版本&lt;/h3&gt;
+
+&lt;p&gt;用于本地修改了代码，还没有提交&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git reset --hard HEAD   	//回到当前版本
+git reset --hard HEAD^  	//回到上一个版本
+git reset --hard HEAD^^ 	//回到上两个版本
+git reset --hard HEAD~100	//回到前100个版本
+git reset --hard 版本号		//回到版本号对应的版本
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;推送本地仓库到远程仓库&quot;&gt;推送本地仓库到远程仓库&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git push
+git push -f //强制上传，用于版本回退时，远程代码超前于我当前代码的时候
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Xcode提供的同样功能
+Source Control -&amp;gt; Discard All Changes…&lt;/p&gt;
+
+&lt;h3 id=&quot;本地文件夹做共享版本库&quot;&gt;本地文件夹做共享版本库&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git init --bare
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;将共享版本库的内容下载到本地&quot;&gt;将共享版本库的内容下载到本地&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git clone
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;创建忽略文件&quot;&gt;创建忽略文件&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;touch .gitignore
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;.gitignore常用的忽略是别人写好的,到里&lt;a href=&quot;https://github.com/github/gitignore&quot;&gt;这里&lt;/a&gt;下载。&lt;/p&gt;
+
+&lt;h3 id=&quot;添加tag标签&quot;&gt;添加tag标签&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git tag -a weibo1.0 -m &quot;注释&quot; //添加tag
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;###查看现有标签&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git tag
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;上传tag标签&quot;&gt;上传tag标签&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git push origin weibo1.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;切换标签&quot;&gt;切换标签&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git checkout weibo1.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;创建分支并切换到分支&quot;&gt;创建分支并切换到分支&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git checkout -b 分支名
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;查看分支&quot;&gt;查看分支&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git branch 				//查看当前在哪个分支
+git branch -r 				//查看本地版本库的分支
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;删除分支&quot;&gt;删除分支&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git branch -d 分支名		//删除本地分支
+git branch -r -d origin/分支名  	//删除本地版本库的分支
+git push origin --delete 分支名
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;合并分支&quot;&gt;合并分支&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;从修复的tag上pull代码
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;版本备份&quot;&gt;版本备份&lt;/h3&gt;
+
+&lt;h4 id=&quot;一10版本开发完毕对10版本添加标签&quot;&gt;一、1.0版本开发完毕，对1.0版本添加标签。&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git tag -a 标签名 -m &quot;注释&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h4 id=&quot;二将标签push到远端仓库&quot;&gt;二、将标签push到远端仓库。&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git push origin 标签名
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;三开始20版本开发&quot;&gt;三、开始2.0版本开发。&lt;/h4&gt;
+
+&lt;h4 id=&quot;四发现10版本有bug创建一个文件夹用于修复bug将远端所有代码clone&quot;&gt;四、发现1.0版本有Bug。创建一个文件夹，用于修复Bug，将远端所有代码clone。&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd 新建文件夹
+git clone
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;h4 id=&quot;五将新文件夹的代码转为10标签创建分支并切换分支&quot;&gt;五、将新文件夹的代码转为1.0标签，创建分支，并切换分支。&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git checkout 1.0版本标签 //将代码转到1.0版本
+git checkout -b 新分支名 //创建新分支，并切换到新分支
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;六在分支中修复bug修复好的版本打上tag上传到远端&quot;&gt;六、在分支中修复Bug，修复好的版本打上tag，上传到远端。&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git tag -a 修改Bug后标签1.1 -m &quot;注释&quot;
+git push origin 上面添加的标签
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;七和正在开发的20版本合并&quot;&gt;七、和正在开发的2.0版本合并。&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;从新分支拉取代码
+Source Control-&amp;gt;pull-&amp;gt;新分支名
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;八删除分支&quot;&gt;八、删除分支。&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git branch 				//查看当前在哪个分支
+git branch -r 				//查看本地版本库的分支
+git checkout master			//先切换回主分支
+git branch -d 分支名			//删除本地分支
+git branch -r -d origin/分支名  		//删除本地版本库的分支
+git push origin --delete 分支名 		//删除共享版本库分支
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;使用xcode进行版本控制&quot;&gt;使用Xcode进行版本控制&lt;/h2&gt;
+&lt;p&gt;Xcode的版本控制功能在工具栏&lt;code class=&quot;highlighter-rouge&quot;&gt;Source Control&lt;/code&gt;选项下。
+&lt;code class=&quot;highlighter-rouge&quot;&gt;commit&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;push&lt;/code&gt;都和命令行差不多，这里不需要&lt;code class=&quot;highlighter-rouge&quot;&gt;add&lt;/code&gt;文件了。
+push如果遇到下面的问题，说明你的代码落后于线上的代码，和别人修改了同一个位置，引起了冲突。先pull一下，然后选择要哪一份代码。
+&lt;img src=&quot;../img/in-post/git代码冲突.png&quot; alt=&quot;ddd&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;git的工作原理&quot;&gt;git的工作原理&lt;/h2&gt;
+
+&lt;h3 id=&quot;工作区&quot;&gt;工作区&lt;/h3&gt;
+
+&lt;p&gt;在仓库文件夹里，git目录以外的内容。&lt;/p&gt;
+
+&lt;h3 id=&quot;版本库&quot;&gt;版本库&lt;/h3&gt;
+
+&lt;p&gt;.git目录，用于记录版本信息。包含下面内容
+1.暂缓区（stage）
+2.分支（master）：git自动创建的第一个分支
+3.HEAD指针：指向当前的分支&lt;/p&gt;
+
+</description>
+        <pubDate>Tue, 08 Aug 2017 12:00:00 +0000</pubDate>
+        <link>http://localhost:4000/2017/08/08/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/08/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/</guid>
+        
+        <category>开发工具</category>
+        
+        
+      </item>
     
       <item>
         <title>iOS下的多线程</title>
@@ -15,37 +226,32 @@
 
 &lt;p&gt;获取主线程&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[NSThread mainThread]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[NSThread mainThread]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;获取当前线程&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[NSThread currentThread]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[NSThread currentThread]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;nsthread的使用&quot;&gt;NSThread的使用&lt;/h3&gt;
 
 &lt;p&gt;基础用法，需要手动启动线程，可以对线程进行一些设置（线程名，优先级）&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    NSThread *thread = [[NSThread alloc]initWithTarget:self selector:@selector(run:) object:@&quot;test1&quot;];
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    NSThread *thread = [[NSThread alloc]initWithTarget:self selector:@selector(run:) object:@&quot;test1&quot;];
     thread.name = @&quot;mythread1&quot;;
     [thread start];
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;类方法快速启动线程,不需要手动开启，不能对线程进行设置&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [NSThread detachNewThreadSelector:@selector(run:) toTarget:self withObject:@&quot;test2&quot;];
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [NSThread detachNewThreadSelector:@selector(run:) toTarget:self withObject:@&quot;test2&quot;];
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;开启一个后台线程，不能对线程进行设置&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [self performSelectorInBackground:@selector(run:) withObject:@&quot;test3&quot;];
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [self performSelectorInBackground:@selector(run:) withObject:@&quot;test3&quot;];
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;###线程状态&lt;/p&gt;
 
@@ -88,21 +294,19 @@
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;sleep/等待同步锁&lt;/code&gt;会线程阻塞，线程从线程池中移除，当阻塞结束重新进入线程池等待CPU调度&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [NSThread sleepForTimeInterval:2];//休眠2秒
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [NSThread sleepForTimeInterval:2];//休眠2秒
     
     [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:2]];//休眠到指定的时间
     //这里的NSDate可以设置[NSDate distantFuture]时间为极大值，这样能实现只执行一次
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;线程死亡&quot;&gt;线程死亡&lt;/h4&gt;
 &lt;p&gt;1.线程任务执行完成
 2.异常/强制退出
 一旦线程死亡，就不能再开启任务。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [NSThread exit]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [NSThread exit]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;互斥锁同步锁&quot;&gt;互斥锁(同步锁)&lt;/h4&gt;
 
@@ -112,109 +316,99 @@
 &lt;p&gt;线程同步是多条线程在同一条线上按顺序执行。
 通过@synchronized可以使代码获得原子性，同时只能在一条线程上执行，保证了多线程的安全。&lt;a href=&quot;http://www.cocoachina.com/ios/20161205/18279.html&quot;&gt;这里有比较详细的介绍。&lt;/a&gt;&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //token是锁对象，唯一的，会生成同步锁，当一条线程执行完后，才执行下一条线程
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //token是锁对象，唯一的，会生成同步锁，当一条线程执行完后，才执行下一条线程
     @synchronized (token) {数据操作代码}
 
     //这里传入一个唯一的对象，用来做锁对象,多个线程同时调用这段代码，会一个线程一个线程的执行，所以count的值不会混乱
     @synchronized (self) {
         self.count++;
     }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;回主线程&quot;&gt;回主线程&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [self performSelectorOnMainThread:@selector(changeUI) withObject:nil waitUntilDone:YES];
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [self performSelectorOnMainThread:@selector(changeUI) withObject:nil waitUntilDone:YES];
     //UntilDone表示执行完changeUI方法在执行下面的语句,即同步还是异步
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;gcd&quot;&gt;GCD&lt;/h3&gt;
 
 &lt;h4 id=&quot;获得并行队列concurrent&quot;&gt;获得并行队列concurrent&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //获取全局的的并发队列 参数1是队列的优先级，参数2没用传0
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //获取全局的的并发队列 参数1是队列的优先级，参数2没用传0
     dispatch_get_global_queue(long identifier, unsigned long flags)
     
     //创建队列 参数1是队列名，参数2是队列属性，判断是并行还是串行队列,DISPATCH_QUEUE_CONCURRENT表示并行队列
     dispatch_queue_create(const char * _Nullable label, dispatch_queue_attr_t  _Nullable attr)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;获得串行队列serial&quot;&gt;获得串行队列serial&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    dispatch_get_main_queue()//获得主队列
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    dispatch_get_main_queue()//获得主队列
     
     //参数2传入DISPATCH_QUEUE_SERIAL或NULL表示串行队列
     dispatch_queue_create(const char * _Nullable label, dispatch_queue_attr_t  _Nullable attr)
 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;同步任务sync&quot;&gt;同步任务sync&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    dispatch_sync(queue, ^{
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    dispatch_sync(queue, ^{
         for(int i= 0;i&amp;lt;5;i++){
             NSLog(@&quot;--2--%@&quot;,[NSThread currentThread]);
         }
     });
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;异步任务async&quot;&gt;异步任务async&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    dispatch_async(queue, ^{
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    dispatch_async(queue, ^{
         for(int i= 0;i&amp;lt;5;i++){
             NSLog(@&quot;--1--%@&quot;,[NSThread currentThread]);
         }
     });
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;队列类型:决定了任务执行是顺序还是并发
 任务类型:决定了是否开启新线程（主队列异步任务不会开启新线程）&lt;/strong&gt;&lt;/p&gt;
 
 &lt;h4 id=&quot;子线程回主线程&quot;&gt;子线程回主线程&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    dispatch_async(dispatch_get_global_queue(0, 0), ^{
         //耗时操作
         dispatch_async(dispatch_get_main_queue(), ^{
             //主线程ui操作
         });
     });
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;延时&quot;&gt;延时&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         //2秒后异步执行这里的代码
     });
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;一次性代码&quot;&gt;一次性代码&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    static dispatch_once_t onceToken;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    static dispatch_once_t onceToken;
     dispatch_once(&amp;amp;onceToken, ^{
         //只执行1次的代码
     });
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;遍历&quot;&gt;遍历&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //参数1表示遍历次数。遍历是并发的。
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //参数1表示遍历次数。遍历是并发的。
     dispatch_apply(10, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(size_t index) {
         //index当前遍历的下标
         NSLog(@&quot;%d&quot;,index);
     });
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;队列组&quot;&gt;队列组&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //1.创建队列组
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //1.创建队列组
     dispatch_group_t group = dispatch_group_create();
     
     //2.添加任务
@@ -229,20 +423,18 @@
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
         //任务1和任务2执行完成后，回到执行的线程执行这里的代码
     });
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;nsoperation和nsoperationqueue&quot;&gt;NSOperation和NSOperationQueue&lt;/h3&gt;
 
 &lt;p&gt;NSOperation是基于GCD实现的。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;实现多线程的步骤
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;实现多线程的步骤
 1.先将任务封装到NSOperation对象中。
 2.把NSOperation添加到NSOperationQueue中。
 3.系统自动从NSOperationQueue中提取NSOperation。
 4.将提取出的NSOperation封装的任务放到一条线程中去执行。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;nsoperation&quot;&gt;NSOperation&lt;/h4&gt;
 
@@ -250,16 +442,15 @@
 
 &lt;h4 id=&quot;nsinvocationoperation的使用&quot;&gt;NSInvocationOperation的使用&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    NSInvocationOperation *ip = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(run) object:nil];
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    NSInvocationOperation *ip = [[NSInvocationOperation alloc]initWithTarget:self selector:@selector(run) object:nil];
     
     //开启任务
     [ip start];
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;nsblockoperation的使用&quot;&gt;NSBlockOperation的使用&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    NSBlockOperation *bp = [NSBlockOperation blockOperationWithBlock:^{
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    NSBlockOperation *bp = [NSBlockOperation blockOperationWithBlock:^{
         NSLog(@&quot;--2--%@&quot;,[NSThread currentThread]);
     }];
     
@@ -269,21 +460,19 @@
     }];
     
     [bp start];
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;自定义operation的使用&quot;&gt;自定义Operation的使用&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1.创建CustomOperation继承于NSOperation。
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1.创建CustomOperation继承于NSOperation。
 2.添加一个属性存放要执行的代码，可以用block，用于外部传入代码。
 3.重写main方法，在main方法里面执行步骤2传入的代码。
 4.调用CustomOperation的start方法会自动调用main方法。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;nsoperationqueue的基本使用&quot;&gt;NSOperationQueue的基本使用&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //创建队列(默认是并行队列)
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //创建队列(默认是并行队列)
     NSOperationQueue *queue = [[NSOperationQueue alloc]init];
     
     //创建任务
@@ -291,12 +480,11 @@
     
     //添加任务
     [queue addOperation:op];
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;nsoperation线程通信&quot;&gt;NSOperation线程通信&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
     
     [queue addOperationWithBlock:^{
         //耗时操作
@@ -304,14 +492,13 @@
             //回到主线程刷新UI
         }];
     }];
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;dependency任务依赖&quot;&gt;Dependency任务依赖&lt;/h4&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;NSOperation&lt;/code&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;addDependency&lt;/code&gt;方法添加依赖，如果A依赖B，等B执行完后，再执行A&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
     
     NSBlockOperation *bp = [NSBlockOperation blockOperationWithBlock:^{
         NSLog(@&quot;--1--%@&quot;,[NSThread currentThread]);
@@ -323,8 +510,7 @@
     
     //后面的先执行 不能相互依赖
     [bp1 addDependency:bp];
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;maxconcurrentoperationcount最大并发数&quot;&gt;maxConcurrentOperationCount最大并发数&lt;/h4&gt;
 
@@ -359,24 +545,22 @@
 
 &lt;p&gt;3.节省CPU资源，提高程序性能。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    int main(int argc,char * argv[]){
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    int main(int argc,char * argv[]){
     	do{
         	NSLog(@&quot;haha&quot;);//程序开始
         }while(1);
         return 0;//程序结束
     }
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;runloop其实就是一个死循环，保持程序运行&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    int main(int argc, char * argv[]) {
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    int main(int argc, char * argv[]) {
         @autoreleasepool {
             return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
         }
     }
 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;UIApplicationMain函数内部就启动了一个RunLoop，一直不返回程序就持续运行。
 程序启动会默认启动一个RunLoop，跟主线程相关联，主要处理与主线程相关的事件。&lt;/p&gt;
@@ -415,7 +599,7 @@
 &lt;p&gt;4.如果需要切换Mode，需要退出RunLoop，在重新指定一个Mode进入。这样是为了分离不同组的Source/Timer/Observer，让它们互不影响。&lt;/p&gt;
 
 &lt;p&gt;系统默认注册了5个Mode&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. NSDefaultRunLoopMode: App的默认 Mode，通常主线程是在这个 Mode 下运行的。
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. NSDefaultRunLoopMode: App的默认 Mode，通常主线程是在这个 Mode 下运行的。
 
 2. UITrackingRunLoopMode: 界面跟踪 Mode，用于 ScrollView 追踪触摸滑动，保证界面滑动时不受其他 Mode 影响。
 
@@ -425,8 +609,7 @@
 
 5: NSRunLoopCommonModes: 这是一个占位的 Mode，代表了NSDefaultRunLoopMode和UITrackingRunLoopMode。
 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;NSRunLoopCommonModes只是一个标记，NSDefaultRunLoopMode和UITrackingRunLoopMode都拥有这个标记。
 设置为NSRunLoopCommonModes可以在NSDefaultRunLoopMode和UITrackingRunLoopMode模式下都执行。&lt;/p&gt;
 
@@ -436,29 +619,28 @@
 
 &lt;h4 id=&quot;cfrunloopsourceref&quot;&gt;CFRunLoopSourceRef&lt;/h4&gt;
 
-&lt;p&gt;这个类是一个事件源，也可以称为输入源。&lt;/p&gt;
-
-&lt;p&gt;官方文档分为3类
-1.Port-Based Sources从其他线程或内核发出的
+&lt;p&gt;这个类是一个事件源，也可以称为输入源。
+官方文档分为3类&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1.Port-Based Sources从其他线程或内核发出的
 2.Custom Input Sources自定义的
-3.CoCoa Perform Selector Sources&lt;/p&gt;
-
-&lt;p&gt;函数调用栈分为2类
-1.Sources0:非基于Port的（按钮点击）
-2.Sources1:基于Port的，通过其他线程或内核通信、接受、分发系统事件。&lt;/p&gt;
+3.CoCoa Perform Selector Sources
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;函数调用栈分为2类&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1.Sources0:非基于Port的（按钮点击）
+2.Sources1:基于Port的，通过其他线程或内核通信、接受、分发系统事件。
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;cfrunloopobserverref&quot;&gt;CFRunLoopObserverRef&lt;/h4&gt;
 
 &lt;p&gt;CFRunLoopObserverRef是观察者，能够监听RunLoop的状态的改变。状态是&lt;code class=&quot;highlighter-rouge&quot;&gt;CFRunLoopActivity&lt;/code&gt;这个枚举。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //创建观察者
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //创建观察者
     CFRunLoopObserverRef observer = CFRunLoopObserverCreateWithHandler(CFAllocatorGetDefault(), kCFRunLoopAllActivities, YES, 0, ^(CFRunLoopObserverRef observer, CFRunLoopActivity activity) {
         NSLog(@&quot;%lu&quot;,activity);//打印RunLoop的状态
     });
     //添加观察者
     CFRunLoopAddObserver(CFRunLoopGetCurrent(), observer, kCFRunLoopDefaultMode);
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 </description>
         <pubDate>Tue, 08 Aug 2017 12:00:00 +0000</pubDate>
@@ -533,9 +715,8 @@
 
 &lt;p&gt;汇编其实就是操作寄存器，程序员通过指令读写寄存器来实现对CPU的控制。不同的CPU寄存器的个数、结构是不同的。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;8086的14个寄存器分别为AX、BX、CX、DX、SI、DI、SP、BP、IP、CS、SS、DS、ES、PSW。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;8086的14个寄存器分别为AX、BX、CX、DX、SI、DI、SP、BP、IP、CS、SS、DS、ES、PSW。
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;8086的所有寄存器都是16位的。AX、BX、CX、DX、这4个通常用来存放一般性的数据，被称为通用寄存器。为了兼容老CPU的8位寄存器，这4个寄存器都可以分为两个8位的独立寄存器使用。&lt;/p&gt;
 &lt;ul&gt;
@@ -598,18 +779,16 @@
 &lt;p&gt;CS和IP不能通过MOV来赋值，能够修改CS、IP内容的指令被统称为&lt;code class=&quot;highlighter-rouge&quot;&gt;转移指令&lt;/code&gt;。最简单的就是&lt;code class=&quot;highlighter-rouge&quot;&gt;jmp&lt;/code&gt;。
 当我们想修改CS、IP的内容可以通过&lt;code class=&quot;highlighter-rouge&quot;&gt;jmp 段地址:偏移地址&lt;/code&gt;这样的指令来完成。如&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jmp 2AE3:3  -&amp;gt;  CS=2AE3H IP=0003H  -&amp;gt; 2AE33H
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jmp 2AE3:3  -&amp;gt;  CS=2AE3H IP=0003H  -&amp;gt; 2AE33H
 jmp 3:0B16  -&amp;gt;  CS=0003H IP=0B16H  -&amp;gt; 00B46H
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;若我们只想修改IP的内容，需要用一个寄存器做中转。如&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ax = 1000H;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ax = 1000H;
 jmp ax,
 IP就变为了1000H，CS不变。含义上和MOV IP，AX 类似。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;内存中字的存储&quot;&gt;内存中字的存储&lt;/h3&gt;
 &lt;p&gt;CPU中，用16位寄存器来存储一个字，在内存中一个字要用两个地址连续的字节单元来存放，这个字的低位字节存放在低地址单元中，高位字节存放在高地址单元中。&lt;/p&gt;
@@ -715,10 +894,9 @@ mov ds,bx
 &lt;p&gt;栈和收纳箱有点像，最先放进去的东西，最后才能拿出来，先进后出，后进先出。
 8086入栈和出栈指令为&lt;code class=&quot;highlighter-rouge&quot;&gt;PUSH&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;POP&lt;/code&gt;。8086的入栈和出栈都是以字节为单位。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;push ax表示将寄存器ax中的数据送入栈中。
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;push ax表示将寄存器ax中的数据送入栈中。
 pop ax表示从栈顶取出数据送入ax。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;8086中有两个寄存器，段寄存器SS和寄存器SP，栈顶的段地址存放在SS中，偏移地址存放在SP中。任意时刻，SS:SP指向栈顶元素。push指令和pop指令执行时，CPU通过SS和SP找到栈顶的地址。
 push指令的执行过程如下&lt;/p&gt;
@@ -782,29 +960,25 @@ push指令的执行过程如下&lt;/p&gt;
 
 &lt;p&gt;直接输入16精致数据&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-e 1000:0 b8 01 00 b9 02 00 01 c8
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-e 1000:0 b8 01 00 b9 02 00 01 c8
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;可以直接用E命令写入字符。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-e 1000:0 'a' 'b' 'c' 1 2 3 4
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-e 1000:0 'a' 'b' 'c' 1 2 3 4
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;e命令也可以直接输入字符串&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-e 1000:0 &quot;helloworld&quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-e 1000:0 &quot;helloworld&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;可以通过e命令输入16精制的命令的机器码，然后用U命令查看啊，机器指令和对应的汇编指令。&lt;/p&gt;
 
 &lt;h3 id=&quot;u命令&quot;&gt;U命令&lt;/h3&gt;
 
 &lt;p&gt;U命令可以查看内存里的机器指令和对应的汇编指令。&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;U 1000:0
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;U 1000:0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;a命令&quot;&gt;A命令&lt;/h3&gt;
 
@@ -813,15 +987,14 @@ push指令的执行过程如下&lt;/p&gt;
 
 &lt;p&gt;A命令可以通过汇编指令的形式写入指令。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-a 1000:0
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-a 1000:0
 1000:0000 mov ax,1
 .
 .
 .
 1000:000D add ax,ax
 依次输入指令。两次回车结束
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h1 id=&quot;伪指令&quot;&gt;伪指令&lt;/h1&gt;
 
@@ -830,13 +1003,12 @@ push指令的执行过程如下&lt;/p&gt;
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;segment&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;ends&lt;/code&gt;是一对成对使用的伪指令，作用是定义一个段，&lt;code class=&quot;highlighter-rouge&quot;&gt;segment&lt;/code&gt;表示段开始，&lt;code class=&quot;highlighter-rouge&quot;&gt;ends&lt;/code&gt;表示段结束。
 用法：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;段名 segment
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;段名 segment
 
 	代码在此
 
 段名 ends
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;end&quot;&gt;end&lt;/h3&gt;
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;end&lt;/code&gt;是一个汇编程序的结束标记，编译器遇到&lt;code class=&quot;highlighter-rouge&quot;&gt;end&lt;/code&gt;就会结束后面的编译。&lt;/p&gt;
@@ -844,7 +1016,7 @@ push指令的执行过程如下&lt;/p&gt;
 &lt;h3 id=&quot;assume&quot;&gt;assume&lt;/h3&gt;
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;assume&lt;/code&gt;表示“假设”，它假设某一寄存器和程序中的某一个用&lt;code class=&quot;highlighter-rouge&quot;&gt;segment...ends&lt;/code&gt;定义的段相关联。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;assume cs:codesg 	//因为段的内容是代码段，所以把codesg代码段和cs寄存器联系起来
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;assume cs:codesg 	//因为段的内容是代码段，所以把codesg代码段和cs寄存器联系起来
 
 codesg segment 	  //codesg代码段开始
     mov ax,0H
@@ -854,8 +1026,7 @@ codesg segment 	  //codesg代码段开始
 codesg ends 		 //codesg代码段结束
 
 end //程序结束
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h1 id=&quot;bx和loop指令&quot;&gt;[BX]和loop指令&lt;/h1&gt;
 
@@ -868,10 +1039,9 @@ end //程序结束
 &lt;h3 id=&quot;inc&quot;&gt;inc&lt;/h3&gt;
 &lt;p&gt;inc bx 表示bx中内容+1&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mov bx,1
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mov bx,1
 inc bx	//bx=2
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;loop循环&quot;&gt;[loop]循环&lt;/h3&gt;
 
@@ -883,12 +1053,11 @@ inc bx	//bx=2
 
 &lt;p&gt;2.判断cx的值，不为0就跳转至标号处执行，为0就向下执行。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ax,2
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ax,2
     mov cx,10 //设置执行的次数
 s:  add ax,ax //设置要重复执行的标号
     loop s
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h1 id=&quot;包含多个段的程序&quot;&gt;包含多个段的程序&lt;/h1&gt;
 
@@ -896,7 +1065,7 @@ s:  add ax,ax //设置要重复执行的标号
 
 &lt;p&gt;代码里面有数据的存在，需要致命程序的入口，不然不知道哪里开始是代码。标号会转化为一个入口地址，存储在可执行文件的描述信息中。当程序被加载入内存之后，加载者从程序的可执行文件的描述信息中读取到程序的入口地址，设置CS:IP。CPU就能从我们希望的地址处开始执行。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:code
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:code
     code segment
     	dw 0123h,0456h,0789h,0abch,0defh,0fedh,0cbah,0987h//声明一些数据
         start: mov bx,0//添加一个标号start
@@ -911,12 +1080,11 @@ s:  add ax,ax //设置要重复执行的标号
                int 21h
 	code ends
     end start//这里指明了程序的入口标号。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;数据代码栈放入不同的段&quot;&gt;数据、代码、栈放入不同的段&lt;/h3&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assyme cs:code,ds:data,ss:stack  //把code和cs寄存器，data和ds寄存器，stack和ss寄存器关联起来
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assyme cs:code,ds:data,ss:stack  //把code和cs寄存器，data和ds寄存器，stack和ss寄存器关联起来
     data segment  //数据段开始，data已经和ds寄存器相关联了
     	dw 0123h,0456h,0789h,0abch,0defh,0fedh,0cbah,0987h
     data ends     //数据段结束
@@ -949,8 +1117,7 @@ s:  add ax,ax //设置要重复执行的标号
                int 21h
     code ends     //代码段结束
     end start     //指明程序执行入口
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;上面代码中的code，data，stack没有实际意义，只是方便我们辨识，段中的内容不会被自动识别为数据还是栈还是指令，这些都是由CS:IP,SS:SP,DS的设置来决定的，
 CS:IP指向就当指令来执行。
@@ -965,41 +1132,37 @@ DS指向就当数据来执行&lt;/p&gt;
 
 &lt;p&gt;and是逻辑与指令，按位比较，相同就为1，不同就为0&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,01100011B
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,01100011B
     and al,00111011B
     得al = 00100011B
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;利用and指令能快速的把指定位设为0，其他位不变&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    and al,11111110B //将第0位设为0，其他位不变
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    and al,11111110B //将第0位设为0，其他位不变
     and al,01111111B //将第7位设为0，其他位不变
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;or&quot;&gt;or&lt;/h4&gt;
 
 &lt;p&gt;or是逻辑或指令，按位比较，都为0才是0。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,01100011B
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,01100011B
     or  al,00111011B
     得  al=01111011B
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;利用or能快速的将指定为设为1，其他位不变。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    or al,10000000B //将第7位设为1，其他位不变
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    or al,10000000B //将第7位设为1，其他位不变
     or al,00000001B //将第0位设为1，其他位不变
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;字符形式给出数据&quot;&gt;字符形式给出数据&lt;/h3&gt;
 
 &lt;p&gt;在汇编中，可以用&lt;code class=&quot;highlighter-rouge&quot;&gt;'......'&lt;/code&gt;的方式给出数据，编译器会转化为对应的&lt;code class=&quot;highlighter-rouge&quot;&gt;ASCII&lt;/code&gt;码。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:code,ds:data
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:code,ds:data
     
     data segment
     db 'unIX' 		//相当于db 75H,6EH,49H,58H
@@ -1014,8 +1177,7 @@ DS指向就当数据来执行&lt;/p&gt;
            int 21h
     code ends
     end start
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;大小写转换&quot;&gt;大小写转换&lt;/h3&gt;
 
@@ -1047,29 +1209,27 @@ DS指向就当数据来执行&lt;/p&gt;
 
 &lt;p&gt;这样，通过前面的&lt;code class=&quot;highlighter-rouge&quot;&gt;and&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;or&lt;/code&gt;就能轻松控制大小写了。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;and al,11011111B //将al中的ASCII码第五位置为0，变成大写字母
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;and al,11011111B //将al中的ASCII码第五位置为0，变成大写字母
 or  al,00100000B //将al中的ASCII码第五位置为1，变成小写字母
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;bxidata方式进行数组的处理&quot;&gt;[bx+idata]方式进行数组的处理&lt;/h3&gt;
 
 &lt;p&gt;bx可以加一个起始偏移地址，不改变bx，可以在一个循环里，很方便的对多个偏移地址进行操作。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[bx+0]//起始偏移地址不变
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[bx+0]//起始偏移地址不变
 [bx+5]//从第5个开始加偏移地址
 
 //上面的代码可以简写成下面的样式，和C语言的数组很像。
 0[bx]
 5[bx]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;si和di&quot;&gt;SI和DI&lt;/h3&gt;
 
 &lt;p&gt;si和di是8086中和bx功能相近的寄存器，不能分成2个8位寄存器来使用。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //这3段代码功能相同
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //这3段代码功能相同
     mov bx,0
     mov ax,[bx]
     
@@ -1081,8 +1241,7 @@ or  al,00100000B //将al中的ASCII码第五位置为1，变成小写字母
     
     //si和di一样能使用[si+idata]的形式
     mov ax,[si+100]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;bxsi和bxdi&quot;&gt;[bx+si]和[bx+di]&lt;/h3&gt;
 
@@ -1090,9 +1249,8 @@ or  al,00100000B //将al中的ASCII码第五位置为1，变成小写字母
 
 &lt;p&gt;也可以写成&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ax,[bx][si]//常用写法
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ax,[bx][si]//常用写法
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;bxsiidata和bxdiidata&quot;&gt;[bx+si+idata]和[bx+di+idata]&lt;/h3&gt;
 
@@ -1100,13 +1258,12 @@ or  al,00100000B //将al中的ASCII码第五位置为1，变成小写字母
 
 &lt;p&gt;有下面及种写法&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ax,[bx+200+si]
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ax,[bx+200+si]
     mov ax,[200+bx+si]
     mov ax,200[bx][si]
     mov ax,[bx].200[si]
     mov ax,[bx][si].200
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;bp&quot;&gt;bp&lt;/h3&gt;
 
@@ -1117,9 +1274,8 @@ bp一样也可以&lt;code class=&quot;highlighter-rouge&quot;&gt;mov ax,[bp+200+
 
 &lt;p&gt;在[…]中使用寄存器bp，如果没有显性的给出段地址，段地址默认是在&lt;code class=&quot;highlighter-rouge&quot;&gt;ss&lt;/code&gt;中。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ax,[bp] //mov ax,ss:bp
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ax,[bp] //mov ax,ss:bp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h1 id=&quot;数据处理的两个基本问题&quot;&gt;数据处理的两个基本问题&lt;/h1&gt;
 
@@ -1180,16 +1336,14 @@ bp一样也可以&lt;code class=&quot;highlighter-rouge&quot;&gt;mov ax,[bp+200+
 
 &lt;p&gt;8086的指令可以处理2中尺寸的数据，&lt;code class=&quot;highlighter-rouge&quot;&gt;byte&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;word&lt;/code&gt;，汇编语言通过指明寄存器名(ax还是al)指明要处理的数据的尺寸。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ax,1 //指明了指令是字操作
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ax,1 //指明了指令是字操作
     mov bx,ds[0]
     mov ds,ax
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,1 //指明了指令是字节操作
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,1 //指明了指令是字节操作
     mov al,bl
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;通过操作符指定&quot;&gt;通过操作符指定&lt;/h4&gt;
 
@@ -1197,17 +1351,15 @@ bp一样也可以&lt;code class=&quot;highlighter-rouge&quot;&gt;mov ax,[bp+200+
 
 &lt;p&gt;1.指明为字操作&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov word ptr ds:[0],1
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov word ptr ds:[0],1
     inc word otr [bx]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;2.指明为字节操作&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov byte ptr ds:[0],1
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov byte ptr ds:[0],1
     inc byte ptr [bx]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;其他方法&quot;&gt;其他方法&lt;/h4&gt;
 
@@ -1215,13 +1367,12 @@ bp一样也可以&lt;code class=&quot;highlighter-rouge&quot;&gt;mov ax,[bp+200+
 
 &lt;h4 id=&quot;div指令&quot;&gt;div指令&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //被除数默认是在AX或（DX和AX）中
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //被除数默认是在AX或（DX和AX）中
     div 除数的内存单元
     
     //al=ax/ds:0的商   ah=ax/ds:0的余 因为是除数是8位AX存放商和余就够了
     div byte ptr ds:[0]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;div是除法指令，使用时应注意以下问题。
 1.除数：有8位和16位两种
@@ -1254,7 +1405,7 @@ bp一样也可以&lt;code class=&quot;highlighter-rouge&quot;&gt;mov ax,[bp+200+
 
 &lt;p&gt;&lt;strong&gt;计算100001/100&lt;/strong&gt;&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
     //因为100001大于65535是一个32位的，被除数应为16位
     //先把100001拆成高16位和低16位，高16位放到dx，低16位放到ax中
     mov dx,1
@@ -1262,25 +1413,23 @@ bp一样也可以&lt;code class=&quot;highlighter-rouge&quot;&gt;mov ax,[bp+200+
     mov bx,100
     div bx
     //结果ax=03E8（即商为1000），dx=1（余数为1）。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;伪指令dd&quot;&gt;伪指令dd&lt;/h4&gt;
 
 &lt;p&gt;前面我们用db和dw定义字节型数据和字型数据，dd是用来定义doubleword，双字型数据。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;     data segment
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;     data segment
      db 1 //01H 在data:0处，占1个字节
      dw 1 //0001H 在data:1处，占1个字
      dd 1 //00000001H 在data:3处，占2个字
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;dup&quot;&gt;dup&lt;/h4&gt;
 
 &lt;p&gt;dup是一个操作符，在汇编语言中和db、dw、dd等一样，有编译器识别处理。它是和db、dw、dd等数据定义伪指令配合使用的，用来进行数据的重复。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //定义了3个字节，值都是0，相当于db 0,0,0
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //定义了3个字节，值都是0，相当于db 0,0,0
     db 3 dup (0)
     
     //定义了9个字节，分别是0,1,2,0,1,2,0,1,2相当于db 0,1,2,0,1,2,0,1,2
@@ -1288,14 +1437,12 @@ bp一样也可以&lt;code class=&quot;highlighter-rouge&quot;&gt;mov ax,[bp+200+
     
     定义了18个字节，值是'abcABCabcABCabcABC'相当于db 'abcABCabcABCabcABC'
     db 3 dup ('abc',&quot;ABC&quot;)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;可见dup的使用格式如下&lt;/strong&gt;&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    数据类型  重复的次数  dup （重复的数据）
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    数据类型  重复的次数  dup （重复的数据）
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;转移指令的原理&quot;&gt;转移指令的原理&lt;/h3&gt;
 
@@ -1345,14 +1492,13 @@ bp一样也可以&lt;code class=&quot;highlighter-rouge&quot;&gt;mov ax,[bp+200+
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;offset&lt;/code&gt;是由编译器处理的符号，它的功能是取得标号的偏移地址。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:codesg
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:codesg
     codesg segment
     	start:mov ax,offset start  //相当于mov ax,0
             s:mov ax,offset s      //相当于mov ax,3
     codesg ends
     end start
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;offset&lt;/code&gt;取得了标号的&lt;code class=&quot;highlighter-rouge&quot;&gt;start&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;s&lt;/code&gt;的偏移地址。&lt;/p&gt;
 
@@ -1369,7 +1515,7 @@ bp一样也可以&lt;code class=&quot;highlighter-rouge&quot;&gt;mov ax,[bp+200+
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;jmp short 标号&lt;/code&gt; 表示转移到标号处执行指令
 这种格式的jmp指令实现的是段内短转移，它对IP的修改范围为-128~127。指令中的&lt;code class=&quot;highlighter-rouge&quot;&gt;short&lt;/code&gt;说明指令进行的是短转移。指令中的标号指明了要转移的目的地，转移指令结束后，CS:IP应该指向标号处的指令。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:codesg
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:codesg
     
     codesg segment
      start:mov ax,0
@@ -1378,8 +1524,7 @@ bp一样也可以&lt;code class=&quot;highlighter-rouge&quot;&gt;mov ax,[bp+200+
          s:inc ax
     codesg ends
     end start
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h5 id=&quot;jmp-short-标号&quot;&gt;jmp short 标号&lt;/h5&gt;
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;jmp short&lt;/code&gt;指令对应的机器码中不包含转移的目的地址，而是转移的位移。
@@ -1413,7 +1558,7 @@ bp一样也可以&lt;code class=&quot;highlighter-rouge&quot;&gt;mov ax,[bp+200+
 CS=标号所在段的段地址;IP=标号在段中的偏移地址。
 far ptr 指明了指令用标号的段地址和偏移地址修改CS和IP。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:codesg
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:codesg
     
     codesg segment
      start:mov ax,0
@@ -1424,8 +1569,7 @@ far ptr 指明了指令用标号的段地址和偏移地址修改CS和IP。&lt;/
            inc ax
     codesg ends
     end start
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h5 id=&quot;转移地址在寄存器中的jmp指令&quot;&gt;转移地址在寄存器中的jmp指令&lt;/h5&gt;
 
@@ -1440,25 +1584,23 @@ far ptr 指明了指令用标号的段地址和偏移地址修改CS和IP。&lt;/
 功能：从内存单元地址处取出转移目的的偏移地址（一个字）。
 内存单元地址可用任意寻址方式给出&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ax,0123H
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ax,0123H
     mov ds:[0],ax
     jmp word ptr ds:[0]
     //IP=0123H
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;2.&lt;code class=&quot;highlighter-rouge&quot;&gt;jmp dword ptr 内存单元地址&lt;/code&gt;(段间转移)
 功能：从内存单元地址处取出转移目的地址（两个字），高地址的字是转移目的的段地址，低地址的字是转移目的的偏移地址。
 CS = 内存单元地址+2
 IP = 内存单元地址&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ax,0123H
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ax,0123H
     mov ds:[0],ax
     mov word ptr ds:[2],0 //指明存的是字，占2个位置
     jmp dword ptr ds:[0]
     //CS=0，IP=0123，CS:IP指向0000:0123
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;jcxz指令&quot;&gt;jcxz指令&lt;/h4&gt;
 
@@ -1515,7 +1657,7 @@ pop CS 操作&lt;/p&gt;
 
 &lt;p&gt;例：ret指令执行后，IP = 0，CS:IP指向代码段的第一条指令。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:code
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:code
     stack segment
 	  db 16 dup(0)
     stack ends
@@ -1535,12 +1677,11 @@ pop CS 操作&lt;/p&gt;
     
     end start
 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;例：retf指令执行后，CS:IP指向代码段的第一条指令&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:code
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:code
     stack segment
 	  db 16 dup(0)
     stack ends
@@ -1561,8 +1702,7 @@ pop CS 操作&lt;/p&gt;
     
     end start
 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;call指令&quot;&gt;call指令&lt;/h4&gt;
 
@@ -1579,11 +1719,10 @@ pop CS 操作&lt;/p&gt;
 
 &lt;p&gt;CPU执行这种格式的call指令时，进行如下的操作：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    1.sp = sp - 2
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    1.sp = sp - 2
       ss*16 + sp = IP
     2.IP=IP+16位位移
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;16位位移 = 标号处的地址 - call指令后的第一个字节的地址。
 16位位移的范围为-32768~32767,用补码表示。
@@ -1591,10 +1730,9 @@ pop CS 操作&lt;/p&gt;
 
 &lt;p&gt;“call 标号” 相当于&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    push IP
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    push IP
     jmp near ptr 标号
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;目的地址的call&lt;/strong&gt;
 指令格式：call far ptr 标号
@@ -1602,38 +1740,34 @@ pop CS 操作&lt;/p&gt;
 
 &lt;p&gt;CPU执行此种格式的call指令是，进行如下的操作。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    1.sp = sp-2
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    1.sp = sp-2
       ss*16+sp = CS
       sp = sp-2
       ss*16+sp = IP
     2.CS = 标号所在段的段地址
       IP = 标号在段的偏移地址
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;“call far ptr 标号” 相当于&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    push CS
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    push CS
     push IP
     jmp far ptr 标号
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;转移地址在寄存器中的call指令&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;指令格式：call 16位 reg&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    sp = sp-2
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    sp = sp-2
     ss*16+sp = IP
     IP = 16位reg
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;相当于&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    push IP
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    push IP
     jmp 16位reg
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;转移地址在内存中的call指令&lt;/strong&gt;&lt;/p&gt;
 
@@ -1641,7 +1775,7 @@ pop CS 操作&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;call word ptr 内存单元地址 （仅修改IP）
 相当于
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  push IP
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  push IP
   jmp word ptr 内存单元地址
     
   例：
@@ -1650,12 +1784,11 @@ pop CS 操作&lt;/p&gt;
   mov ds:[0],ax
   call word ptr ds:[0]
   //执行后IP=0123H,sp=0EH
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
   &lt;/li&gt;
   &lt;li&gt;call dword ptr 内存单元地址 (同时修改CS和IP)
 相当于
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  push CS
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  push CS
   push IP
   jmp dword ptr 内存单元地址
     
@@ -1666,14 +1799,13 @@ pop CS 操作&lt;/p&gt;
   mov word ptr ds:[2],0
   call dword ptr ds:[0]
   //执行后CS=0,IP=0123H,sp=0CH
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h4 id=&quot;call和ret的配合使用&quot;&gt;call和ret的配合使用&lt;/h4&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:code
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:code
     code segment
     start: mov ax,1
      	   mov cx,3
@@ -1687,14 +1819,13 @@ pop CS 操作&lt;/p&gt;
                         //即call s的下一句代码
 	code ends
     end start
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;由此可以看出call和ret可以实现子程序的效果，s标号的代码段执行完后又回到了前面的代码继续执行。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;子程序框架&lt;/strong&gt;&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:code
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:code
     code segment
       main:                //主程序
             ...
@@ -1712,8 +1843,7 @@ pop CS 操作&lt;/p&gt;
             ret            //子程序2返回到子程序1
     code ends
     end main
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;mul指令&quot;&gt;mul指令&lt;/h4&gt;
 
@@ -1725,24 +1855,22 @@ pop CS 操作&lt;/p&gt;
 
 &lt;p&gt;内存单元可以用不同的寻址方式给出，如&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mul byte ptr ds:[0]
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mul byte ptr ds:[0]
     //含义为ax=al*(ds*16+0);
     
     mul word ptr [bx+si+8]
     //含义为ax=ax*(ds*16+bx+si+8)结果的低16位
     //     dx=ax*(ds*16+bx+si+8)结果为高16位
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;例如：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //计算100*10
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //计算100*10
     mov al,100
     mov bl,10
     mul bl
     //结果ax=1000
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;标识寄存器&quot;&gt;标识寄存器&lt;/h3&gt;
 
@@ -1812,7 +1940,7 @@ pop CS 操作&lt;/p&gt;
 
 &lt;p&gt;如：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ax,1
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ax,1
     sub ax,1
     //执行后，结果为0，则zf=1
     
@@ -1820,8 +1948,7 @@ pop CS 操作&lt;/p&gt;
     sub ax,1
     //执行后，结果不为0，则zf=0
     
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;pf标志&quot;&gt;PF标志&lt;/h4&gt;
 
@@ -1829,15 +1956,14 @@ pop CS 操作&lt;/p&gt;
 
 &lt;p&gt;如：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,1
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,1
     add al,10
     //执行后，结果为00001011B,其中有3个1，则pf=0
     
     mov al,1
     or al,2
     //执行后，结果为00000011B,其中有2个1，则pf=1
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;sf标志&quot;&gt;SF标志&lt;/h4&gt;
 
@@ -1845,20 +1971,18 @@ pop CS 操作&lt;/p&gt;
 
 &lt;p&gt;计算机中通常用补码来表示有符号数据。计算机中的一个数据可以看作是有符号数，也可以看成是无符号数。比如：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    00000001B，可以看作无符号数1，或有符号数+1;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    00000001B，可以看作无符号数1，或有符号数+1;
     10000001B,可以看作无符号数129，也可以看作有符号数-127
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;也就是说对于同一个二进制数据，计算机可以将它当作无符号数据来运算，也可以当做有符号数据来运算
 如：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,10000001B
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,10000001B
     add al,1
     //结果 al=10000010B
     //可以将add指令进行的运算当做无符号数的运算，也可以当做有符号数计算(-127+1)，结果为-126(10000010B)。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;SF标识，就是CPU对符号数运算结果的一种记录，它记录数据的正负，在我们将数据当作有符号数来运算的时候，可以通过它来得知结果的正负。如果我们将数据当作无符号数来运算，SF的值则没有意义。&lt;/p&gt;
 
@@ -1900,20 +2024,18 @@ pop CS 操作&lt;/p&gt;
 &lt;p&gt;当两个数据相加的时候，有可能产生从最高有效位向更高位的进位。这个进位值就用CF来保存
 如:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,98H
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,98H
     add al,al	//执行后al=30,CF=1,CF记录了从最高有效位向更高位的进位值
     add al,al	//执行后al=60,CF=0,CF记录了从最高有效位向更高位的进位值
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;而当两个数据做减法的时候，有可能向更高位借位。比如，两个8位数据：97H-98H,将产生借位，借位后相当于197H-98H,而flag的CF位也可以用来记录这个借位值。
 如:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,97H
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,97H
     sub al,98H   //执行后al=FFH，CF=1，CF记录了向更高位的借位值
     sub al,al    //执行后al=0，CF=0，CF记录了向更高位的借位值
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;of标志&quot;&gt;OF标志&lt;/h4&gt;
 
@@ -1922,13 +2044,12 @@ pop CS 操作&lt;/p&gt;
 &lt;p&gt;8位的寄存器有效范围是-128~127，16位寄存器的有效范围是-32768~32767。如果运算结果超出了机器所能表达的范围，将产生溢出。
 如：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,98
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,98
     add al,99
     //执行后将产生溢出，al=al+99=98+99=197
     //197超过了8位有符号数的范围：-128~127
     //得到的结果是al=0C5H,因为是有符号数的运算，所以al存的是补码，C5H是有符号数的-59，98-99=-59显然是不对的。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;面对这种情况，flag的第11位OF（溢出标志位）就起作用了。
 如果发生了溢出OF=1；如果没有OF=0。&lt;/p&gt;
 
@@ -1947,7 +2068,7 @@ pop CS 操作&lt;/p&gt;
 
 &lt;p&gt;如&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ax,2
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ax,2
     mov bx,1
     sub bx,ax
     adx ax,1
@@ -1962,18 +2083,16 @@ pop CS 操作&lt;/p&gt;
     add al,al
     adc al,3
     //执行后al=34，adc执行时相当于al+3+CF=30H+3+1=34H
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;可以看出&lt;code class=&quot;highlighter-rouge&quot;&gt;adc&lt;/code&gt;指令比&lt;code class=&quot;highlighter-rouge&quot;&gt;add&lt;/code&gt;指令多加了一个CF位的值。CF的值有adc指令前面的指令决定的。&lt;/p&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;adc&lt;/code&gt;指令是用来进行加法的第二步运算的。add和adc指令的配合能对更大的数据进行加法运算。&lt;/p&gt;
 
 &lt;p&gt;例0198H和0183H相加，可以分为两步来进行&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1.低位相加         				  add al,bl
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1.低位相加         				  add al,bl
 2.高位相加再加上低位相加产生的进位值。adc ah,bh
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;adc就是用来进行第二步的，会自动帮我们加上进位值CF。（add指令执行后，CF表示低位相加的进位置）&lt;/p&gt;
 
@@ -1987,13 +2106,12 @@ pop CS 操作&lt;/p&gt;
 
 &lt;p&gt;利用sbb指令可以对任意大数据进行减法运算
 如：&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //计算003E1000H-00202000H,结果放在ax，bx中
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //计算003E1000H-00202000H,结果放在ax，bx中
     mov bx,1000H
     mov ax,003EH
     sub bx,2000H//如果这里借位了，CF为1
     sbb ax,0020H//减去低位的借位值
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;cmp指令&quot;&gt;cmp指令&lt;/h4&gt;
 
@@ -2085,7 +2203,7 @@ pop CS 操作&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;前面的是无符号数的规则，下面看看有符号数&lt;/strong&gt;&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sf=1;of=0 没有溢出，逻辑正负=实际正负，ab&amp;lt;bh。
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sf=1;of=0 没有溢出，逻辑正负=实际正负，ab&amp;lt;bh。
 
 sf=1;of=1 有溢出，逻辑正负≠实际正负,因sf=1，实际结果为负，又有溢出，表示是溢出导致的结果为负。逻辑上必然为正，ah&amp;gt;bh。
 
@@ -2093,8 +2211,7 @@ sf=0;of=1 有溢出，逻辑正负≠实际正负，实际结果为正，又有�
 
 sf=0,of=0 没有溢出，逻辑正负=实际正负，sf=0实际非负，逻辑也非负，ah≥bh
 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;检测比较结果的条件转移指令&quot;&gt;检测比较结果的条件转移指令&lt;/h4&gt;
 
@@ -2154,15 +2271,14 @@ na:表示not above&lt;/p&gt;
 
 &lt;p&gt;例：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //实现ah=bh则ah=ah+ah，否则ah=ah+bh
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //实现ah=bh则ah=ah+ah，否则ah=ah+bh
     cmp ah,bh    //比较ah和bh改变对应的标志位
     je s		 //标志位符合等于跳转到s标号执行
     add ah,bh	 //标志位不符合等于执行这里
     jmp short ok //跳过s标号的语句
   s:add ah,ah
   ok:....
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;df标志和串传送指令&quot;&gt;DF标志和串传送指令&lt;/h4&gt;
 
@@ -2174,11 +2290,10 @@ df=1 每次操作后si、di递减&lt;/p&gt;
 格式：movsb
 功能：执行movsb相当于执行以下步骤&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    1.es*16+di=ds*16+si
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    1.es*16+di=ds*16+si
     2.如果df=0则 si=si+1,di=di+1
     3.如果df=1则 si=si-1,di=di-1
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;也可以按字来传送
 格式：movsw
@@ -2186,7 +2301,7 @@ df=1 每次操作后si、di递减&lt;/p&gt;
 
 &lt;p&gt;相当于&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov es:[di],word ptr ds:[si]
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov es:[di],word ptr ds:[si]
 	如果df=0
     add si,2
     add di,2
@@ -2194,30 +2309,27 @@ df=1 每次操作后si、di递减&lt;/p&gt;
     如果df=1
     sub si,2
     sub di,2
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;一般情况下movsb和movsw进行的是串传送操作中的一个步骤，需要和rep配合使用。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    rep movsb//循环调用movsb，循环cx次
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    rep movsb//循环调用movsb，循环cx次
 
     //和下面代码功能一样
     s:movsb
       loop s
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;由于flag的df位决定这串传送指令执行后，si和di的改变方向，我们需要提前设置好df位的值。
 8086提供了2条指令来对df位进行设置。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    cld指令：将标志寄存器的df位置0
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    cld指令：将标志寄存器的df位置0
     std指令：将标志寄存器的df位置1
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;例:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //将data段的第一个字符串复制到它后面的空间
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //将data段的第一个字符串复制到它后面的空间
     data segment
       db 'Welcome to masm!'
       db 16 dup (0)
@@ -2233,8 +2345,7 @@ df=1 每次操作后si、di递减&lt;/p&gt;
       cld          //设置方向，si和di递增
       rep movsb    //开始循环传送
     code ends
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;pushf和popf&quot;&gt;pushf和popf&lt;/h4&gt;
 
@@ -2323,11 +2434,10 @@ df=1 每次操作后si、di递减&lt;/p&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;iret&lt;/code&gt;实现了下面的功能&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    pop IP
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    pop IP
     pop CS
     popf
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;单步中断&quot;&gt;单步中断&lt;/h4&gt;
 
@@ -2350,7 +2460,7 @@ df=1 每次操作后si、di递减&lt;/p&gt;
 
 &lt;p&gt;如：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //将栈顶设置为1000:0
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //将栈顶设置为1000:0
     mov ax,1000h
     mov ss,ax
     mov sp,0
@@ -2359,8 +2469,7 @@ df=1 每次操作后si、di递减&lt;/p&gt;
     mov ss,ax
     mov ax,0
     mov sp,0
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;int指令&quot;&gt;int指令&lt;/h3&gt;
 
@@ -2385,24 +2494,22 @@ df=1 每次操作后si、di递减&lt;/p&gt;
 
 &lt;p&gt;设置光标位置&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ah,2    //设置用int 10h中断例程里面的2号子程序
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ah,2    //设置用int 10h中断例程里面的2号子程序
     mov bh,0    //第0页
     mov dh,5    //行号
     mov dl,12   //列号
     int 10h
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;在光标位置显示字符&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ah,9    //9号子程序，在光标位置显示字符
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ah,9    //9号子程序，在光标位置显示字符
     mov al,'a'  //要显示的字符
     mov bl,7    //颜色
     mov bh,0    //第0页
     mov cx,3    //字符重复个数
     int 10h     //
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;bl中颜色的格式如下&lt;/p&gt;
 
@@ -2449,23 +2556,21 @@ df=1 每次操作后si、di递减&lt;/p&gt;
 
 &lt;p&gt;int 21h就是DOS提供的中断例程。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ah,4ch   //表示调用4ch号子程序
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov ah,4ch   //表示调用4ch号子程序
     mov al,0     //返回值
     int 21h
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;int 21h在光标位置显示字符串的功能&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    ds:dx 指向字符串   //要显示的字符串用$作为结束符
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    ds:dx 指向字符串   //要显示的字符串用$作为结束符
     mov ah,9         //使用第9号子程序
     int 21h
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;在屏幕5行12列显示字符串&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:code
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:code
     
     data segment
       db 'Welcome to masm','$'
@@ -2488,8 +2593,7 @@ df=1 每次操作后si、di递减&lt;/p&gt;
             int 21h
     code ends
     end start
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;端口&quot;&gt;端口&lt;/h3&gt;
 
@@ -2527,9 +2631,8 @@ df=1 每次操作后si、di递减&lt;/p&gt;
 
 &lt;p&gt;访问端口：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    in al,60h    //从60h号端口读入一个字节
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    in al,60h    //从60h号端口读入一个字节
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;CPU通过地址线将地址信息60h发出；
 CPU通过控制线发出端口读命令，选中端口所在的芯片，并通知它，将要从中读取数据；
@@ -2563,11 +2666,10 @@ CPU通过控制线发出端口读命令，选中端口所在的芯片，并通�
   &lt;li&gt;最低位补0&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,01001000b
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    mov al,01001000b
     shl al,1   //将al中的数据左移一位
     //执行后al=10010000b,CF=0
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;cmos-ram中存储的时间信息&quot;&gt;CMOS RAM中存储的时间信息&lt;/h4&gt;
 
@@ -2577,12 +2679,11 @@ CPU通过控制线发出端口读命令，选中端口所在的芯片，并通�
 &lt;p&gt;这些数据以BCD码方式存放。一个字节可以表示两个BCD码，高4位BCD码表示十位，低4位BCD码表示各位。
 例:00010100b表示14&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //读取月份
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //读取月份
     mov al,8    //设置要读取的单元
     out 70h,al  //要读取的单元地址传给CMOS
     in al,71h   //从数据端口71h中取得指定单元的数据
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;外中断&quot;&gt;外中断&lt;/h3&gt;
 
@@ -2696,7 +2797,7 @@ sti,设置IF=1。cli,设置IF=0。&lt;/p&gt;
 
 &lt;p&gt;如：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:code
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:code
     code segment
         //这里的标号后面没有&quot;:&quot;，它们是同时描述内存地址和单元长度的标号
         a db 1,2,3,4,5,6,7,8  //a描述了地址code:0，以后的内存单元都是字节单元
@@ -2712,12 +2813,11 @@ sti,设置IF=1。cli,设置IF=0。&lt;/p&gt;
             int 21h
     code ends
     end start
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;这样指定之后,下面的指令中，标号b代表了一个内存单元，地址为code:8，长度为两个字节。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;指令：  mov ax,b
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;指令：  mov ax,b
 相当于：mov ax,cs:[8]
 
 指令：  mov b,2
@@ -2725,15 +2825,14 @@ sti,设置IF=1。cli,设置IF=0。&lt;/p&gt;
 
 指令：  inc b
 相当于：inc word ptr cs:[8]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;在其他段中使用数据标号&quot;&gt;在其他段中使用数据标号&lt;/h4&gt;
 
 &lt;p&gt;一般来说，我们不在代码段中定义数据，而是将数据定义到其他段中，在其他段中，我们也可以使用数据标号来描述储存数据的单元的地址和长度。
 在后面加油”:”的地址标号，只能在代码段中使用，不能在其他段中使用。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:code,ds:data //把data和ds寄存器联系起来
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    assume cs:code,ds:data //把data和ds寄存器联系起来
     data segment
        a db 1,2,3,4,5,6,7,8
        b dw 0
@@ -2757,12 +2856,11 @@ sti,设置IF=1。cli,设置IF=0。&lt;/p&gt;
            int 21h
     code ends
     end start
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;程序的入口地址也能用直接定址表存放&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    setscreen: jmp short set
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    setscreen: jmp short set
          table dw sub1,sub2,sub3,sub4
           set: push bx
                cmp ah,3                //判断功能号是否大于3
@@ -2776,12 +2874,11 @@ sti,设置IF=1。cli,设置IF=0。&lt;/p&gt;
          sret: pop bx
                ret
     
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;运用前面的知识还能改成下面这样&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;	setscreen: cmp ah,0
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;	setscreen: cmp ah,0
                je do1
                cmp ah,1
                je do2
@@ -2799,8 +2896,7 @@ sti,设置IF=1。cli,设置IF=0。&lt;/p&gt;
           do4: call sub4
           
          sret: ret
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 </description>
         <pubDate>Thu, 03 Aug 2017 12:00:00 +0000</pubDate>
@@ -2838,9 +2934,8 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
 
 &lt;p&gt;英语水平不够，翻译软件来凑。钱包，余额，各种关键字翻译了往搜索框里面丢，最后让我在&lt;code class=&quot;highlighter-rouge&quot;&gt;WCPayBalanceInfo&lt;/code&gt;里面发现有一个方法，这个方法返回了微信钱包里面显示的值。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-(long)m_uiAvailableBalance
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-(long)m_uiAvailableBalance
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;点进去设置Return Value为99999，进钱包看一下，确实变了，不过少了2位，做过微信支付的都知道微信是以分为单位。
 &lt;img src=&quot;http://localhost:4000/img/in-post/changewxmoney6.PNG&quot; alt=&quot;Application Support&quot; /&gt;&lt;/p&gt;
@@ -2851,25 +2946,23 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
 
 &lt;p&gt;既然要Hook的方法已经找到，接下来就简单了，老一套theos建工程，在xm文件里面写这些代码，数字你想改多少都行。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;%hook WCPayBalanceInfo
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;%hook WCPayBalanceInfo
 -(long)m_uiAvailableBalance{
 	return 6570000;
 }
 %end
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;make package install&lt;/code&gt;后进微信看看，有效果。只是钱的数值依然不能随着我们使用而改变。这里就需要用上&lt;code class=&quot;highlighter-rouge&quot;&gt;%orig&lt;/code&gt;。&lt;/p&gt;
 
 &lt;p&gt;%orig会执行一遍原本的方法，有返回值也会返回回来，这样的话，上面的代码直接给成这样就OK了。这相当于给我们原本的余额加了一个基本值。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;%hook WCPayBalanceInfo
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;%hook WCPayBalanceInfo
 -(long)m_uiAvailableBalance{
 	return %orig+6570000;
 }
 %end
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;到这里我们的插件就基本能用了，不过不能控制插件的开启与关闭，也不能自定义这个基本值为多少。这就需要我们再进一步的优化一下了。&lt;/p&gt;
 
@@ -2904,12 +2997,11 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
 
 &lt;h3 id=&quot;修改xm文件获取开关状态及基本值&quot;&gt;修改XM文件获取开关状态及基本值&lt;/h3&gt;
 &lt;p&gt;前面说到设置&lt;code class=&quot;highlighter-rouge&quot;&gt;defaults&lt;/code&gt;会生成一个&lt;code class=&quot;highlighter-rouge&quot;&gt;Plist&lt;/code&gt;文件，我们先把这个文件的地址定义成宏。&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#define PLIST_PATH @&quot;/var/mobile/Library/Preferences/com.yasin.ChangeWXMoney.plist&quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#define PLIST_PATH @&quot;/var/mobile/Library/Preferences/com.yasin.ChangeWXMoney.plist&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;接着修改代码,加入了判断，如果开关是开启的状态就返回(原函数返回值+基本值)，否则就返回原函数的返回值。&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;%hook WCPayBalanceInfo
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;%hook WCPayBalanceInfo
 -(long)m_uiAvailableBalance{
     NSDictionary *dic = [NSDictionary dictionaryWithContentsOfFile:PLIST_PATH];
     if(dic&amp;amp;&amp;amp;dic[@&quot;MoneySwitch&quot;]){
@@ -2922,8 +3014,7 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
     return %orig;
 }
 %end
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;到这里修改微信余额的功能就弄完了，快编译运行去装逼吧。&lt;/p&gt;
 
 </description>
@@ -2955,7 +3046,7 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
 
 &lt;p&gt;ios下跳转到其他App主要是&lt;code class=&quot;highlighter-rouge&quot;&gt;UIApplication&lt;/code&gt;的这两个方法，先试一下能不能行&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;%hook UIApplication
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;%hook UIApplication
 -(BOOL)openURL:(NSURL*)url{
 	UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@&quot;Welcome&quot; message:url.absoluteString delegate:nil cancelButtonTitle:@&quot;Thanks&quot; otherButtonTitles:nil];
 	[alert show];
@@ -2969,8 +3060,7 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
 }
 
 %end
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;分享文章到QQ试了试urlscheme就出来了。&lt;/p&gt;
 
@@ -2980,7 +3070,7 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
 
 &lt;p&gt;前是从发送端入手，现在我们来看看接收端，从外部打开app主要是这几个方法，最后是个是ios9出的通用链接（Universal Links）进入的回调方法。全部都把url弹出来，在微信和QQ之间测试，发现QQ竟然换掉了系统的AlertView，当页面消失的时候就会收回弹框&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;%hook AppDelegate
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;%hook AppDelegate
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@&quot;Welcome&quot; message:url.absoluteString delegate:nil cancelButtonTitle:@&quot;Thanks&quot; otherButtonTitles:nil];
@@ -3007,8 +3097,7 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
 }
 
 %end
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;代码写完了还是通过，&lt;code class=&quot;highlighter-rouge&quot;&gt;make&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;package&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;install&lt;/code&gt;&lt;/p&gt;
 
@@ -3065,22 +3154,19 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
 
 &lt;p&gt;使用就比较简单了&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;socat - UNIX-CONNECT:/var/run/lockdown/syslog.sock
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;socat - UNIX-CONNECT:/var/run/lockdown/syslog.sock
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;显示&lt;code class=&quot;highlighter-rouge&quot;&gt;ASL is here to serve you&lt;/code&gt;说明准备好了，这个时候输入&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;watch
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;watch
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;屏幕上就会打印一大推东西出来。
 我们只想看我们&lt;code class=&quot;highlighter-rouge&quot;&gt;Hook&lt;/code&gt;的程序只需要输入&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;*PID 要看的PID
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;*PID 要看的PID
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;还有其他用法可以输入&lt;code class=&quot;highlighter-rouge&quot;&gt;help&lt;/code&gt;看看其他命令。了解到这里，基本的调试就够用了。&lt;/p&gt;
 </description>
@@ -3111,41 +3197,38 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
 
 &lt;p&gt;用&lt;code class=&quot;highlighter-rouge&quot;&gt;cocoapods&lt;/code&gt;导入&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    target 'ReactiveCocoa_Demo' do
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    target 'ReactiveCocoa_Demo' do
       pod 'ReactiveCocoa'
     end
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;导入头文件&lt;code class=&quot;highlighter-rouge&quot;&gt;#import &amp;lt;ReactiveCocoa.h&amp;gt;&lt;/code&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;基本使用&quot;&gt;基本使用&lt;/h3&gt;
 &lt;p&gt;我们先试试&lt;code class=&quot;highlighter-rouge&quot;&gt;UIButton&lt;/code&gt;&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [[btn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         NSLog(@&quot;ddd&quot;);
     }];
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;点击button会打印”ddd”说明，调用了block里面的内容。
 看着可能有点复杂，但是不熟的时候可以拆开写&lt;/p&gt;
 
 &lt;p&gt;先创建一个&lt;code class=&quot;highlighter-rouge&quot;&gt;RACSignal&lt;/code&gt;对象，再添加要执行的block。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    RACSignal *racSignal = [btn rac_signalForControlEvents:UIControlEventTouchUpInside];
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    RACSignal *racSignal = [btn rac_signalForControlEvents:UIControlEventTouchUpInside];
 
     [racSignal subscribeNext:^(id x) {
         NSLog(@&quot;ddd&quot;);
     }];
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;RACSignal&lt;/code&gt;是RAC里面一个非常重要的概念，建议先掌握了&lt;code class=&quot;highlighter-rouge&quot;&gt;RACSignal&lt;/code&gt;的基本用法后在去了解他的原理。&lt;/p&gt;
 
 &lt;p&gt;再来看看连续多个block的情况，比如已经创建了一个&lt;code class=&quot;highlighter-rouge&quot;&gt;UITextField&lt;/code&gt;叫&lt;code class=&quot;highlighter-rouge&quot;&gt;tf&lt;/code&gt;&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    RACSignal *tfRac = [tf rac_textSignal];
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    RACSignal *tfRac = [tf rac_textSignal];
 
     [[tfRac filter:^BOOL(NSNumber*length) {
         return YES;
@@ -3153,8 +3236,7 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
         NSLog(@&quot;%@&quot;, x);
     }];
 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;这样当UITextField里面内容变化的时候就会打印出UITextField的内容。&lt;/p&gt;
 
@@ -3162,7 +3244,7 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;filter&lt;/code&gt;是一个过滤器里面能加一些判定条件用于判断是否继续往下面的执行。这样就表示当内容是123的时候才打印&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [[tfRac filter:^BOOL(id value) {
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [[tfRac filter:^BOOL(id value) {
         if([value isEqualToString:@&quot;123&quot;]){//过滤出内容是123的情况
             return YES;
         }
@@ -3170,14 +3252,13 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
     }] subscribeNext:^(id x) {
         NSLog(@&quot;%@&quot;,x);
     }];
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;map&quot;&gt;map&lt;/h3&gt;
 
 &lt;p&gt;还有一个常用的操作&lt;code class=&quot;highlighter-rouge&quot;&gt;map&lt;/code&gt;，在&lt;code class=&quot;highlighter-rouge&quot;&gt;map&lt;/code&gt;的&lt;code class=&quot;highlighter-rouge&quot;&gt;block&lt;/code&gt;里面可以更改要往下传的数据，比如下面的例子，textfield的内容被传入&lt;code class=&quot;highlighter-rouge&quot;&gt;map&lt;/code&gt;，在&lt;code class=&quot;highlighter-rouge&quot;&gt;block&lt;/code&gt;里面计算了文字长度之后，把文字长度传了下去。后面的block收到的参数就是这个长度值了。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    RACSignal *tfRac = [tf rac_textSignal];
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    RACSignal *tfRac = [tf rac_textSignal];
 
     [[[tfRac
        map:^id(NSString*text){
@@ -3189,13 +3270,12 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
      subscribeNext:^(id x){
          NSLog(@&quot;%@&quot;, x);
      }];
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;rac宏&quot;&gt;RAC宏&lt;/h3&gt;
 &lt;p&gt;在ReactiveCocoa有一个&lt;code class=&quot;highlighter-rouge&quot;&gt;RAC&lt;/code&gt;宏非常好用,他可以直接把信号的输出应用到对象的属性上。参数1是要绑定的对象，参数2是要绑定的属性。下面的例子，当输入值为”123456”的时候背景颜色就会变成黄色了。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    tf.backgroundColor = [UIColor redColor];
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    tf.backgroundColor = [UIColor redColor];
     RACSignal *tfRac = [tf rac_textSignal];
     //tf的backgroundColor绑定信号
     RAC(tf,backgroundColor) = [tfRac map:^id(id value) {
@@ -3206,13 +3286,12 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
             return [UIColor redColor];
         }
     }];
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;信号聚合&quot;&gt;信号聚合&lt;/h3&gt;
 &lt;p&gt;在用些时候需要聚合信号,&lt;code class=&quot;highlighter-rouge&quot;&gt;RACSignal&lt;/code&gt;提供了&lt;code class=&quot;highlighter-rouge&quot;&gt;combineLatest:reduce:&lt;/code&gt;这个方法可以把任意数量的信号聚合起来。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //信号1
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    //信号1
     RACSignal *tfRac = [tf rac_textSignal];
     [tfRac subscribeNext:^(id x) {
         NSLog(@&quot;%@&quot;,x);
@@ -3238,19 +3317,17 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
                       }] subscribeNext:^(id x) {
                           NSLog(@&quot;%@&quot;,x);
                       }];
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;附加操作&quot;&gt;附加操作&lt;/h3&gt;
 &lt;p&gt;有些时候我们可能需要在收到信号后进行一些附加操作，可以添加一个&lt;code class=&quot;highlighter-rouge&quot;&gt;doNext:&lt;/code&gt;block。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [[tfRac doNext:^(id x) {
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    [[tfRac doNext:^(id x) {
     	NSLog(@&quot;附加操作&quot;);
     }] subscribeNext:^(id x) {
 
     }];
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;参考资料&lt;/p&gt;
 
@@ -3289,63 +3366,55 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
 
 &lt;p&gt;首先将debugserver拷贝到电脑中。命令是&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scp root@(手机的ip地址):/Developer/usr/bin/debugserver (要拷贝到的路径)/debugderver
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scp root@(手机的ip地址):/Developer/usr/bin/debugserver (要拷贝到的路径)/debugderver
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;然后执行&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd debugderver文件的路径
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd debugderver文件的路径
 lipo -thin arm64 debugserver -output debugserver
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;下载&lt;a href=&quot;http://iosre.com/ent.xml&quot;&gt;http://iosre.com/ent.xml&lt;/a&gt;这个文件放到debugderver文件所在的路径。
 执行&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/opt/theos/bin/ldid -Sent.xml debugserver
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/opt/theos/bin/ldid -Sent.xml debugserver
 -S后面是没有空格的
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;如果长时间没有执行完毕，就只能用另一种方案了。
 下载&lt;a href=&quot;http://iosre.com/ent.plist&quot;&gt;http://iosre.com/ent.plist&lt;/a&gt;这个文件
 执行&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;codesign -s - --entitlements ent.plist -f debugserver
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;codesign -s - --entitlements ent.plist -f debugserver
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;最后把修改过的debugserver拷贝回iOS&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scp (debugserver的地址)/debugserver root@192.168.5.228:/usr/bin/debugserver
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;scp (debugserver的地址)/debugserver root@192.168.5.228:/usr/bin/debugserver
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;debugserver我们放在/usr/bin里面可以直接输入debugserver运行。&lt;/p&gt;
 
 &lt;p&gt;ssh连接手机，提升权限&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;chmod +x /usr/bin/debugserver
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;chmod +x /usr/bin/debugserver
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;打开调试器&quot;&gt;打开调试器&lt;/h2&gt;
 
 &lt;h3 id=&quot;手机端&quot;&gt;手机端&lt;/h3&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;debugserver -x backboard *:1234 /Applications/MobileSMS.app
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;debugserver -x backboard *:1234 /Applications/MobileSMS.app
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;这句话表示，打开短信，并且注入调试器。等待来自任意ip的1234端口的&lt;code class=&quot;highlighter-rouge&quot;&gt;lldb&lt;/code&gt;连接&lt;/p&gt;
 
 &lt;h3 id=&quot;电脑端&quot;&gt;电脑端&lt;/h3&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/Applications/Xcode.app/Contents/Developer/usr/bin/lldb
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/Applications/Xcode.app/Contents/Developer/usr/bin/lldb
 process connect connect://192.168.5.228:1234
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;这样就可以连上了。连接成功后
 如果连接上是卡住的状态，好像是连接上回默认被断点卡住，lldb输入c命令就能好。&lt;/p&gt;
@@ -3367,35 +3436,32 @@ process connect connect://192.168.5.228:1234
 
 &lt;h3 id=&quot;1载入无线网卡&quot;&gt;1、载入无线网卡&lt;/h3&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ifconfig -a查看网卡
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ifconfig -a查看网卡
 ifconfig wlan0 up加载网卡
 iwconfig只查看无线网卡
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;2激活无线网卡只monitor监听模式&quot;&gt;2、激活无线网卡只monitor监听模式&lt;/h3&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;airmon-ng start 上面查看的网卡名
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;airmon-ng start 上面查看的网卡名
 
 monitor mode enabled on mon0便是已启动监听模式，监听模式下适配器名称变更为mon0。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;3探测无线网络抓取无线数据包&quot;&gt;3、探测无线网络，抓取无线数据包&lt;/h3&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;airodump-ng mon0 //mon0为之前已经载入并激活监听模式的无线网卡
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;airodump-ng mon0 //mon0为之前已经载入并激活监听模式的无线网卡
 
 airodump-ng --ivs –w longas -c 6 wlan0 //抓取数据包
 参数解释：
 --ivs 这里的设置是通过设置过滤，不再将所有无线数据保存，而只是保存可用于破解的IVS数据报文，这样可以有效地缩减保存的数据包大小；
 -c 这里我们设置目标AP的工作频道，通过刚才的观察，我们要进行攻击测试的无线路由器工作频道为6；
 -w 后跟要保存的文件名，这里w就是“write写”的意思，所以输入自己希望保持的文件名，如下图10所示我这里就写为longas。那么，小黑们一定要注意的是：这里我们虽然设置保存的文件名是longas，但是生成的文件却不是longase.ivs，而是longas-01.ivs。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;4对目标ap使用arprequest注入攻击加速数据包的获取&quot;&gt;4、对目标AP使用ArpRequest注入攻击，加速数据包的获取&lt;/h3&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aireplay-ng -3 -b AP的mac -h 客户端的mac mon0 
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aireplay-ng -3 -b AP的mac -h 客户端的mac mon0 
 参数解释：
 -3 指采用ARPRequesr注入攻击模式；
 -b 后跟AP的MAC地址，这里就是前面我们探测到的SSID为TPLINK的AP的MAC；
@@ -3403,16 +3469,14 @@ airodump-ng --ivs –w longas -c 6 wlan0 //抓取数据包
 最后跟上无线网卡的名称，这里就是mon0啦。
 在等待片刻之后，一旦成功截获到ARP请求报文，我们将会看到如下图13所示的大量ARP报文快速交互的情况出现。
 此时回到airodump-ng 会看到packets栏的数字在飞速递增。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;5打开aircrack-ng开始破解wep&quot;&gt;5、打开aircrack-ng，开始破解WEP&lt;/h3&gt;
 
 &lt;p&gt;在抓取的无线数据报文达到了一定数量后，一般都是指IVs值达到2万以上时，就可以开始破解，若不能成功就等待数据报文的继续抓取然后多试几次。注意，此处不需要将进行注入攻击的Shell关闭，而是另外开一个Shell进行同步破解。输入命令如下：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aircrack-ng 捕获的ivs文件
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aircrack-ng 捕获的ivs文件
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;二wap-psk破解&quot;&gt;二、wap-psk破解&lt;/h2&gt;
 
@@ -3420,55 +3484,50 @@ airodump-ng --ivs –w longas -c 6 wlan0 //抓取数据包
 
 &lt;p&gt;最好对airodump-ng的OUI库进行升级，先进入到Aircrack-ng的安装目录下，然后输入命令如下：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;airodump-ng-oui-update
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;airodump-ng-oui-update
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;2载入并激活无线网卡至monitor即监听模式&quot;&gt;2、载入并激活无线网卡至monitor即监听模式&lt;/h3&gt;
 
 &lt;p&gt;载入无线网卡的顺序及命令部分，依次输入下述命令&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;startx            进入到图形界面
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;startx            进入到图形界面
 ifconfig –a       查看无线网卡状态
 ifconfig  wlan0  up     载入无线网卡驱动
 airmon-ng  start  wlan0  激活网卡到monitor模式
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;3探测无线网络抓取无线数据包-1&quot;&gt;3、探测无线网络，抓取无线数据包&lt;/h3&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;airodump-ng -c 6 –w longas mon0
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;airodump-ng -c 6 –w longas mon0
 参数解释：
 -c 这里我们设置目标AP的工作频道，通过观察，我们要进行攻击测试的无线路由器工作频道为6；
 -w 后跟要保存的文件名，这里w就是“write写”的意思，所以输入自己希望保持的文件名，这里我就写为longas。那么，小黑们一定要注意的是：这里我们虽然设置保存的文件名是longas，但是生成的文件却不是longas.cap，而是longas-01.cap。
 mon0 为之前已经载入并激活监听模式的无线网卡。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;4进行deauth攻击加速破解过程&quot;&gt;4、进行Deauth攻击加速破解过程&lt;/h3&gt;
 
 &lt;p&gt;和破解WEP时不同，这里为了获得破解所需的WPA-PSK握手验证的整个完整数据包，无线黑客们将会发送一种称之为“Deauth”的数据包来将已经连接至无线路由器的合法无线客户端强制断开，此时，客户端就会自动重新连接无线路由器，黑客们也就有机会捕获到包含WPA-PSK握手验证的完整数据包了。此处具体输入命令如下：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aireplay-ng -0 1 –a AP的mac -c 客户端的mac wlan0 
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aireplay-ng -0 1 –a AP的mac -c 客户端的mac wlan0 
 参数解释：
 -0 采用deauth攻击模式，后面跟上攻击次数，这里我设置为1，大家可以根据实际情况设置为10不等；
 -a 后跟AP的MAC地址；
 -c 后跟客户端的MAC地址；
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;5开始破解wpa-psk&quot;&gt;5、开始破解WPA-PSK&lt;/h3&gt;
 
 &lt;p&gt;在成功获取到无线WPA-PSK验证数据报文后，就可以开始破解，输入命令如下：&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aircrack-ng -w dic 捕获的cap文件 
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aircrack-ng -w dic 捕获的cap文件 
 -w 后跟预先制作的字典，这里是BT4下默认携带的字典。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;命令合集&quot;&gt;命令合集&lt;/h3&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aircrack-ng
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aircrack-ng
 主要用于WEP及WPA-PSK密码的恢复，只要airodump-ng收集到足够数量的数据包，aircrack-ng就可以自动检测数据包并判断是否可以破解
 airmon-ng
 用于改变无线网卡工作模式，以便其他工具的顺利使用
@@ -3484,8 +3543,7 @@ airdecap-ng
 用于解开处于加密状态的数据包
 tools
 其他用于辅助的工具，如airdriver-ng、packetforge-ng等
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;hr /&gt;
 
@@ -3495,27 +3553,24 @@ tools
 
 &lt;h3 id=&quot;获取搜索到的wifi&quot;&gt;获取搜索到的wifi&lt;/h3&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;airport -s
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;airport -s
 SSID 是 wifi名称，RSSI 是信号强度，CHANNEL 是信道。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;开始监听&quot;&gt;开始监听&lt;/h3&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo airport en0 sniff 1
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo airport en0 sniff 1
 en0是网卡   1是要抓包的信道
 抓包.cap文件默认保存在/tmp  -w可以改变保存路径
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;解析&quot;&gt;解析&lt;/h3&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aircrack-ng -w 1.txt 1.cap
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;aircrack-ng -w 1.txt 1.cap
 1.txt是字典暴  1.cap是抓包文件
 可以看到cap包的内容，Encryption中（0 handshake）是抓包失败，（1 handshake）则是抓包成功。
 记住成功的行数，Index number of target network ?后面输入行数，回车。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 </description>
         <pubDate>Thu, 29 Dec 2016 12:00:00 +0000</pubDate>
         <link>http://localhost:4000/2016/12/29/wifi%E7%A0%B4%E8%A7%A3/</link>
@@ -3550,10 +3605,9 @@ en0是网卡   1是要抓包的信道
 
 &lt;h2 id=&quot;theos安装&quot;&gt;theos安装&lt;/h2&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd /opt
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd /opt
 $ git clone --recursive https://github.com/theos/theos.git
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;环境配置&quot;&gt;环境配置&lt;/h2&gt;
 
@@ -3565,7 +3619,7 @@ $ git clone --recursive https://github.com/theos/theos.git
 
 &lt;p&gt;cd到准备放工程的目录执行&lt;code class=&quot;highlighter-rouge&quot;&gt;/opt/theos/bin/nic.pl&lt;/code&gt;能输入输出下面的选项，theos就配置好了。&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ /opt/theos/bin/nic.pl
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ /opt/theos/bin/nic.pl
 NIC 2.0 - New Instance Creator
 ------------------------------
   [1.] iphone/activator_event
@@ -3580,8 +3634,7 @@ NIC 2.0 - New Instance Creator
   [10.] iphone/tool
   [11.] iphone/tweak
   [12.] iphone/xpc_service
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;运行&quot;&gt;运行&lt;/h2&gt;
 
@@ -3589,7 +3642,7 @@ NIC 2.0 - New Instance Creator
 会让你输入工程名，bundleId，目标bundleId等。这里呢，我们只是要运行一下demo测试环境搭建是否成功，把工程名输了，其他直接回车就行了，都是有默认的。
 打开工程目录下的&lt;code class=&quot;highlighter-rouge&quot;&gt;Makefile&lt;/code&gt;&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;include $(THEOS)/makefiles/common.mk
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;include $(THEOS)/makefiles/common.mk
 TWEAK_NAME = firstdemo
 firstdemo_FILES = Tweak.xm
 include $(THEOS_MAKE_PATH)/tweak.mk
@@ -3598,13 +3651,12 @@ iOSRE_FRAMEWORKS=UIKit Foundation	#导入的库
 ARCHS = arm64 #手机是64位还是32位
 after-install::
 	install.exec &quot;killall -9 SpringBoard&quot;	#在安装成功后杀掉SpringBoard，会从新启动以加载我们的插件
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;打开工程目录下的&lt;code class=&quot;highlighter-rouge&quot;&gt;Tweak.xm&lt;/code&gt;文件
 粘贴下面的代码&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#import &amp;lt;UIKit/UIKit.h&amp;gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#import &amp;lt;UIKit/UIKit.h&amp;gt;
 #import &amp;lt;SpringBoard/SpringBoard.h&amp;gt;
 
 %hook SBLockScreenDateViewController
@@ -3615,8 +3667,7 @@ NSString *str = @&quot;锁屏界面的日期文字变成了这段话!&quot;;
 }
 %end
 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;最后&lt;code class=&quot;highlighter-rouge&quot;&gt;make&lt;/code&gt;编译&lt;code class=&quot;highlighter-rouge&quot;&gt;make package&lt;/code&gt;打包&lt;code class=&quot;highlighter-rouge&quot;&gt;make install&lt;/code&gt;安装，过程会叫你输入2次ssh密码,全部成功的话，你就会看到SpringBoard正在重启。重启之后锁屏界面的日期，变成了我们自定义的字符串。
 如果提示THEOS_DEVICE_IP错误之类的就先输入&lt;code class=&quot;highlighter-rouge&quot;&gt;export THEOS_DEVICE_IP=手机的ip地址&lt;/code&gt;&lt;/p&gt;
@@ -3634,77 +3685,6 @@ NSString *str = @&quot;锁屏界面的日期文字变成了这段话!&quot;;
         <guid isPermaLink="true">http://localhost:4000/2016/12/29/theos%E5%AE%89%E8%A3%85/</guid>
         
         <category>安全</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>RN调用原生的页面</title>
-        <description>&lt;h3 id=&quot;暴露给rn的接口&quot;&gt;暴露给RN的接口&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//push方式切换页面
-RCT_EXPORT_METHOD(pushTo:(NSString *)name param:(NSDictionary *)param)
-{
-    //要在主线程里面刷新UI
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [NoticeMgr.Tabbar.selectedViewController pushViewController:[self getVCWithName:name andParam:param] animated:YES];
-    });
-}
-//模态方式切换页面
-RCT_EXPORT_METHOD(presentTo:(NSString *)name param:(NSDictionary *)param){
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:[self getVCWithName:name andParam:param] animated:YES completion:^{
-        }];
-    });
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;根据字符串获取要切换的控制器并设置了属性&quot;&gt;根据字符串获取要切换的控制器，并设置了属性&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-(UIViewController *)getVCWithName:(NSString *)name andParam:(NSDictionary *)param{
-    id corl = [[NSClassFromString(name) alloc]init];
-    if([corl isKindOfClass:[UIViewController class]]){
-        for(NSString *key in [param allKeys]){
-            NSLog(@&quot;11&quot;);
-            //遍历控制器所有属性，如果有相同的才设置
-            for(NSString *prop in [self getAllPropertyWithClass:corl]){
-                if([key isEqualToString:prop]){
-                    [corl setValue:param[prop] forKey:prop];
-                    break;
-                }
-            }
-        }
-        UIViewController *cc = corl;
-        cc.hidesBottomBarWhenPushed=YES;
-    }
-    return corl;
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;运行时获取目标页面拥有的属性&quot;&gt;运行时获取目标页面拥有的属性&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-(NSMutableArray *)getAllPropertyWithClass:(id)Class{
-    u_int count;
-    objc_property_t *properties  =class_copyPropertyList([Class class], &amp;amp;count);
-    NSMutableArray *propertiesArray = [NSMutableArray array];
-    for (int i = 0; i&amp;lt;count; i++)
-    {
-        const char* propertyName =property_getName(properties[i]);
-        [propertiesArray addObject: [NSString stringWithUTF8String: propertyName]];
-    }
-    free(properties);
-    return propertiesArray;
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-</description>
-        <pubDate>Tue, 24 May 2016 12:00:00 +0000</pubDate>
-        <link>http://localhost:4000/2016/05/24/RN%E8%B0%83%E7%94%A8%E5%8E%9F%E7%94%9F%E7%9A%84%E9%A1%B5%E9%9D%A2/</link>
-        <guid isPermaLink="true">http://localhost:4000/2016/05/24/RN%E8%B0%83%E7%94%A8%E5%8E%9F%E7%94%9F%E7%9A%84%E9%A1%B5%E9%9D%A2/</guid>
-        
-        <category>iOS</category>
         
         
       </item>

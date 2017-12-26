@@ -198,15 +198,14 @@
 
 				<h3 id="私钥和公钥">私钥和公钥</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>RSA的具体内容就不讲了，自己搜搜就有。
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RSA的具体内容就不讲了，自己搜搜就有。
 但是要知道的是RSA加密有一个公钥一个私钥，用公钥可以验证是否是私钥加密过的内容，防止数据传输过程中劫持修改内容。
 支付宝这边需要的是你给他一个公钥，和私钥一样是在你的本机生成。然后把公钥填到支付宝，支付宝也会给你一个公钥，用于验证支付完成后支付宝回调的数据是否正确。
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="私钥和公钥生成">私钥和公钥生成</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>生成比较简单就把官方文档的搬过来了，下面的选一个就行了。要注意的是填到支付宝里面的时候不要有空格换行。PHP需要的是.pem的文件，但是IOS这边模拟生成订单只需要把里面的字符串取出来用就行了。
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>生成比较简单就把官方文档的搬过来了，下面的选一个就行了。要注意的是填到支付宝里面的时候不要有空格换行。PHP需要的是.pem的文件，但是IOS这边模拟生成订单只需要把里面的字符串取出来用就行了。
 Linux用户（以Ubuntu为例）
 $ openssl 进入OpenSSL程序
 OpenSSL&gt; genrsa -out rsa_private_key.pem 1024 生成私钥
@@ -221,21 +220,19 @@ OpenSSL&gt; genrsa -out rsa_private_key.pem 1024 生成私钥
 OpenSSL&gt; pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -nocrypt Java开发者需要将私钥转换成PKCS8格式
 OpenSSL&gt; rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem 生成公钥
 OpenSSL&gt; exit ## 退出OpenSSL程序
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="需要准备的">需要准备的</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>首先要到支付宝查到下面的值
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>首先要到支付宝查到下面的值
 NSString *partner = @"2088开头的16为数字";//商户ID
 NSString *seller = @"账号ID，应该是邮箱";//账号ID
 NSString *privateKey = @"本机生成的私钥";//调试用，应该放在服务器上进行签名
 NSString *publicKey = @"支付宝给的公钥";//在后台找
-</code></pre>
-</div>
+</code></pre></div></div>
 <h3 id="开始支付">开始支付</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>-(void)createOrder{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-(void)createOrder{
     //创建订单
     Order *order = [[Order alloc] init];
     order.partner = partner;//合作者ID
@@ -289,12 +286,11 @@ NSString *publicKey = @"支付宝给的公钥";//在后台找
         }];
     }
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="一些优化">一些优化</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>和后台对接完成后，我创建了一个支付管理单例。得到后台返回签名后的字符串，调用这个方法就行了
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>和后台对接完成后，我创建了一个支付管理单例。得到后台返回签名后的字符串，调用这个方法就行了
 -(void)aliPayWithDataPay:(NSString *)dataPay andScheme:(NSString *)scheme andSuc:(aliSuc)aliSuc andErr:(aliErr)aliErr{
     if([dataPay isKindOfClass:[NSDictionary class]]){
         [SVProgressHUD showErrorWithStatus:@"订单创建失败!"];
@@ -313,8 +309,7 @@ NSString *publicKey = @"支付宝给的公钥";//在后台找
         }
     }];
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 
                 <hr style="visibility: hidden;">
@@ -443,6 +438,12 @@ RSA的具体内容就不讲了，自己搜搜就有。
                             
                 				<a href="/tags/#汇编" title="汇编" rel="1">
                                     汇编
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#开发工具" title="开发工具" rel="1">
+                                    开发工具
                                 </a>
                             
         				

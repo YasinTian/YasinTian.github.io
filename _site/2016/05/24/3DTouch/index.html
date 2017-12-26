@@ -198,7 +198,7 @@
 
 				<h3 id="1给控件注册事件以cell为例">1、给控件注册事件（以cell为例</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     PostsFrameModel *model = _FrameArray[indexPath.row];
     PostsCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PostsCell"];
     cell.fModel=model;
@@ -212,12 +212,11 @@
     }
     return cell;
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="2实现代理方法">2、实现代理方法</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;UIViewControllerPreviewingDelegate&gt;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;UIViewControllerPreviewingDelegate&gt;
 //预览
 - (nullable UIViewController *)previewingContext:(id &lt;UIViewControllerPreviewing&gt;)previewingContext viewControllerForLocation:(CGPoint)location
 {
@@ -242,12 +241,11 @@
     viewControllerToCommit.hidesBottomBarWhenPushed=YES;
     [self showViewController:viewControllerToCommit sender:self];
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="3在要进入的页面添加上滑快捷操作按钮">3、在要进入的页面添加上滑快捷操作按钮</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>- (NSArray&lt;id&lt;UIPreviewActionItem&gt;&gt; *)previewActionItems {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (NSArray&lt;id&lt;UIPreviewActionItem&gt;&gt; *)previewActionItems {
     // setup a list of preview actions
     UIPreviewAction *action1 = [UIPreviewAction actionWithTitle:@"Aciton1" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
         NSLog(@"Aciton1");
@@ -262,8 +260,7 @@
     // and return them (return the array of actions instead to see all items ungrouped)
     return actions;
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 
                 <hr style="visibility: hidden;">
@@ -391,6 +388,12 @@
                             
                 				<a href="/tags/#汇编" title="汇编" rel="1">
                                     汇编
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#开发工具" title="开发工具" rel="1">
+                                    开发工具
                                 </a>
                             
         				

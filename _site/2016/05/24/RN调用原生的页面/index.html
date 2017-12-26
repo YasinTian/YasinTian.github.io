@@ -198,7 +198,7 @@
 
 				<h3 id="暴露给rn的接口">暴露给RN的接口</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>//push方式切换页面
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//push方式切换页面
 RCT_EXPORT_METHOD(pushTo:(NSString *)name param:(NSDictionary *)param)
 {
     //要在主线程里面刷新UI
@@ -213,12 +213,11 @@ RCT_EXPORT_METHOD(presentTo:(NSString *)name param:(NSDictionary *)param){
         }];
     });
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="根据字符串获取要切换的控制器并设置了属性">根据字符串获取要切换的控制器，并设置了属性</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>-(UIViewController *)getVCWithName:(NSString *)name andParam:(NSDictionary *)param{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-(UIViewController *)getVCWithName:(NSString *)name andParam:(NSDictionary *)param{
     id corl = [[NSClassFromString(name) alloc]init];
     if([corl isKindOfClass:[UIViewController class]]){
         for(NSString *key in [param allKeys]){
@@ -236,12 +235,11 @@ RCT_EXPORT_METHOD(presentTo:(NSString *)name param:(NSDictionary *)param){
     }
     return corl;
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="运行时获取目标页面拥有的属性">运行时获取目标页面拥有的属性</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>-(NSMutableArray *)getAllPropertyWithClass:(id)Class{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-(NSMutableArray *)getAllPropertyWithClass:(id)Class{
     u_int count;
     objc_property_t *properties  =class_copyPropertyList([Class class], &amp;count);
     NSMutableArray *propertiesArray = [NSMutableArray array];
@@ -253,8 +251,7 @@ RCT_EXPORT_METHOD(presentTo:(NSString *)name param:(NSDictionary *)param){
     free(properties);
     return propertiesArray;
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 
                 <hr style="visibility: hidden;">
@@ -383,6 +380,12 @@ RCT_EXPORT_METHOD(pushTo:(NSString *)name param:(NSDic... | 田云翔的博客 |
                             
                 				<a href="/tags/#汇编" title="汇编" rel="1">
                                     汇编
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#开发工具" title="开发工具" rel="1">
+                                    开发工具
                                 </a>
                             
         				

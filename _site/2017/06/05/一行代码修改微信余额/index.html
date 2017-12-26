@@ -220,9 +220,8 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
 
 <p>英语水平不够，翻译软件来凑。钱包，余额，各种关键字翻译了往搜索框里面丢，最后让我在<code class="highlighter-rouge">WCPayBalanceInfo</code>里面发现有一个方法，这个方法返回了微信钱包里面显示的值。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>-(long)m_uiAvailableBalance
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-(long)m_uiAvailableBalance
+</code></pre></div></div>
 
 <p>点进去设置Return Value为99999，进钱包看一下，确实变了，不过少了2位，做过微信支付的都知道微信是以分为单位。
 <img src="http://localhost:4000/img/in-post/changewxmoney6.PNG" alt="Application Support" /></p>
@@ -233,25 +232,23 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
 
 <p>既然要Hook的方法已经找到，接下来就简单了，老一套theos建工程，在xm文件里面写这些代码，数字你想改多少都行。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>%hook WCPayBalanceInfo
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%hook WCPayBalanceInfo
 -(long)m_uiAvailableBalance{
 	return 6570000;
 }
 %end
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><code class="highlighter-rouge">make package install</code>后进微信看看，有效果。只是钱的数值依然不能随着我们使用而改变。这里就需要用上<code class="highlighter-rouge">%orig</code>。</p>
 
 <p>%orig会执行一遍原本的方法，有返回值也会返回回来，这样的话，上面的代码直接给成这样就OK了。这相当于给我们原本的余额加了一个基本值。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>%hook WCPayBalanceInfo
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%hook WCPayBalanceInfo
 -(long)m_uiAvailableBalance{
 	return %orig+6570000;
 }
 %end
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>到这里我们的插件就基本能用了，不过不能控制插件的开启与关闭，也不能自定义这个基本值为多少。这就需要我们再进一步的优化一下了。</p>
 
@@ -286,12 +283,11 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
 
 <h3 id="修改xm文件获取开关状态及基本值">修改XM文件获取开关状态及基本值</h3>
 <p>前面说到设置<code class="highlighter-rouge">defaults</code>会生成一个<code class="highlighter-rouge">Plist</code>文件，我们先把这个文件的地址定义成宏。</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>#define PLIST_PATH @"/var/mobile/Library/Preferences/com.yasin.ChangeWXMoney.plist"
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define PLIST_PATH @"/var/mobile/Library/Preferences/com.yasin.ChangeWXMoney.plist"
+</code></pre></div></div>
 
 <p>接着修改代码,加入了判断，如果开关是开启的状态就返回(原函数返回值+基本值)，否则就返回原函数的返回值。</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>%hook WCPayBalanceInfo
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%hook WCPayBalanceInfo
 -(long)m_uiAvailableBalance{
     NSDictionary *dic = [NSDictionary dictionaryWithContentsOfFile:PLIST_PATH];
     if(dic&amp;&amp;dic[@"MoneySwitch"]){
@@ -304,8 +300,7 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
     return %orig;
 }
 %end
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>到这里修改微信余额的功能就弄完了，快编译运行去装逼吧。</p>
 
 
@@ -435,6 +430,12 @@ Flex这个插件的确很好用，你觉得哪个方法是控制你要修改的�
                             
                 				<a href="/tags/#汇编" title="汇编" rel="1">
                                     汇编
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#开发工具" title="开发工具" rel="1">
+                                    开发工具
                                 </a>
                             
         				

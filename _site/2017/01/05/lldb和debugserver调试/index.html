@@ -209,63 +209,55 @@
 
 <p>首先将debugserver拷贝到电脑中。命令是</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>scp root@(手机的ip地址):/Developer/usr/bin/debugserver (要拷贝到的路径)/debugderver
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scp root@(手机的ip地址):/Developer/usr/bin/debugserver (要拷贝到的路径)/debugderver
+</code></pre></div></div>
 
 <p>然后执行</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>cd debugderver文件的路径
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd debugderver文件的路径
 lipo -thin arm64 debugserver -output debugserver
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>下载<a href="http://iosre.com/ent.xml">http://iosre.com/ent.xml</a>这个文件放到debugderver文件所在的路径。
 执行</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>/opt/theos/bin/ldid -Sent.xml debugserver
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/opt/theos/bin/ldid -Sent.xml debugserver
 -S后面是没有空格的
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>如果长时间没有执行完毕，就只能用另一种方案了。
 下载<a href="http://iosre.com/ent.plist">http://iosre.com/ent.plist</a>这个文件
 执行</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>codesign -s - --entitlements ent.plist -f debugserver
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>codesign -s - --entitlements ent.plist -f debugserver
+</code></pre></div></div>
 
 <p>最后把修改过的debugserver拷贝回iOS</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>scp (debugserver的地址)/debugserver root@192.168.5.228:/usr/bin/debugserver
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scp (debugserver的地址)/debugserver root@192.168.5.228:/usr/bin/debugserver
+</code></pre></div></div>
 
 <p>debugserver我们放在/usr/bin里面可以直接输入debugserver运行。</p>
 
 <p>ssh连接手机，提升权限</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>chmod +x /usr/bin/debugserver
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chmod +x /usr/bin/debugserver
+</code></pre></div></div>
 
 <h2 id="打开调试器">打开调试器</h2>
 
 <h3 id="手机端">手机端</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>debugserver -x backboard *:1234 /Applications/MobileSMS.app
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>debugserver -x backboard *:1234 /Applications/MobileSMS.app
+</code></pre></div></div>
 
 <p>这句话表示，打开短信，并且注入调试器。等待来自任意ip的1234端口的<code class="highlighter-rouge">lldb</code>连接</p>
 
 <h3 id="电脑端">电脑端</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>/Applications/Xcode.app/Contents/Developer/usr/bin/lldb
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/Applications/Xcode.app/Contents/Developer/usr/bin/lldb
 process connect connect://192.168.5.228:1234
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>这样就可以连上了。连接成功后
 如果连接上是卡住的状态，好像是连接上回默认被断点卡住，lldb输入c命令就能好。</p>
@@ -395,6 +387,12 @@ process connect connect://192.168.5.228:1234
                             
                 				<a href="/tags/#汇编" title="汇编" rel="1">
                                     汇编
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#开发工具" title="开发工具" rel="1">
+                                    开发工具
                                 </a>
                             
         				

@@ -213,7 +213,7 @@
 
 <p>ios下跳转到其他App主要是<code class="highlighter-rouge">UIApplication</code>的这两个方法，先试一下能不能行</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>%hook UIApplication
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%hook UIApplication
 -(BOOL)openURL:(NSURL*)url{
 	UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Welcome" message:url.absoluteString delegate:nil cancelButtonTitle:@"Thanks" otherButtonTitles:nil];
 	[alert show];
@@ -227,8 +227,7 @@
 }
 
 %end
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>分享文章到QQ试了试urlscheme就出来了。</p>
 
@@ -238,7 +237,7 @@
 
 <p>前是从发送端入手，现在我们来看看接收端，从外部打开app主要是这几个方法，最后是个是ios9出的通用链接（Universal Links）进入的回调方法。全部都把url弹出来，在微信和QQ之间测试，发现QQ竟然换掉了系统的AlertView，当页面消失的时候就会收回弹框</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>%hook AppDelegate
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%hook AppDelegate
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Welcome" message:url.absoluteString delegate:nil cancelButtonTitle:@"Thanks" otherButtonTitles:nil];
@@ -265,8 +264,7 @@
 }
 
 %end
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>代码写完了还是通过，<code class="highlighter-rouge">make</code> <code class="highlighter-rouge">package</code> <code class="highlighter-rouge">install</code></p>
 
@@ -423,6 +421,12 @@
                             
                 				<a href="/tags/#汇编" title="汇编" rel="1">
                                     汇编
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#开发工具" title="开发工具" rel="1">
+                                    开发工具
                                 </a>
                             
         				

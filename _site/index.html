@@ -180,6 +180,44 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2017/08/08/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">
+        <h2 class="post-title">
+            Git使用教程
+        </h2>
+        
+        <h3 class="post-subtitle">
+            git是一款非常好用的版本控制工具，已经有不少的企业开始从svn向git进行转变。
+        </h3>
+        
+        <div class="post-content-preview">
+            初始化git
+
+cd 目标文件夹
+git init
+
+
+配置用户名和邮箱
+
+git config user.name "用户名"
+git config user.email "邮箱"
+
+//给git配置全局的用户名和邮箱
+git config --global user.name "用户名"
+git config --global user.email "邮箱"
+
+
+查看git状态
+
+git...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by yasin on August 8, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2017/08/08/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
         <h2 class="post-title">
             iOS下的多线程
@@ -197,18 +235,16 @@
 [NSThread mainThread]
 
 
-
 获取当前线程
 
 [NSThread currentThread]
-
 
 
 NSThread的使用
 
 基础用法，需要手动启动线程，可以对线程进行一些设置（线程名，优先级）
 
-    NSThread *thread = [[NSThread alloc]initWithTarget:self selector:@sele...
+    NSThread *thread = [[NSThread alloc]initWithTarget:self selector:@select...
         </div>
     </a>
     <p class="post-meta">
@@ -426,10 +462,9 @@ ifconfig wlan0 up加载网卡
 iwconfig只查看无线网卡
 
 
-
 2、激活无线网卡只monitor监听模式
 
-...
+a...
         </div>
     </a>
     <p class="post-meta">
@@ -466,33 +501,6 @@ libsubstrate.dylib
     </a>
     <p class="post-meta">
         Posted by yasin on December 29, 2016
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2016/05/24/RN%E8%B0%83%E7%94%A8%E5%8E%9F%E7%94%9F%E7%9A%84%E9%A1%B5%E9%9D%A2/">
-        <h2 class="post-title">
-            RN调用原生的页面
-        </h2>
-        
-        <h3 class="post-subtitle">
-            公司的项目想往RN靠拢，先把一个板块转换为RN开发，这就涉及到了RN调用老的原生页面，经过研究，这样做可以很方便的调用以前的页面
-        </h3>
-        
-        <div class="post-content-preview">
-            暴露给RN的接口
-
-//push方式切换页面
-RCT_EXPORT_METHOD(pushTo:(NSString *)name param:(NSDictionary *)param)
-{
-    //要在主线程里面刷新UI
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [NoticeMgr.Tabbar.selected...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by yasin on May 24, 2016
     </p>
 </div>
 <hr>
@@ -553,6 +561,12 @@ RCT_EXPORT_METHOD(pushTo:(NSString *)name param:(NSDictionary *)param)
                             
                                 <a href="/tags/#汇编" title="汇编" rel="1">
                                     汇编
+                                </a>
+                            
+                        
+                            
+                                <a href="/tags/#开发工具" title="开发工具" rel="1">
+                                    开发工具
                                 </a>
                             
                         

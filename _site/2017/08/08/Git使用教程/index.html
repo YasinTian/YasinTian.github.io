@@ -10,7 +10,7 @@
     <meta name="keywords"  content="博客, 个人网站, 互联网, 前端, iOS, 安全, 开发">
     <meta name="theme-color" content="#000000">
     
-    <title>theos越狱环境搭建 - 田云翔的博客 | Yasin Blog</title>
+    <title>Git使用教程 - 田云翔的博客 | Yasin Blog</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2016/12/29/theos%E5%AE%89%E8%A3%85/">
+    <link rel="canonical" href="http://localhost:4000/2017/08/08/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -170,15 +170,15 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#安全" title="安全">安全</a>
+                        <a class="tag" href="/tags/#开发工具" title="开发工具">开发工具</a>
                         
                     </div>
-                    <h1>theos越狱环境搭建</h1>
+                    <h1>Git使用教程</h1>
                     
                     
-                    <h2 class="subheading">说到iOS越狱开发，就少不了theos，今天就先从环境搭建开始吧</h2>
+                    <h2 class="subheading">git是一款非常好用的版本控制工具，已经有不少的企业开始从svn向git进行转变。</h2>
                     
-                    <span class="meta">Posted by yasin on December 29, 2016</span>
+                    <span class="meta">Posted by yasin on August 8, 2017</span>
                 </div>
             </div>
         </div>
@@ -196,102 +196,205 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-				<p><a href="https://github.com/theos/theos/wiki/Installation">参考文档</a></p>
+				<h3 id="初始化git">初始化git</h3>
 
-<p><a href="https://github.com/YasinTian/TheosFirstDemo/tree/master">demo在这里</a></p>
-
-<h2 id="ldid安装">ldid安装</h2>
-
-<p>ldid可以在http://joedj.net/ldid 下载
-复制到<code class="highlighter-rouge">/opt/theos/bin</code>里面
-执行<code class="highlighter-rouge">sudo chmod 777 /opt/theos/bin/ldid</code>提升权限</p>
-
-<h2 id="libsubstratedylib">libsubstrate.dylib</h2>
-
-<p>这个需要用到手机助手的文件管理功能把<code class="highlighter-rouge">/Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate</code>复制出来
-改名为<code class="highlighter-rouge">libsubstrate.dylib</code>，然后放到<code class="highlighter-rouge">/opt/theos/lib</code> 中。</p>
-
-<h2 id="dkpg安装">dkpg安装</h2>
-
-<p>这个命令需要安装<a href="https://www.macports.org/install.php">MacPorts</a>，选择对应的系统下下来安装即可。
-<code class="highlighter-rouge">sudo port install dpkg</code></p>
-
-<h2 id="theos安装">theos安装</h2>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /opt
-$ git clone --recursive https://github.com/theos/theos.git
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd 目标文件夹
+git init
 </code></pre></div></div>
 
-<h2 id="环境配置">环境配置</h2>
+<h3 id="配置用户名和邮箱">配置用户名和邮箱</h3>
 
-<p><code class="highlighter-rouge">~./bash_profile</code>中加入下面的代码，没有这文件就创建一个
-<code class="highlighter-rouge">export THEOS=/opt/theos</code>
-<code class="highlighter-rouge">export PATH=/opt/theos/bin/:$PATH</code></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config user.name "用户名"
+git config user.email "邮箱"
 
-<h2 id="测试一下">测试一下</h2>
-
-<p>cd到准备放工程的目录执行<code class="highlighter-rouge">/opt/theos/bin/nic.pl</code>能输入输出下面的选项，theos就配置好了。</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ /opt/theos/bin/nic.pl
-NIC 2.0 - New Instance Creator
-------------------------------
-  [1.] iphone/activator_event
-  [2.] iphone/application_modern
-  [3.] iphone/cydget
-  [4.] iphone/flipswitch_switch
-  [5.] iphone/framework
-  [6.] iphone/ios7_notification_center_widget
-  [7.] iphone/library
-  [8.] iphone/notification_center_widget
-  [9.] iphone/preference_bundle_modern
-  [10.] iphone/tool
-  [11.] iphone/tweak
-  [12.] iphone/xpc_service
+//给git配置全局的用户名和邮箱
+git config --global user.name "用户名"
+git config --global user.email "邮箱"
 </code></pre></div></div>
 
-<h2 id="运行">运行</h2>
+<h3 id="查看git状态">查看git状态</h3>
 
-<p>选择<code class="highlighter-rouge">iphone/tweak</code>这个选项，输入11回车。
-会让你输入工程名，bundleId，目标bundleId等。这里呢，我们只是要运行一下demo测试环境搭建是否成功，把工程名输了，其他直接回车就行了，都是有默认的。
-打开工程目录下的<code class="highlighter-rouge">Makefile</code></p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>include $(THEOS)/makefiles/common.mk
-TWEAK_NAME = firstdemo
-firstdemo_FILES = Tweak.xm
-include $(THEOS_MAKE_PATH)/tweak.mk
-THEOS_DEVICE_IP = 192.168.2.157	#手机的ip地址
-iOSRE_FRAMEWORKS=UIKit Foundation	#导入的库
-ARCHS = arm64 #手机是64位还是32位
-after-install::
-	install.exec "killall -9 SpringBoard"	#在安装成功后杀掉SpringBoard，会从新启动以加载我们的插件
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git status
 </code></pre></div></div>
 
-<p>打开工程目录下的<code class="highlighter-rouge">Tweak.xm</code>文件
-粘贴下面的代码</p>
+<p>红色表示添加过或者修改过，但是暂未添加到暂缓区。
+添加过的文件和修改过得文件都需要再次添加到暂缓区。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#import &lt;UIKit/UIKit.h&gt;
-#import &lt;SpringBoard/SpringBoard.h&gt;
+<h3 id="添加到暂缓区unstage">添加到暂缓区（unstage）</h3>
 
-%hook SBLockScreenDateViewController
-- (void)setCustomSubtitleText:(id)arg1 withColor:(id)arg2
-{
-NSString *str = @"锁屏界面的日期文字变成了这段话!";
-%orig(str, arg2);
-}
-%end
-
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add 文件名	//添加指定的文件到暂缓区
+git add .	//将所有未加到暂缓区的内容添加到暂缓区
 </code></pre></div></div>
 
-<p>最后<code class="highlighter-rouge">make</code>编译<code class="highlighter-rouge">make package</code>打包<code class="highlighter-rouge">make install</code>安装，过程会叫你输入2次ssh密码,全部成功的话，你就会看到SpringBoard正在重启。重启之后锁屏界面的日期，变成了我们自定义的字符串。
-如果提示THEOS_DEVICE_IP错误之类的就先输入<code class="highlighter-rouge">export THEOS_DEVICE_IP=手机的ip地址</code></p>
+<h3 id="提交到本地版本库">提交到本地版本库</h3>
 
-<h2 id="theos的升级">theos的升级</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git commit -m "注释" //提交到HEAD指向的当前分支
+</code></pre></div></div>
 
-<p><code class="highlighter-rouge">git submodule update –recursive</code></p>
+<h3 id="给命令起别名">给命令起别名</h3>
 
-<h2 id="注意">注意</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config alias.st "status"		//给status命令起别名为st
 
-<p>在一些老板的安装方法中有<code class="highlighter-rouge">sudo /opt/theos/bin/bootstrap.sh substrate</code>,现在可以不用管了。</p>
+git config --global alias.st "status"	//起全局别名
+</code></pre></div></div>
+
+<h3 id="删除文件">删除文件</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git rm 文件名
+</code></pre></div></div>
+
+<h3 id="查看版本信息">查看版本信息</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git log		//版本是由sha1算法生成的40哈希值
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git reflog	//包含了所有版本回退的操作
+</code></pre></div></div>
+
+<h3 id="回退到当前版本">回退到当前版本</h3>
+
+<p>用于本地修改了代码，还没有提交</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git reset --hard HEAD   	//回到当前版本
+git reset --hard HEAD^  	//回到上一个版本
+git reset --hard HEAD^^ 	//回到上两个版本
+git reset --hard HEAD~100	//回到前100个版本
+git reset --hard 版本号		//回到版本号对应的版本
+</code></pre></div></div>
+
+<h3 id="推送本地仓库到远程仓库">推送本地仓库到远程仓库</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push
+git push -f //强制上传，用于版本回退时，远程代码超前于我当前代码的时候
+</code></pre></div></div>
+
+<p>Xcode提供的同样功能
+Source Control -&gt; Discard All Changes…</p>
+
+<h3 id="本地文件夹做共享版本库">本地文件夹做共享版本库</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git init --bare
+</code></pre></div></div>
+
+<h3 id="将共享版本库的内容下载到本地">将共享版本库的内容下载到本地</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone
+</code></pre></div></div>
+
+<h3 id="创建忽略文件">创建忽略文件</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>touch .gitignore
+</code></pre></div></div>
+
+<p>.gitignore常用的忽略是别人写好的,到里<a href="https://github.com/github/gitignore">这里</a>下载。</p>
+
+<h3 id="添加tag标签">添加tag标签</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git tag -a weibo1.0 -m "注释" //添加tag
+</code></pre></div></div>
+
+<p>###查看现有标签</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git tag
+</code></pre></div></div>
+
+<h3 id="上传tag标签">上传tag标签</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push origin weibo1.0
+</code></pre></div></div>
+
+<h3 id="切换标签">切换标签</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout weibo1.0
+</code></pre></div></div>
+
+<h3 id="创建分支并切换到分支">创建分支并切换到分支</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout -b 分支名
+</code></pre></div></div>
+
+<h3 id="查看分支">查看分支</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git branch 				//查看当前在哪个分支
+git branch -r 				//查看本地版本库的分支
+</code></pre></div></div>
+
+<h3 id="删除分支">删除分支</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git branch -d 分支名		//删除本地分支
+git branch -r -d origin/分支名  	//删除本地版本库的分支
+git push origin --delete 分支名
+</code></pre></div></div>
+
+<h3 id="合并分支">合并分支</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>从修复的tag上pull代码
+</code></pre></div></div>
+
+<h3 id="版本备份">版本备份</h3>
+
+<h4 id="一10版本开发完毕对10版本添加标签">一、1.0版本开发完毕，对1.0版本添加标签。</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git tag -a 标签名 -m "注释"
+</code></pre></div></div>
+<h4 id="二将标签push到远端仓库">二、将标签push到远端仓库。</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push origin 标签名
+</code></pre></div></div>
+
+<h4 id="三开始20版本开发">三、开始2.0版本开发。</h4>
+
+<h4 id="四发现10版本有bug创建一个文件夹用于修复bug将远端所有代码clone">四、发现1.0版本有Bug。创建一个文件夹，用于修复Bug，将远端所有代码clone。</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd 新建文件夹
+git clone
+</code></pre></div></div>
+<h4 id="五将新文件夹的代码转为10标签创建分支并切换分支">五、将新文件夹的代码转为1.0标签，创建分支，并切换分支。</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout 1.0版本标签 //将代码转到1.0版本
+git checkout -b 新分支名 //创建新分支，并切换到新分支
+</code></pre></div></div>
+
+<h4 id="六在分支中修复bug修复好的版本打上tag上传到远端">六、在分支中修复Bug，修复好的版本打上tag，上传到远端。</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git tag -a 修改Bug后标签1.1 -m "注释"
+git push origin 上面添加的标签
+</code></pre></div></div>
+
+<h4 id="七和正在开发的20版本合并">七、和正在开发的2.0版本合并。</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>从新分支拉取代码
+Source Control-&gt;pull-&gt;新分支名
+</code></pre></div></div>
+
+<h4 id="八删除分支">八、删除分支。</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git branch 				//查看当前在哪个分支
+git branch -r 				//查看本地版本库的分支
+git checkout master			//先切换回主分支
+git branch -d 分支名			//删除本地分支
+git branch -r -d origin/分支名  		//删除本地版本库的分支
+git push origin --delete 分支名 		//删除共享版本库分支
+</code></pre></div></div>
+
+<h2 id="使用xcode进行版本控制">使用Xcode进行版本控制</h2>
+<p>Xcode的版本控制功能在工具栏<code class="highlighter-rouge">Source Control</code>选项下。
+<code class="highlighter-rouge">commit</code>和<code class="highlighter-rouge">push</code>都和命令行差不多，这里不需要<code class="highlighter-rouge">add</code>文件了。
+push如果遇到下面的问题，说明你的代码落后于线上的代码，和别人修改了同一个位置，引起了冲突。先pull一下，然后选择要哪一份代码。
+<img src="../img/in-post/git代码冲突.png" alt="ddd" /></p>
+
+<h2 id="git的工作原理">git的工作原理</h2>
+
+<h3 id="工作区">工作区</h3>
+
+<p>在仓库文件夹里，git目录以外的内容。</p>
+
+<h3 id="版本库">版本库</h3>
+
+<p>.git目录，用于记录版本信息。包含下面内容
+1.暂缓区（stage）
+2.分支（master）：git自动创建的第一个分支
+3.HEAD指针：指向当前的分支</p>
+
 
 
                 <hr style="visibility: hidden;">
@@ -300,19 +403,20 @@ NSString *str = @"锁屏界面的日期文字变成了这段话!";
                 <!-- 多说 Share start -->
                 <div class="ds-share"
                     style="text-align: right"
-                    data-thread-key="/2016/12/29/theos安装"
-                    data-title="theos越狱环境搭建"
-                    data-url="http://localhost:4000/2016/12/29/theos%E5%AE%89%E8%A3%85/"
+                    data-thread-key="/2017/08/08/Git使用教程"
+                    data-title="Git使用教程"
+                    data-url="http://localhost:4000/2017/08/08/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/"
                     data-images="http://localhost:4000/img/post-bg-2015.jpg"
-                    data-content="参考文档
+                    data-content="初始化git
 
-demo在这里
+cd 目标文件夹
+git init
 
-ldid安装
 
-ldid可以在http://joedj.net/ldid 下载
-复制到/opt/theos/bin里面
-执行... | 田云翔的博客 | Yasin Blog " >
+配置用户名和邮箱
+
+git config user.name "用户名"
+git config u... | 田云翔的博客 | Yasin Blog " >
                     <div class="ds-share-inline">
                       <style> 
                         .ds-share-icons-16 {display:none;} 
@@ -335,19 +439,12 @@ ldid可以在http://joedj.net/ldid 下载
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2016/05/24/RN%E8%B0%83%E7%94%A8%E5%8E%9F%E7%94%9F%E7%9A%84%E9%A1%B5%E9%9D%A2/" data-toggle="tooltip" data-placement="top" title="RN调用原生的页面">
+                        <a href="/2017/08/08/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/" data-toggle="tooltip" data-placement="top" title="iOS下的多线程">
                         Previous<br>
-                        <span>RN调用原生的页面</span>
+                        <span>iOS下的多线程</span>
                         </a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2016/12/29/wifi%E7%A0%B4%E8%A7%A3/" data-toggle="tooltip" data-placement="top" title="Mac下的WIFI破解">
-                        Next<br>
-                        <span>Mac下的WIFI破解</span>
-                        </a>
-                    </li>
                     
                 </ul>
 
@@ -356,9 +453,9 @@ ldid可以在http://joedj.net/ldid 下载
                 <!-- 多说评论框 start -->
                 <div class="comment">
                     <div class="ds-thread"
-                        data-thread-key="/2016/12/29/theos安装"
-                        data-title="theos越狱环境搭建"
-                        data-url="http://localhost:4000/2016/12/29/theos%E5%AE%89%E8%A3%85/" >
+                        data-thread-key="/2017/08/08/Git使用教程"
+                        data-title="Git使用教程"
+                        data-url="http://localhost:4000/2017/08/08/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->

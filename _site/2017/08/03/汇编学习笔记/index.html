@@ -257,9 +257,8 @@
 
 <p>汇编其实就是操作寄存器，程序员通过指令读写寄存器来实现对CPU的控制。不同的CPU寄存器的个数、结构是不同的。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>8086的14个寄存器分别为AX、BX、CX、DX、SI、DI、SP、BP、IP、CS、SS、DS、ES、PSW。
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>8086的14个寄存器分别为AX、BX、CX、DX、SI、DI、SP、BP、IP、CS、SS、DS、ES、PSW。
+</code></pre></div></div>
 
 <p>8086的所有寄存器都是16位的。AX、BX、CX、DX、这4个通常用来存放一般性的数据，被称为通用寄存器。为了兼容老CPU的8位寄存器，这4个寄存器都可以分为两个8位的独立寄存器使用。</p>
 <ul>
@@ -322,18 +321,16 @@
 <p>CS和IP不能通过MOV来赋值，能够修改CS、IP内容的指令被统称为<code class="highlighter-rouge">转移指令</code>。最简单的就是<code class="highlighter-rouge">jmp</code>。
 当我们想修改CS、IP的内容可以通过<code class="highlighter-rouge">jmp 段地址:偏移地址</code>这样的指令来完成。如</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>jmp 2AE3:3  -&gt;  CS=2AE3H IP=0003H  -&gt; 2AE33H
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jmp 2AE3:3  -&gt;  CS=2AE3H IP=0003H  -&gt; 2AE33H
 jmp 3:0B16  -&gt;  CS=0003H IP=0B16H  -&gt; 00B46H
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>若我们只想修改IP的内容，需要用一个寄存器做中转。如</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>ax = 1000H;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ax = 1000H;
 jmp ax,
 IP就变为了1000H，CS不变。含义上和MOV IP，AX 类似。
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="内存中字的存储">内存中字的存储</h3>
 <p>CPU中，用16位寄存器来存储一个字，在内存中一个字要用两个地址连续的字节单元来存放，这个字的低位字节存放在低地址单元中，高位字节存放在高地址单元中。</p>
@@ -439,10 +436,9 @@ mov ds,bx
 <p>栈和收纳箱有点像，最先放进去的东西，最后才能拿出来，先进后出，后进先出。
 8086入栈和出栈指令为<code class="highlighter-rouge">PUSH</code>和<code class="highlighter-rouge">POP</code>。8086的入栈和出栈都是以字节为单位。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>push ax表示将寄存器ax中的数据送入栈中。
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>push ax表示将寄存器ax中的数据送入栈中。
 pop ax表示从栈顶取出数据送入ax。
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>8086中有两个寄存器，段寄存器SS和寄存器SP，栈顶的段地址存放在SS中，偏移地址存放在SP中。任意时刻，SS:SP指向栈顶元素。push指令和pop指令执行时，CPU通过SS和SP找到栈顶的地址。
 push指令的执行过程如下</p>
@@ -506,29 +502,25 @@ push指令的执行过程如下</p>
 
 <p>直接输入16精致数据</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>-e 1000:0 b8 01 00 b9 02 00 01 c8
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-e 1000:0 b8 01 00 b9 02 00 01 c8
+</code></pre></div></div>
 
 <p>可以直接用E命令写入字符。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>-e 1000:0 'a' 'b' 'c' 1 2 3 4
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-e 1000:0 'a' 'b' 'c' 1 2 3 4
+</code></pre></div></div>
 <p>e命令也可以直接输入字符串</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>-e 1000:0 "helloworld"
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-e 1000:0 "helloworld"
+</code></pre></div></div>
 
 <p>可以通过e命令输入16精制的命令的机器码，然后用U命令查看啊，机器指令和对应的汇编指令。</p>
 
 <h3 id="u命令">U命令</h3>
 
 <p>U命令可以查看内存里的机器指令和对应的汇编指令。</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>U 1000:0
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>U 1000:0
+</code></pre></div></div>
 
 <h3 id="a命令">A命令</h3>
 
@@ -537,15 +529,14 @@ push指令的执行过程如下</p>
 
 <p>A命令可以通过汇编指令的形式写入指令。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>-a 1000:0
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-a 1000:0
 1000:0000 mov ax,1
 .
 .
 .
 1000:000D add ax,ax
 依次输入指令。两次回车结束
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h1 id="伪指令">伪指令</h1>
 
@@ -554,13 +545,12 @@ push指令的执行过程如下</p>
 <p><code class="highlighter-rouge">segment</code>和<code class="highlighter-rouge">ends</code>是一对成对使用的伪指令，作用是定义一个段，<code class="highlighter-rouge">segment</code>表示段开始，<code class="highlighter-rouge">ends</code>表示段结束。
 用法：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>段名 segment
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>段名 segment
 
 	代码在此
 
 段名 ends
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="end">end</h3>
 <p><code class="highlighter-rouge">end</code>是一个汇编程序的结束标记，编译器遇到<code class="highlighter-rouge">end</code>就会结束后面的编译。</p>
@@ -568,7 +558,7 @@ push指令的执行过程如下</p>
 <h3 id="assume">assume</h3>
 <p><code class="highlighter-rouge">assume</code>表示“假设”，它假设某一寄存器和程序中的某一个用<code class="highlighter-rouge">segment...ends</code>定义的段相关联。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>assume cs:codesg 	//因为段的内容是代码段，所以把codesg代码段和cs寄存器联系起来
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>assume cs:codesg 	//因为段的内容是代码段，所以把codesg代码段和cs寄存器联系起来
 
 codesg segment 	  //codesg代码段开始
     mov ax,0H
@@ -578,8 +568,7 @@ codesg segment 	  //codesg代码段开始
 codesg ends 		 //codesg代码段结束
 
 end //程序结束
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h1 id="bx和loop指令">[BX]和loop指令</h1>
 
@@ -592,10 +581,9 @@ end //程序结束
 <h3 id="inc">inc</h3>
 <p>inc bx 表示bx中内容+1</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>mov bx,1
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mov bx,1
 inc bx	//bx=2
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="loop循环">[loop]循环</h3>
 
@@ -607,12 +595,11 @@ inc bx	//bx=2
 
 <p>2.判断cx的值，不为0就跳转至标号处执行，为0就向下执行。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov ax,2
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov ax,2
     mov cx,10 //设置执行的次数
 s:  add ax,ax //设置要重复执行的标号
     loop s
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h1 id="包含多个段的程序">包含多个段的程序</h1>
 
@@ -620,7 +607,7 @@ s:  add ax,ax //设置要重复执行的标号
 
 <p>代码里面有数据的存在，需要致命程序的入口，不然不知道哪里开始是代码。标号会转化为一个入口地址，存储在可执行文件的描述信息中。当程序被加载入内存之后，加载者从程序的可执行文件的描述信息中读取到程序的入口地址，设置CS:IP。CPU就能从我们希望的地址处开始执行。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    assume cs:code
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    assume cs:code
     code segment
     	dw 0123h,0456h,0789h,0abch,0defh,0fedh,0cbah,0987h//声明一些数据
         start: mov bx,0//添加一个标号start
@@ -635,12 +622,11 @@ s:  add ax,ax //设置要重复执行的标号
                int 21h
 	code ends
     end start//这里指明了程序的入口标号。
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="数据代码栈放入不同的段">数据、代码、栈放入不同的段</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    assyme cs:code,ds:data,ss:stack  //把code和cs寄存器，data和ds寄存器，stack和ss寄存器关联起来
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    assyme cs:code,ds:data,ss:stack  //把code和cs寄存器，data和ds寄存器，stack和ss寄存器关联起来
     data segment  //数据段开始，data已经和ds寄存器相关联了
     	dw 0123h,0456h,0789h,0abch,0defh,0fedh,0cbah,0987h
     data ends     //数据段结束
@@ -673,8 +659,7 @@ s:  add ax,ax //设置要重复执行的标号
                int 21h
     code ends     //代码段结束
     end start     //指明程序执行入口
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>上面代码中的code，data，stack没有实际意义，只是方便我们辨识，段中的内容不会被自动识别为数据还是栈还是指令，这些都是由CS:IP,SS:SP,DS的设置来决定的，
 CS:IP指向就当指令来执行。
@@ -689,41 +674,37 @@ DS指向就当数据来执行</p>
 
 <p>and是逻辑与指令，按位比较，相同就为1，不同就为0</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov al,01100011B
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov al,01100011B
     and al,00111011B
     得al = 00100011B
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>利用and指令能快速的把指定位设为0，其他位不变</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    and al,11111110B //将第0位设为0，其他位不变
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    and al,11111110B //将第0位设为0，其他位不变
     and al,01111111B //将第7位设为0，其他位不变
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h4 id="or">or</h4>
 
 <p>or是逻辑或指令，按位比较，都为0才是0。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov al,01100011B
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov al,01100011B
     or  al,00111011B
     得  al=01111011B
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>利用or能快速的将指定为设为1，其他位不变。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    or al,10000000B //将第7位设为1，其他位不变
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    or al,10000000B //将第7位设为1，其他位不变
     or al,00000001B //将第0位设为1，其他位不变
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="字符形式给出数据">字符形式给出数据</h3>
 
 <p>在汇编中，可以用<code class="highlighter-rouge">'......'</code>的方式给出数据，编译器会转化为对应的<code class="highlighter-rouge">ASCII</code>码。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    assume cs:code,ds:data
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    assume cs:code,ds:data
     
     data segment
     db 'unIX' 		//相当于db 75H,6EH,49H,58H
@@ -738,8 +719,7 @@ DS指向就当数据来执行</p>
            int 21h
     code ends
     end start
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="大小写转换">大小写转换</h3>
 
@@ -771,29 +751,27 @@ DS指向就当数据来执行</p>
 
 <p>这样，通过前面的<code class="highlighter-rouge">and</code>和<code class="highlighter-rouge">or</code>就能轻松控制大小写了。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>and al,11011111B //将al中的ASCII码第五位置为0，变成大写字母
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>and al,11011111B //将al中的ASCII码第五位置为0，变成大写字母
 or  al,00100000B //将al中的ASCII码第五位置为1，变成小写字母
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="bxidata方式进行数组的处理">[bx+idata]方式进行数组的处理</h3>
 
 <p>bx可以加一个起始偏移地址，不改变bx，可以在一个循环里，很方便的对多个偏移地址进行操作。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>[bx+0]//起始偏移地址不变
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[bx+0]//起始偏移地址不变
 [bx+5]//从第5个开始加偏移地址
 
 //上面的代码可以简写成下面的样式，和C语言的数组很像。
 0[bx]
 5[bx]
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="si和di">SI和DI</h3>
 
 <p>si和di是8086中和bx功能相近的寄存器，不能分成2个8位寄存器来使用。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    //这3段代码功能相同
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    //这3段代码功能相同
     mov bx,0
     mov ax,[bx]
     
@@ -805,8 +783,7 @@ or  al,00100000B //将al中的ASCII码第五位置为1，变成小写字母
     
     //si和di一样能使用[si+idata]的形式
     mov ax,[si+100]
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="bxsi和bxdi">[bx+si]和[bx+di]</h3>
 
@@ -814,9 +791,8 @@ or  al,00100000B //将al中的ASCII码第五位置为1，变成小写字母
 
 <p>也可以写成</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov ax,[bx][si]//常用写法
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov ax,[bx][si]//常用写法
+</code></pre></div></div>
 
 <h3 id="bxsiidata和bxdiidata">[bx+si+idata]和[bx+di+idata]</h3>
 
@@ -824,13 +800,12 @@ or  al,00100000B //将al中的ASCII码第五位置为1，变成小写字母
 
 <p>有下面及种写法</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov ax,[bx+200+si]
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov ax,[bx+200+si]
     mov ax,[200+bx+si]
     mov ax,200[bx][si]
     mov ax,[bx].200[si]
     mov ax,[bx][si].200
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="bp">bp</h3>
 
@@ -841,9 +816,8 @@ bp一样也可以<code class="highlighter-rouge">mov ax,[bp+200+si]</code>，但
 
 <p>在[…]中使用寄存器bp，如果没有显性的给出段地址，段地址默认是在<code class="highlighter-rouge">ss</code>中。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov ax,[bp] //mov ax,ss:bp
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov ax,[bp] //mov ax,ss:bp
+</code></pre></div></div>
 
 <h1 id="数据处理的两个基本问题">数据处理的两个基本问题</h1>
 
@@ -904,16 +878,14 @@ bp一样也可以<code class="highlighter-rouge">mov ax,[bp+200+si]</code>，但
 
 <p>8086的指令可以处理2中尺寸的数据，<code class="highlighter-rouge">byte</code>和<code class="highlighter-rouge">word</code>，汇编语言通过指明寄存器名(ax还是al)指明要处理的数据的尺寸。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov ax,1 //指明了指令是字操作
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov ax,1 //指明了指令是字操作
     mov bx,ds[0]
     mov ds,ax
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov al,1 //指明了指令是字节操作
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov al,1 //指明了指令是字节操作
     mov al,bl
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h4 id="通过操作符指定">通过操作符指定</h4>
 
@@ -921,17 +893,15 @@ bp一样也可以<code class="highlighter-rouge">mov ax,[bp+200+si]</code>，但
 
 <p>1.指明为字操作</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov word ptr ds:[0],1
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov word ptr ds:[0],1
     inc word otr [bx]
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>2.指明为字节操作</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov byte ptr ds:[0],1
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov byte ptr ds:[0],1
     inc byte ptr [bx]
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h4 id="其他方法">其他方法</h4>
 
@@ -939,13 +909,12 @@ bp一样也可以<code class="highlighter-rouge">mov ax,[bp+200+si]</code>，但
 
 <h4 id="div指令">div指令</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    //被除数默认是在AX或（DX和AX）中
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    //被除数默认是在AX或（DX和AX）中
     div 除数的内存单元
     
     //al=ax/ds:0的商   ah=ax/ds:0的余 因为是除数是8位AX存放商和余就够了
     div byte ptr ds:[0]
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>div是除法指令，使用时应注意以下问题。
 1.除数：有8位和16位两种
@@ -978,7 +947,7 @@ bp一样也可以<code class="highlighter-rouge">mov ax,[bp+200+si]</code>，但
 
 <p><strong>计算100001/100</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
     //因为100001大于65535是一个32位的，被除数应为16位
     //先把100001拆成高16位和低16位，高16位放到dx，低16位放到ax中
     mov dx,1
@@ -986,25 +955,23 @@ bp一样也可以<code class="highlighter-rouge">mov ax,[bp+200+si]</code>，但
     mov bx,100
     div bx
     //结果ax=03E8（即商为1000），dx=1（余数为1）。
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h4 id="伪指令dd">伪指令dd</h4>
 
 <p>前面我们用db和dw定义字节型数据和字型数据，dd是用来定义doubleword，双字型数据。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>     data segment
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>     data segment
      db 1 //01H 在data:0处，占1个字节
      dw 1 //0001H 在data:1处，占1个字
      dd 1 //00000001H 在data:3处，占2个字
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h4 id="dup">dup</h4>
 
 <p>dup是一个操作符，在汇编语言中和db、dw、dd等一样，有编译器识别处理。它是和db、dw、dd等数据定义伪指令配合使用的，用来进行数据的重复。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    //定义了3个字节，值都是0，相当于db 0,0,0
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    //定义了3个字节，值都是0，相当于db 0,0,0
     db 3 dup (0)
     
     //定义了9个字节，分别是0,1,2,0,1,2,0,1,2相当于db 0,1,2,0,1,2,0,1,2
@@ -1012,14 +979,12 @@ bp一样也可以<code class="highlighter-rouge">mov ax,[bp+200+si]</code>，但
     
     定义了18个字节，值是'abcABCabcABCabcABC'相当于db 'abcABCabcABCabcABC'
     db 3 dup ('abc',"ABC")
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>可见dup的使用格式如下</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    数据类型  重复的次数  dup （重复的数据）
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    数据类型  重复的次数  dup （重复的数据）
+</code></pre></div></div>
 
 <h3 id="转移指令的原理">转移指令的原理</h3>
 
@@ -1069,14 +1034,13 @@ bp一样也可以<code class="highlighter-rouge">mov ax,[bp+200+si]</code>，但
 
 <p><code class="highlighter-rouge">offset</code>是由编译器处理的符号，它的功能是取得标号的偏移地址。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    assume cs:codesg
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    assume cs:codesg
     codesg segment
     	start:mov ax,offset start  //相当于mov ax,0
             s:mov ax,offset s      //相当于mov ax,3
     codesg ends
     end start
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><code class="highlighter-rouge">offset</code>取得了标号的<code class="highlighter-rouge">start</code>和<code class="highlighter-rouge">s</code>的偏移地址。</p>
 
@@ -1093,7 +1057,7 @@ bp一样也可以<code class="highlighter-rouge">mov ax,[bp+200+si]</code>，但
 <p><code class="highlighter-rouge">jmp short 标号</code> 表示转移到标号处执行指令
 这种格式的jmp指令实现的是段内短转移，它对IP的修改范围为-128~127。指令中的<code class="highlighter-rouge">short</code>说明指令进行的是短转移。指令中的标号指明了要转移的目的地，转移指令结束后，CS:IP应该指向标号处的指令。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    assume cs:codesg
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    assume cs:codesg
     
     codesg segment
      start:mov ax,0
@@ -1102,8 +1066,7 @@ bp一样也可以<code class="highlighter-rouge">mov ax,[bp+200+si]</code>，但
          s:inc ax
     codesg ends
     end start
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h5 id="jmp-short-标号">jmp short 标号</h5>
 <p><code class="highlighter-rouge">jmp short</code>指令对应的机器码中不包含转移的目的地址，而是转移的位移。
@@ -1137,7 +1100,7 @@ bp一样也可以<code class="highlighter-rouge">mov ax,[bp+200+si]</code>，但
 CS=标号所在段的段地址;IP=标号在段中的偏移地址。
 far ptr 指明了指令用标号的段地址和偏移地址修改CS和IP。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    assume cs:codesg
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    assume cs:codesg
     
     codesg segment
      start:mov ax,0
@@ -1148,8 +1111,7 @@ far ptr 指明了指令用标号的段地址和偏移地址修改CS和IP。</p>
            inc ax
     codesg ends
     end start
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h5 id="转移地址在寄存器中的jmp指令">转移地址在寄存器中的jmp指令</h5>
 
@@ -1164,25 +1126,23 @@ far ptr 指明了指令用标号的段地址和偏移地址修改CS和IP。</p>
 功能：从内存单元地址处取出转移目的的偏移地址（一个字）。
 内存单元地址可用任意寻址方式给出</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov ax,0123H
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov ax,0123H
     mov ds:[0],ax
     jmp word ptr ds:[0]
     //IP=0123H
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>2.<code class="highlighter-rouge">jmp dword ptr 内存单元地址</code>(段间转移)
 功能：从内存单元地址处取出转移目的地址（两个字），高地址的字是转移目的的段地址，低地址的字是转移目的的偏移地址。
 CS = 内存单元地址+2
 IP = 内存单元地址</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov ax,0123H
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov ax,0123H
     mov ds:[0],ax
     mov word ptr ds:[2],0 //指明存的是字，占2个位置
     jmp dword ptr ds:[0]
     //CS=0，IP=0123，CS:IP指向0000:0123
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h4 id="jcxz指令">jcxz指令</h4>
 
@@ -1239,7 +1199,7 @@ pop CS 操作</p>
 
 <p>例：ret指令执行后，IP = 0，CS:IP指向代码段的第一条指令。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    assume cs:code
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    assume cs:code
     stack segment
 	  db 16 dup(0)
     stack ends
@@ -1259,12 +1219,11 @@ pop CS 操作</p>
     
     end start
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>例：retf指令执行后，CS:IP指向代码段的第一条指令</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    assume cs:code
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    assume cs:code
     stack segment
 	  db 16 dup(0)
     stack ends
@@ -1285,8 +1244,7 @@ pop CS 操作</p>
     
     end start
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h4 id="call指令">call指令</h4>
 
@@ -1303,11 +1261,10 @@ pop CS 操作</p>
 
 <p>CPU执行这种格式的call指令时，进行如下的操作：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    1.sp = sp - 2
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    1.sp = sp - 2
       ss*16 + sp = IP
     2.IP=IP+16位位移
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>16位位移 = 标号处的地址 - call指令后的第一个字节的地址。
 16位位移的范围为-32768~32767,用补码表示。
@@ -1315,10 +1272,9 @@ pop CS 操作</p>
 
 <p>“call 标号” 相当于</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    push IP
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    push IP
     jmp near ptr 标号
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>目的地址的call</strong>
 指令格式：call far ptr 标号
@@ -1326,38 +1282,34 @@ pop CS 操作</p>
 
 <p>CPU执行此种格式的call指令是，进行如下的操作。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    1.sp = sp-2
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    1.sp = sp-2
       ss*16+sp = CS
       sp = sp-2
       ss*16+sp = IP
     2.CS = 标号所在段的段地址
       IP = 标号在段的偏移地址
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>“call far ptr 标号” 相当于</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    push CS
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    push CS
     push IP
     jmp far ptr 标号
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>转移地址在寄存器中的call指令</strong></p>
 
 <p>指令格式：call 16位 reg</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>    sp = sp-2
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    sp = sp-2
     ss*16+sp = IP
     IP = 16位reg
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>相当于</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    push IP
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    push IP
     jmp 16位reg
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><strong>转移地址在内存中的call指令</strong></p>
 
@@ -1365,7 +1317,7 @@ pop CS 操作</p>
 <ul>
   <li>call word ptr 内存单元地址 （仅修改IP）
 相当于
-    <div class="highlighter-rouge"><pre class="highlight"><code>  push IP
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  push IP
   jmp word ptr 内存单元地址
     
   例：
@@ -1374,12 +1326,11 @@ pop CS 操作</p>
   mov ds:[0],ax
   call word ptr ds:[0]
   //执行后IP=0123H,sp=0EH
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>call dword ptr 内存单元地址 (同时修改CS和IP)
 相当于
-    <div class="highlighter-rouge"><pre class="highlight"><code>  push CS
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  push CS
   push IP
   jmp dword ptr 内存单元地址
     
@@ -1390,14 +1341,13 @@ pop CS 操作</p>
   mov word ptr ds:[2],0
   call dword ptr ds:[0]
   //执行后CS=0,IP=0123H,sp=0CH
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
 </ul>
 
 <h4 id="call和ret的配合使用">call和ret的配合使用</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    assume cs:code
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    assume cs:code
     code segment
     start: mov ax,1
      	   mov cx,3
@@ -1411,14 +1361,13 @@ pop CS 操作</p>
                         //即call s的下一句代码
 	code ends
     end start
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>由此可以看出call和ret可以实现子程序的效果，s标号的代码段执行完后又回到了前面的代码继续执行。</p>
 
 <p><strong>子程序框架</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    assume cs:code
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    assume cs:code
     code segment
       main:                //主程序
             ...
@@ -1436,8 +1385,7 @@ pop CS 操作</p>
             ret            //子程序2返回到子程序1
     code ends
     end main
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h4 id="mul指令">mul指令</h4>
 
@@ -1449,24 +1397,22 @@ pop CS 操作</p>
 
 <p>内存单元可以用不同的寻址方式给出，如</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mul byte ptr ds:[0]
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mul byte ptr ds:[0]
     //含义为ax=al*(ds*16+0);
     
     mul word ptr [bx+si+8]
     //含义为ax=ax*(ds*16+bx+si+8)结果的低16位
     //     dx=ax*(ds*16+bx+si+8)结果为高16位
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>例如：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    //计算100*10
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    //计算100*10
     mov al,100
     mov bl,10
     mul bl
     //结果ax=1000
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="标识寄存器">标识寄存器</h3>
 
@@ -1536,7 +1482,7 @@ pop CS 操作</p>
 
 <p>如：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov ax,1
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov ax,1
     sub ax,1
     //执行后，结果为0，则zf=1
     
@@ -1544,8 +1490,7 @@ pop CS 操作</p>
     sub ax,1
     //执行后，结果不为0，则zf=0
     
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h4 id="pf标志">PF标志</h4>
 
@@ -1553,15 +1498,14 @@ pop CS 操作</p>
 
 <p>如：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov al,1
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov al,1
     add al,10
     //执行后，结果为00001011B,其中有3个1，则pf=0
     
     mov al,1
     or al,2
     //执行后，结果为00000011B,其中有2个1，则pf=1
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h4 id="sf标志">SF标志</h4>
 
@@ -1569,20 +1513,18 @@ pop CS 操作</p>
 
 <p>计算机中通常用补码来表示有符号数据。计算机中的一个数据可以看作是有符号数，也可以看成是无符号数。比如：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    00000001B，可以看作无符号数1，或有符号数+1;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    00000001B，可以看作无符号数1，或有符号数+1;
     10000001B,可以看作无符号数129，也可以看作有符号数-127
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>也就是说对于同一个二进制数据，计算机可以将它当作无符号数据来运算，也可以当做有符号数据来运算
 如：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov al,10000001B
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov al,10000001B
     add al,1
     //结果 al=10000010B
     //可以将add指令进行的运算当做无符号数的运算，也可以当做有符号数计算(-127+1)，结果为-126(10000010B)。
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>SF标识，就是CPU对符号数运算结果的一种记录，它记录数据的正负，在我们将数据当作有符号数来运算的时候，可以通过它来得知结果的正负。如果我们将数据当作无符号数来运算，SF的值则没有意义。</p>
 
@@ -1624,20 +1566,18 @@ pop CS 操作</p>
 <p>当两个数据相加的时候，有可能产生从最高有效位向更高位的进位。这个进位值就用CF来保存
 如:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov al,98H
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov al,98H
     add al,al	//执行后al=30,CF=1,CF记录了从最高有效位向更高位的进位值
     add al,al	//执行后al=60,CF=0,CF记录了从最高有效位向更高位的进位值
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>而当两个数据做减法的时候，有可能向更高位借位。比如，两个8位数据：97H-98H,将产生借位，借位后相当于197H-98H,而flag的CF位也可以用来记录这个借位值。
 如:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov al,97H
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov al,97H
     sub al,98H   //执行后al=FFH，CF=1，CF记录了向更高位的借位值
     sub al,al    //执行后al=0，CF=0，CF记录了向更高位的借位值
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h4 id="of标志">OF标志</h4>
 
@@ -1646,13 +1586,12 @@ pop CS 操作</p>
 <p>8位的寄存器有效范围是-128~127，16位寄存器的有效范围是-32768~32767。如果运算结果超出了机器所能表达的范围，将产生溢出。
 如：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov al,98
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov al,98
     add al,99
     //执行后将产生溢出，al=al+99=98+99=197
     //197超过了8位有符号数的范围：-128~127
     //得到的结果是al=0C5H,因为是有符号数的运算，所以al存的是补码，C5H是有符号数的-59，98-99=-59显然是不对的。
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>面对这种情况，flag的第11位OF（溢出标志位）就起作用了。
 如果发生了溢出OF=1；如果没有OF=0。</p>
 
@@ -1671,7 +1610,7 @@ pop CS 操作</p>
 
 <p>如</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov ax,2
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov ax,2
     mov bx,1
     sub bx,ax
     adx ax,1
@@ -1686,18 +1625,16 @@ pop CS 操作</p>
     add al,al
     adc al,3
     //执行后al=34，adc执行时相当于al+3+CF=30H+3+1=34H
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>可以看出<code class="highlighter-rouge">adc</code>指令比<code class="highlighter-rouge">add</code>指令多加了一个CF位的值。CF的值有adc指令前面的指令决定的。</p>
 
 <p><code class="highlighter-rouge">adc</code>指令是用来进行加法的第二步运算的。add和adc指令的配合能对更大的数据进行加法运算。</p>
 
 <p>例0198H和0183H相加，可以分为两步来进行</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>1.低位相加         				  add al,bl
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1.低位相加         				  add al,bl
 2.高位相加再加上低位相加产生的进位值。adc ah,bh
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>adc就是用来进行第二步的，会自动帮我们加上进位值CF。（add指令执行后，CF表示低位相加的进位置）</p>
 
@@ -1711,13 +1648,12 @@ pop CS 操作</p>
 
 <p>利用sbb指令可以对任意大数据进行减法运算
 如：</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>    //计算003E1000H-00202000H,结果放在ax，bx中
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    //计算003E1000H-00202000H,结果放在ax，bx中
     mov bx,1000H
     mov ax,003EH
     sub bx,2000H//如果这里借位了，CF为1
     sbb ax,0020H//减去低位的借位值
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h4 id="cmp指令">cmp指令</h4>
 
@@ -1809,7 +1745,7 @@ pop CS 操作</p>
 
 <p><strong>前面的是无符号数的规则，下面看看有符号数</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>sf=1;of=0 没有溢出，逻辑正负=实际正负，ab&lt;bh。
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sf=1;of=0 没有溢出，逻辑正负=实际正负，ab&lt;bh。
 
 sf=1;of=1 有溢出，逻辑正负≠实际正负,因sf=1，实际结果为负，又有溢出，表示是溢出导致的结果为负。逻辑上必然为正，ah&gt;bh。
 
@@ -1817,8 +1753,7 @@ sf=0;of=1 有溢出，逻辑正负≠实际正负，实际结果为正，又有�
 
 sf=0,of=0 没有溢出，逻辑正负=实际正负，sf=0实际非负，逻辑也非负，ah≥bh
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h4 id="检测比较结果的条件转移指令">检测比较结果的条件转移指令</h4>
 
@@ -1878,15 +1813,14 @@ na:表示not above</p>
 
 <p>例：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    //实现ah=bh则ah=ah+ah，否则ah=ah+bh
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    //实现ah=bh则ah=ah+ah，否则ah=ah+bh
     cmp ah,bh    //比较ah和bh改变对应的标志位
     je s		 //标志位符合等于跳转到s标号执行
     add ah,bh	 //标志位不符合等于执行这里
     jmp short ok //跳过s标号的语句
   s:add ah,ah
   ok:....
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h4 id="df标志和串传送指令">DF标志和串传送指令</h4>
 
@@ -1898,11 +1832,10 @@ df=1 每次操作后si、di递减</p>
 格式：movsb
 功能：执行movsb相当于执行以下步骤</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    1.es*16+di=ds*16+si
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    1.es*16+di=ds*16+si
     2.如果df=0则 si=si+1,di=di+1
     3.如果df=1则 si=si-1,di=di-1
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>也可以按字来传送
 格式：movsw
@@ -1910,7 +1843,7 @@ df=1 每次操作后si、di递减</p>
 
 <p>相当于</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov es:[di],word ptr ds:[si]
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov es:[di],word ptr ds:[si]
 	如果df=0
     add si,2
     add di,2
@@ -1918,30 +1851,27 @@ df=1 每次操作后si、di递减</p>
     如果df=1
     sub si,2
     sub di,2
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>一般情况下movsb和movsw进行的是串传送操作中的一个步骤，需要和rep配合使用。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    rep movsb//循环调用movsb，循环cx次
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    rep movsb//循环调用movsb，循环cx次
 
     //和下面代码功能一样
     s:movsb
       loop s
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>由于flag的df位决定这串传送指令执行后，si和di的改变方向，我们需要提前设置好df位的值。
 8086提供了2条指令来对df位进行设置。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    cld指令：将标志寄存器的df位置0
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    cld指令：将标志寄存器的df位置0
     std指令：将标志寄存器的df位置1
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>例:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    //将data段的第一个字符串复制到它后面的空间
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    //将data段的第一个字符串复制到它后面的空间
     data segment
       db 'Welcome to masm!'
       db 16 dup (0)
@@ -1957,8 +1887,7 @@ df=1 每次操作后si、di递减</p>
       cld          //设置方向，si和di递增
       rep movsb    //开始循环传送
     code ends
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h4 id="pushf和popf">pushf和popf</h4>
 
@@ -2047,11 +1976,10 @@ df=1 每次操作后si、di递减</p>
 
 <p><code class="highlighter-rouge">iret</code>实现了下面的功能</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    pop IP
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    pop IP
     pop CS
     popf
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h4 id="单步中断">单步中断</h4>
 
@@ -2074,7 +2002,7 @@ df=1 每次操作后si、di递减</p>
 
 <p>如：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    //将栈顶设置为1000:0
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    //将栈顶设置为1000:0
     mov ax,1000h
     mov ss,ax
     mov sp,0
@@ -2083,8 +2011,7 @@ df=1 每次操作后si、di递减</p>
     mov ss,ax
     mov ax,0
     mov sp,0
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="int指令">int指令</h3>
 
@@ -2109,24 +2036,22 @@ df=1 每次操作后si、di递减</p>
 
 <p>设置光标位置</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov ah,2    //设置用int 10h中断例程里面的2号子程序
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov ah,2    //设置用int 10h中断例程里面的2号子程序
     mov bh,0    //第0页
     mov dh,5    //行号
     mov dl,12   //列号
     int 10h
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>在光标位置显示字符</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov ah,9    //9号子程序，在光标位置显示字符
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov ah,9    //9号子程序，在光标位置显示字符
     mov al,'a'  //要显示的字符
     mov bl,7    //颜色
     mov bh,0    //第0页
     mov cx,3    //字符重复个数
     int 10h     //
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>bl中颜色的格式如下</p>
 
@@ -2173,23 +2098,21 @@ df=1 每次操作后si、di递减</p>
 
 <p>int 21h就是DOS提供的中断例程。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov ah,4ch   //表示调用4ch号子程序
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov ah,4ch   //表示调用4ch号子程序
     mov al,0     //返回值
     int 21h
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>int 21h在光标位置显示字符串的功能</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    ds:dx 指向字符串   //要显示的字符串用$作为结束符
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ds:dx 指向字符串   //要显示的字符串用$作为结束符
     mov ah,9         //使用第9号子程序
     int 21h
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>在屏幕5行12列显示字符串</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    assume cs:code
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    assume cs:code
     
     data segment
       db 'Welcome to masm','$'
@@ -2212,8 +2135,7 @@ df=1 每次操作后si、di递减</p>
             int 21h
     code ends
     end start
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="端口">端口</h3>
 
@@ -2251,9 +2173,8 @@ df=1 每次操作后si、di递减</p>
 
 <p>访问端口：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    in al,60h    //从60h号端口读入一个字节
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    in al,60h    //从60h号端口读入一个字节
+</code></pre></div></div>
 
 <p>CPU通过地址线将地址信息60h发出；
 CPU通过控制线发出端口读命令，选中端口所在的芯片，并通知它，将要从中读取数据；
@@ -2287,11 +2208,10 @@ CPU通过控制线发出端口读命令，选中端口所在的芯片，并通�
   <li>最低位补0</li>
 </ul>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    mov al,01001000b
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    mov al,01001000b
     shl al,1   //将al中的数据左移一位
     //执行后al=10010000b,CF=0
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h4 id="cmos-ram中存储的时间信息">CMOS RAM中存储的时间信息</h4>
 
@@ -2301,12 +2221,11 @@ CPU通过控制线发出端口读命令，选中端口所在的芯片，并通�
 <p>这些数据以BCD码方式存放。一个字节可以表示两个BCD码，高4位BCD码表示十位，低4位BCD码表示各位。
 例:00010100b表示14</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    //读取月份
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    //读取月份
     mov al,8    //设置要读取的单元
     out 70h,al  //要读取的单元地址传给CMOS
     in al,71h   //从数据端口71h中取得指定单元的数据
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="外中断">外中断</h3>
 
@@ -2420,7 +2339,7 @@ sti,设置IF=1。cli,设置IF=0。</p>
 
 <p>如：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    assume cs:code
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    assume cs:code
     code segment
         //这里的标号后面没有":"，它们是同时描述内存地址和单元长度的标号
         a db 1,2,3,4,5,6,7,8  //a描述了地址code:0，以后的内存单元都是字节单元
@@ -2436,12 +2355,11 @@ sti,设置IF=1。cli,设置IF=0。</p>
             int 21h
     code ends
     end start
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>这样指定之后,下面的指令中，标号b代表了一个内存单元，地址为code:8，长度为两个字节。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>指令：  mov ax,b
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>指令：  mov ax,b
 相当于：mov ax,cs:[8]
 
 指令：  mov b,2
@@ -2449,15 +2367,14 @@ sti,设置IF=1。cli,设置IF=0。</p>
 
 指令：  inc b
 相当于：inc word ptr cs:[8]
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h4 id="在其他段中使用数据标号">在其他段中使用数据标号</h4>
 
 <p>一般来说，我们不在代码段中定义数据，而是将数据定义到其他段中，在其他段中，我们也可以使用数据标号来描述储存数据的单元的地址和长度。
 在后面加油”:”的地址标号，只能在代码段中使用，不能在其他段中使用。</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    assume cs:code,ds:data //把data和ds寄存器联系起来
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    assume cs:code,ds:data //把data和ds寄存器联系起来
     data segment
        a db 1,2,3,4,5,6,7,8
        b dw 0
@@ -2481,12 +2398,11 @@ sti,设置IF=1。cli,设置IF=0。</p>
            int 21h
     code ends
     end start
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>程序的入口地址也能用直接定址表存放</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    setscreen: jmp short set
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    setscreen: jmp short set
          table dw sub1,sub2,sub3,sub4
           set: push bx
                cmp ah,3                //判断功能号是否大于3
@@ -2500,12 +2416,11 @@ sti,设置IF=1。cli,设置IF=0。</p>
          sret: pop bx
                ret
     
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>运用前面的知识还能改成下面这样</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>	setscreen: cmp ah,0
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	setscreen: cmp ah,0
                je do1
                cmp ah,1
                je do2
@@ -2523,8 +2438,7 @@ sti,设置IF=1。cli,设置IF=0。</p>
           do4: call sub4
           
          sret: ret
-</code></pre>
-</div>
+</code></pre></div></div>
 
 
 
@@ -2651,6 +2565,12 @@ sti,设置IF=1。cli,设置IF=0。</p>
                             
                 				<a href="/tags/#汇编" title="汇编" rel="1">
                                     汇编
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#开发工具" title="开发工具" rel="1">
+                                    开发工具
                                 </a>
                             
         				

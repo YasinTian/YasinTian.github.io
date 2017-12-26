@@ -180,6 +180,33 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2016/05/24/RN%E8%B0%83%E7%94%A8%E5%8E%9F%E7%94%9F%E7%9A%84%E9%A1%B5%E9%9D%A2/">
+        <h2 class="post-title">
+            RN调用原生的页面
+        </h2>
+        
+        <h3 class="post-subtitle">
+            公司的项目想往RN靠拢，先把一个板块转换为RN开发，这就涉及到了RN调用老的原生页面，经过研究，这样做可以很方便的调用以前的页面
+        </h3>
+        
+        <div class="post-content-preview">
+            暴露给RN的接口
+
+//push方式切换页面
+RCT_EXPORT_METHOD(pushTo:(NSString *)name param:(NSDictionary *)param)
+{
+    //要在主线程里面刷新UI
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [NoticeMgr.Tabbar.selected...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by yasin on May 24, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2016/05/24/3DTouch/">
         <h2 class="post-title">
             3DTouch的使用
@@ -219,14 +246,13 @@
 和支付宝一样拖进去就可以了。报错的话照官方文档拖些库进去。
 
 
-
 集成
 
 	//设置微信支付
     [WXApi registerApp:@"你的AppId" withDescription:@"应用附加信息，我写的是bundelID+一些字符"];
     
     如果你用了友盟的分享的话最好把分享的方法放在前面。
-    [UMSocialWechatHandler setW...
+    [UMSocialWechatHandler setWX...
         </div>
     </a>
     <p class="post-meta">
@@ -253,10 +279,9 @@ RSA的具体内容就不讲了，自己搜搜就有。
 支付宝这边需要的是你给他一个公钥，和私钥一样是在你的本机生成。然后把公钥填到支付宝，支付宝也会给你一个公钥，用于验证支付完成后支付宝回调的数据是否正确。
 
 
-
 私钥和公钥生成
 
-生成比较简单就把官方文档的搬过来了，下面的选...
+生成比较简单就把官方文档的搬过来了，下面的选一...
         </div>
     </a>
     <p class="post-meta">
@@ -347,6 +372,12 @@ swift调用OC
                             
                                 <a href="/tags/#汇编" title="汇编" rel="1">
                                     汇编
+                                </a>
+                            
+                        
+                            
+                                <a href="/tags/#开发工具" title="开发工具" rel="1">
+                                    开发工具
                                 </a>
                             
                         

