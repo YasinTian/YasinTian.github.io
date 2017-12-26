@@ -5,8 +5,8 @@
     <description>不知道写些什么...</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 26 Dec 2017 07:38:36 +0000</pubDate>
-    <lastBuildDate>Tue, 26 Dec 2017 07:38:36 +0000</lastBuildDate>
+    <pubDate>Tue, 26 Dec 2017 07:42:48 +0000</pubDate>
+    <lastBuildDate>Tue, 26 Dec 2017 07:42:48 +0000</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
     
       <item>
@@ -195,7 +195,7 @@ git push origin --delete 分支名 		//删除共享版本库分支
 &lt;p&gt;Xcode的版本控制功能在工具栏&lt;code class=&quot;highlighter-rouge&quot;&gt;Source Control&lt;/code&gt;选项下。
 &lt;code class=&quot;highlighter-rouge&quot;&gt;commit&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;push&lt;/code&gt;都和命令行差不多，这里不需要&lt;code class=&quot;highlighter-rouge&quot;&gt;add&lt;/code&gt;文件了。
 push如果遇到下面的问题，说明你的代码落后于线上的代码，和别人修改了同一个位置，引起了冲突。先pull一下，然后选择要哪一份代码。
-&lt;img src=&quot;../img/in-post/git代码冲突.png&quot; alt=&quot;ddd&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;http://localhost:4000/img/in-post/git代码冲突.png&quot; alt=&quot;git代码冲突&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;git的工作原理&quot;&gt;git的工作原理&lt;/h2&gt;
 
