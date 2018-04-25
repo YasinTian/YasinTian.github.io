@@ -5,8 +5,8 @@
     <description>不知道写些什么...</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 15 Mar 2018 03:20:22 +0000</pubDate>
-    <lastBuildDate>Thu, 15 Mar 2018 03:20:22 +0000</lastBuildDate>
+    <pubDate>Wed, 25 Apr 2018 05:59:19 +0000</pubDate>
+    <lastBuildDate>Wed, 25 Apr 2018 05:59:19 +0000</lastBuildDate>
     <generator>Jekyll v3.7.3</generator>
     
       <item>
@@ -87,6 +87,14 @@ end
 &lt;h4 id=&quot;支付完成页面&quot;&gt;支付完成页面&lt;/h4&gt;
 
 &lt;p&gt;我们需要的数据全部都有了，接下来就是自己写一个支付完成的页面了。其实更好的办法应该是直接调用微信的支付完成页面，但是我看了一下，支付完成页面只有几个控件，自己写几分钟就能搞定，所以我就自己写一个好了。&lt;/p&gt;
+
+&lt;h4 id=&quot;小问题修改&quot;&gt;小问题修改&lt;/h4&gt;
+
+&lt;p&gt;前面的开发都是在我的手机上进行的，今天在女同事面前装逼时，发现她的手机上对支付按钮的点击事件移除添加都不管用，也许是高版本或者高配手机上微信采用了其他的体验较好的方式。&lt;/p&gt;
+
+&lt;p&gt;搞了好久发现添加移除事件都生效了的，但是点击的时候还是不管用，也试过添加手势来实现，发现也不行，不知道是不是微信修改了手势响应链。&lt;/p&gt;
+
+&lt;p&gt;既然这样那只能找到支付按钮原本调用的方法，在Xcode里面调试界面的时候发现，在三维调试器里面选中按钮，右边就会显示出这个按钮绑定的方法。方法名有了，直接修改方法跳到我做的页面。搞定，装逼去了。&lt;/p&gt;
 
 </description>
         <pubDate>Wed, 14 Mar 2018 12:00:00 +0000</pubDate>
